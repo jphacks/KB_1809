@@ -13,6 +13,7 @@ import studio.aquatan.plannap.ui.plan.detail.PlanDetailViewModel
 import studio.aquatan.plannap.ui.plan.list.PlanListViewModel
 import studio.aquatan.plannap.ui.plan.search.PlanSearchViewModel
 import studio.aquatan.plannap.ui.plan.searchresult.PlanSearchResultViewModel
+import studio.aquatan.plannap.ui.profile.ProfileViewModel
 
 class ViewModelFactory(
     private val context: Application,
@@ -26,6 +27,7 @@ class ViewModelFactory(
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel()
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepository)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
+                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
                 isAssignableFrom(PlanListViewModel::class.java) -> PlanListViewModel(planRepository)
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(planRepository)
                 isAssignableFrom(PlanSearchViewModel::class.java) -> PlanSearchViewModel()
