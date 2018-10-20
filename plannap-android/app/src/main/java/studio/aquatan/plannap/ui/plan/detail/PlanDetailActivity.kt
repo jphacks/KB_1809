@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
@@ -37,17 +38,23 @@ class PlanDetailActivity : AppCompatActivity() {
 
         AndroidInjection.inject(this)
 
-        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlanDetailViewModel::class.java)
         binding.viewModel = viewModel
 
+        viewModel.subscribe()
         viewModel.onActivityCreated(intent.getLongExtra(EXTRA_ID, -1))
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         finish()
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun PlanDetailViewModel.subscribe() {
+        val activity = this@PlanDetailActivity
+
+        plan.observe(activity, Observer { title = it.name })
     }
 }
