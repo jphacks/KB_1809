@@ -10,12 +10,12 @@ data class Spot(
     val note: String
 ) {
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
-            override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Spot>() {
+            override fun areItemsTheSame(oldItem: Spot, newItem: Spot): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Plan, newItem: Plan): Boolean {
+            override fun areContentsTheSame(oldItem: Spot, newItem: Spot): Boolean {
                 return oldItem == newItem
             }
         }
