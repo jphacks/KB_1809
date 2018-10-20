@@ -7,8 +7,8 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import studio.aquatan.plannap.data.model.Plan
 
-interface PlanService {
-    @GET("/api/v1/plans")
+interface ReportService {
+    @GET("/api/v1/piyo")
     fun plans(): Call<List<Plan>>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
