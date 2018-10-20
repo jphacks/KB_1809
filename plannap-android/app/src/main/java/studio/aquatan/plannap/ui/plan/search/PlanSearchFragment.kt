@@ -48,12 +48,23 @@ class PlanSearchFragment : Fragment() {
         val viewModel = provider.get(PlanSearchViewModel::class.java)
         binding.viewModel = viewModel
 
+        viewModel.subscribe()
+
         provider.get(MainViewModel::class.java)
             .onAttachFragment(MainFragmentType.SEARCH)
     }
 
     private fun PlanSearchViewModel.subscribe() {
         val fragment = this@PlanSearchFragment
+
+        validation.observe(fragment, Observer { result ->
+            if (result.isAreaEmpty) {
+                binding.areaLayout.apply {
+                    error = getString(R.string.error_require_field)
+                    requestFocus()
+                }
+            }
+        })
 
         startSearchResultActivity.observe(fragment, Observer { areaName ->
             startActivity(PlanSearchResultActivity.createIntent(requireContext(), areaName))

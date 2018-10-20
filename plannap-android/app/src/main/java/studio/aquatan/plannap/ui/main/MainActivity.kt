@@ -4,22 +4,23 @@ import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.favorite.FavoriteFragment
 import studio.aquatan.plannap.ui.home.HomeFragment
-import studio.aquatan.plannap.ui.plan.list.PlanListFragment
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
-import studio.aquatan.plannap.ui.plan.search.PlanSearchActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchFragment
 import studio.aquatan.plannap.ui.profile.ProfileFragment
 import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,6 +63,10 @@ class MainActivity : AppCompatActivity() {
             toggle.isDrawerIndicatorEnabled = false
         }
 
+        KeyboardVisibilityEvent.setEventListener(this) { isVisible ->
+            binding.appBar.bottomNavigation.isVisible = !isVisible
+        }
+
         if (supportFragmentManager.fragments.isEmpty()) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, HomeFragment.newInstance())
@@ -102,9 +107,6 @@ class MainActivity : AppCompatActivity() {
             binding.appBar.bottomNavigation.menu.findItem(it.menuItemId).isChecked = true
         })
 
-        startSearchActivity.observe(activity, Observer {
-            startActivity(PlanSearchActivity.createIntent(activity))
-        })
         startPlanPostActivity.observe(activity, Observer {
             startActivity(PlanPostActivity.createIntent(activity))
         })
