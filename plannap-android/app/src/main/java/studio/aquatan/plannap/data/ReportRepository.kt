@@ -1,9 +1,9 @@
 package studio.aquatan.plannap.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,35 +19,28 @@ class ReportRepository {
 
     private val service = retrofit.create(ReportService::class.java)
 
-    fun getReportList(): LiveData<List<Report>> {
+    fun getReportList(planId: Int): LiveData<List<Report>> {
         val result = MutableLiveData<List<Report>>()
 
         GlobalScope.launch {
-            // TODO fetch Report list via API
-            delay(2000)
-//            result.postValue(DUMMY_LIST)
-
-//            try {
-//                val response = service.plans().execute()
-//                result.postValue(response.body())
-//            } catch (e: Exception) {
-//                Log.e(javaClass.simpleName, "Failed to fetch plans", e)
-//            }
+            try {
+                val response = service.getReports(planId).execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch getReports", e)
+            }
         }
 
         return result
     }
 
-    fun getReportById(id: Long): LiveData<Report> {
-        val result = MutableLiveData<Report>()
-
+    fun registerReport(targetReport: Report) {
         GlobalScope.launch {
-            // TODO fetch Report via API
-            delay(1000)
-//            result.postValue(DUMMY_LIST.find { it.id == id })
+            try {
+                service.postReport(targetReport).execute()
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch postReport", e)
+            }
         }
-
-        return result
     }
 }
-//}
