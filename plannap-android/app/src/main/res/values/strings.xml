@@ -34,6 +34,7 @@
 
     <!-- Search Hint -->
     <string name="hint_area">エリア</string>
+    <string name="hint_location">場所</string>
     <string name="hint_start">出発地点</string>
     <string name="hint_goal">到着地点</string>
     <string name="hint_time">所要時間(分)</string>
