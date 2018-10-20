@@ -29,7 +29,7 @@
                 android:layout_marginEnd="16dp"/>
 
         <TextView
-                android:id="@+id/user_comment"
+                android:id="@+id/text_comment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
