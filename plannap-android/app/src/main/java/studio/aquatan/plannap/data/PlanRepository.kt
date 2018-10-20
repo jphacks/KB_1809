@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -25,7 +24,6 @@ class PlanRepository {
         val result = MutableLiveData<List<Plan>>()
 
         GlobalScope.launch {
-            delay(2000)
             try {
                 val response = service.getPlans().execute()
                 result.postValue(response.body())
@@ -41,7 +39,6 @@ class PlanRepository {
         val result = MutableLiveData<Plan>()
 
         GlobalScope.launch {
-            delay(1000)
             try {
                 val response = service.getPlan(id).execute()
                 result.postValue(response.body())
@@ -57,7 +54,6 @@ class PlanRepository {
         val result = MutableLiveData<List<Plan>>()
 
         GlobalScope.launch {
-            delay(1000)
             try {
                 val response = service.getPlan(keyword).execute()
                 result.postValue(response.body())
@@ -72,7 +68,6 @@ class PlanRepository {
     fun registerPlan(targetPlan: Plan){
 
         GlobalScope.launch {
-            delay(1000)
             try {
                 service.postPlan(targetPlan).execute()
             } catch (e: Exception) {
