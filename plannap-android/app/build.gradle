@@ -54,6 +54,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
+
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test:runner:1.1.0-beta02'

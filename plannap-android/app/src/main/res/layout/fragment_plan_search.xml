@@ -8,49 +8,65 @@
 
         <variable
                 name="viewModel"
-                type="studio.aquatan.plannap.ui.plan.search.PlanSearchViewModel" />
+                type="studio.aquatan.plannap.ui.plan.search.PlanSearchViewModel"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <ImageView
-                android:id="@+id/search_image"
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/search_image" app:layout_constraintVertical_bias="0.0"
-                android:id="@+id/textInputLayout">
+            <ImageView
+                    android:id="@+id/search_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_area"/>
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    app:layout_constraintTop_toBottomOf="@+id/search_image"
+                    app:errorEnabled="@{viewModel.isEnabledErrorArea}"
+                    android:id="@+id/area_layout"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.area}"
+                        android:hint="@string/hint_area"/>
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/comments_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:textColor="@color/grey_600"
-                app:icon="@drawable/ic_search_white_80dp"
-                app:iconTint="@color/grey_600"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" android:layout_marginStart="8dp"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/search_button"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name_search_btn"
+                    android:onClick="@{() -> viewModel.onSearchClick()}"
+                    app:icon="@drawable/ic_search_white_24dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/area_layout"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="16dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </layout>
