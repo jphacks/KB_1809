@@ -29,6 +29,14 @@
     <!-- Name -->
     <string name="name_area">エリア</string>
 
+    <!-- Search Hint -->
+    <string name="hint_area">エリア</string>
+    <string name="hint_start">出発地点</string>
+    <string name="hint_goal">到着地点</string>
+    <string name="hint_time">所要時間</string>
+    <string name="hint_money">予算</string>
+
+
     <!-- 勝手に生成される系 -->
     <string name="large_text">
         "Material is the metaphor.\n\n"
