@@ -31,10 +31,6 @@
                 android:label=""
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity
-                android:name=".ui.plan.search.PlanSearchActivity"
-                android:label="@string/title_plan_search_activity">
-        </activity>
         <activity android:name=".ui.plan.searchresult.PlanSearchResultActivity">
         </activity>
         <activity

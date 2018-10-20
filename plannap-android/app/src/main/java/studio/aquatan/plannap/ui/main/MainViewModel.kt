@@ -11,7 +11,6 @@ class MainViewModel : ViewModel(), BottomNavigationView.OnNavigationItemSelected
     val attachFragment = SingleLiveEvent<MainFragmentType>()
     val replaceFragment = SingleLiveEvent<MainFragmentType>()
 
-    val startSearchActivity = SingleLiveEvent<Unit>()
     val startPlanPostActivity = SingleLiveEvent<Unit>()
 
     private var currentFragment = MainFragmentType.HOME
@@ -34,10 +33,6 @@ class MainViewModel : ViewModel(), BottomNavigationView.OnNavigationItemSelected
     fun onAttachFragment(type: MainFragmentType) {
         currentFragment = type
         attachFragment.value = type
-    }
-
-    fun onSearchClick() {
-        startSearchActivity.value = Unit
     }
 
     private fun submitFragmentIfNeeded(type: MainFragmentType) {

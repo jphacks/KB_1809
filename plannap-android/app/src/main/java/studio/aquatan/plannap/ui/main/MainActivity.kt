@@ -17,7 +17,6 @@ import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.favorite.FavoriteFragment
 import studio.aquatan.plannap.ui.home.HomeFragment
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
-import studio.aquatan.plannap.ui.plan.search.PlanSearchActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchFragment
 import studio.aquatan.plannap.ui.profile.ProfileFragment
 import javax.inject.Inject
@@ -108,9 +107,6 @@ class MainActivity : AppCompatActivity() {
             binding.appBar.bottomNavigation.menu.findItem(it.menuItemId).isChecked = true
         })
 
-        startSearchActivity.observe(activity, Observer {
-            startActivity(PlanSearchActivity.createIntent(activity))
-        })
         startPlanPostActivity.observe(activity, Observer {
             startActivity(PlanPostActivity.createIntent(activity))
         })
