@@ -1,9 +1,9 @@
 package studio.aquatan.plannap.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,34 +19,29 @@ class UserRepository {
 
     private val service = retrofit.create(UserService::class.java)
 
-    fun getUserList(): LiveData<List<User>> {
-        val result = MutableLiveData<List<User>>()
-
-        GlobalScope.launch {
-            // TODO fetch User list via API
-            delay(2000)
-//            result.postValue(DUMMY_LIST)
-
-//            try {
-//                val response = service.plans().execute()
-//                result.postValue(response.body())
-//            } catch (e: Exception) {
-//                Log.e(javaClass.simpleName, "Failed to fetch plans", e)
-//            }
-        }
-
-        return result
-    }
-
-    fun getUserById(id: Long): LiveData<User> {
+    fun getUserById(userId: Long): LiveData<User> {
         val result = MutableLiveData<User>()
 
         GlobalScope.launch {
-            // TODO fetch User via API
-            delay(1000)
-//            result.postValue(DUMMY_LIST.find { it.id == id })
+            try {
+                val response = service.getUser(userId).execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch getUser", e)
+            }
         }
 
         return result
     }
+
+    fun registerUser(targetUser: User) {
+        GlobalScope.launch {
+            try {
+                service.postUser(targetUser).execute()
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch postUser", e)
+            }
+        }
+    }
+
 }
