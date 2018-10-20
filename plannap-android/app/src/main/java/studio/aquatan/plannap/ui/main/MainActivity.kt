@@ -9,14 +9,22 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
+import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.plan.list.PlanListFragment
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchActivity
+import studio.aquatan.plannap.ui.plan.search.PlanSearchFragment
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
@@ -24,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val fragmentMap by lazy(LazyThreadSafetyMode.NONE) {
         mapOf(
             MainFragmentType.HOME to PlanListFragment.newInstance(),
-            MainFragmentType.SEARCH to PlanListFragment.newInstance(),
+            MainFragmentType.SEARCH to PlanSearchFragment.newInstance(),
             MainFragmentType.FAVORITE to PlanListFragment.newInstance(),
             MainFragmentType.PROFILE to PlanListFragment.newInstance()
         )
@@ -37,7 +45,9 @@ class MainActivity : AppCompatActivity() {
         binding.setLifecycleOwner(this)
         setSupportActionBar(binding.appBar.toolbar)
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        AndroidInjection.inject(this)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.drawerLayout.apply {

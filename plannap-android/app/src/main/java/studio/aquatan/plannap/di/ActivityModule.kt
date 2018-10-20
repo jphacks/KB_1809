@@ -18,7 +18,6 @@ abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun contributePlanSearchResultActivity(): PlanSearchResultActivity
 
-
     @ContributesAndroidInjector
     abstract fun contributePlanPostActivity(): PlanPostActivity
 }
