@@ -25,7 +25,7 @@ class FavoriteRepository {
         GlobalScope.launch {
             // TODO fetch Favorite list via API
             delay(2000)
-            result.postValue(DUMMY_LIST)
+//            result.postValue(DUMMY_LIST)
 
 //            try {
 //                val response = service.plans().execute()
@@ -44,7 +44,7 @@ class FavoriteRepository {
         GlobalScope.launch {
             // TODO fetch Favorite via API
             delay(1000)
-            result.postValue(DUMMY_LIST.find { it.id == id })
+//            result.postValue(DUMMY_LIST.find { it.id == id })
         }
 
         return result

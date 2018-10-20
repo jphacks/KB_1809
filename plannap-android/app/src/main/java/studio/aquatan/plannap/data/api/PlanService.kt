@@ -1,17 +1,20 @@
 package studio.aquatan.plannap.data.api
 
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 import studio.aquatan.plannap.data.model.Plan
 
 interface PlanService {
     @GET("/api/v1/plans")
-    fun plans(): Call<List<Plan>>
+    fun getPlans(): Call<List<Plan>>
+
+    @GET("/api/v1/plan/{id}")
+    fun getPlan(@Path("id") planId: Long): Call<Plan>
+
+    @GET("/api/v1/plan/")
+    fun getPlan(@Query("word") word: String): Call<List<Plan>>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
-    @POST("/api/v1/hoge")
+    @POST("/api/v1/plan")
     fun postPicture(@Body body: HashMap<String, String>): Call<String>
 }

@@ -1,5 +1,6 @@
 package studio.aquatan.plannap.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
@@ -19,20 +20,18 @@ class PlanRepository {
 
     private val service = retrofit.create(PlanService::class.java)
 
+
     fun getPlanList(): LiveData<List<Plan>> {
         val result = MutableLiveData<List<Plan>>()
 
         GlobalScope.launch {
-            // TODO fetch plan list via API
             delay(2000)
-            result.postValue(DUMMY_LIST)
-
-//            try {
-//                val response = service.plans().execute()
-//                result.postValue(response.body())
-//            } catch (e: Exception) {
-//                Log.e(javaClass.simpleName, "Failed to fetch plans", e)
-//            }
+            try {
+                val response = service.getPlans().execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch plans", e)
+            }
         }
 
         return result
@@ -42,11 +41,31 @@ class PlanRepository {
         val result = MutableLiveData<Plan>()
 
         GlobalScope.launch {
-            // TODO fetch plan via API
             delay(1000)
-            result.postValue(DUMMY_LIST.find { it.id == id })
+            try {
+                val response = service.getPlan(id).execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch getPlan", e)
+            }
         }
 
         return result
     }
-}
+
+//    fun getPlanByKeyword{
+//        val result = MutableLiveData<Plan>()
+//
+//        GlobalScope.launch {
+//             TODO fetch plan via API
+//            delay(1000)
+//            result.postValue(DUMMY_LIST.find { it.id == id })
+        }
+
+//        return result
+//    }
+//
+//    fun registerPlan{
+//
+//    }
+//}

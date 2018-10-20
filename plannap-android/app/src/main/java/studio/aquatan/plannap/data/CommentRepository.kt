@@ -8,9 +8,7 @@ import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import studio.aquatan.plannap.data.api.CommentService
-import studio.aquatan.plannap.data.api.PlanService
 import studio.aquatan.plannap.data.model.Comment
-import studio.aquatan.plannap.data.model.Plan
 
 class CommentRepository {
 
@@ -27,7 +25,7 @@ class CommentRepository {
         GlobalScope.launch {
             // TODO fetch plan list via API
             delay(2000)
-            result.postValue(DUMMY_LIST)
+//            result.postValue(DUMMY_LIST)
 
 //            try {
 //                val response = service.plans().execute()
@@ -46,7 +44,7 @@ class CommentRepository {
         GlobalScope.launch {
             // TODO fetch plan via API
             delay(1000)
-            result.postValue(DUMMY_LIST.find { it.id == id })
+//            result.postValue(DUMMY_LIST.find { it.id == id })
         }
 
         return result

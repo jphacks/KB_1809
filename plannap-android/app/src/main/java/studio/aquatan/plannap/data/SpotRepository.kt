@@ -25,7 +25,7 @@ class SpotRepository {
         GlobalScope.launch {
             // TODO fetch Spot list via API
             delay(2000)
-            result.postValue(DUMMY_LIST)
+//            result.postValue(DUMMY_LIST)
 
 //            try {
 //                val response = service.plans().execute()
@@ -44,10 +44,10 @@ class SpotRepository {
         GlobalScope.launch {
             // TODO fetch Spot via API
             delay(1000)
-            result.postValue(DUMMY_LIST.find { it.id == id })
+//            result.postValue(DUMMY_LIST.find { it.id == id })
         }
 
         return result
     }
 }
-}
+//}
