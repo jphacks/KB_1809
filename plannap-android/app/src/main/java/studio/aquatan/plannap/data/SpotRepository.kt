@@ -1,9 +1,9 @@
 package studio.aquatan.plannap.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,35 +19,28 @@ class SpotRepository {
 
     private val service = retrofit.create(SpotService::class.java)
 
-    fun getSpotList(): LiveData<List<Spot>> {
+    fun getSpotList(planId: Int): LiveData<List<Spot>> {
         val result = MutableLiveData<List<Spot>>()
 
         GlobalScope.launch {
-            // TODO fetch Spot list via API
-            delay(2000)
-//            result.postValue(DUMMY_LIST)
-
-//            try {
-//                val response = service.plans().execute()
-//                result.postValue(response.body())
-//            } catch (e: Exception) {
-//                Log.e(javaClass.simpleName, "Failed to fetch plans", e)
-//            }
+            try {
+                val response = service.getSpots(planId).execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch getSpots", e)
+            }
         }
 
         return result
     }
 
-    fun getSpotById(id: Long): LiveData<Spot> {
-        val result = MutableLiveData<Spot>()
-
+    fun registerSpot(targetSpot: Spot) {
         GlobalScope.launch {
-            // TODO fetch Spot via API
-            delay(1000)
-//            result.postValue(DUMMY_LIST.find { it.id == id })
+            try {
+                service.postSpot(targetSpot).execute()
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch postSpot", e)
+            }
         }
-
-        return result
     }
 }
-//}
