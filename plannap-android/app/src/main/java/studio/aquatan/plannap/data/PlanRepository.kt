@@ -53,19 +53,31 @@ class PlanRepository {
         return result
     }
 
-//    fun getPlanByKeyword{
-//        val result = MutableLiveData<Plan>()
-//
-//        GlobalScope.launch {
-//             TODO fetch plan via API
-//            delay(1000)
-//            result.postValue(DUMMY_LIST.find { it.id == id })
+    fun getPlanByKeyword(keyword: String): LiveData<List<Plan>> {
+        val result = MutableLiveData<List<Plan>>()
+
+        GlobalScope.launch {
+            delay(1000)
+            try {
+                val response = service.getPlan(keyword).execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch getPlan", e)
+            }
         }
 
-//        return result
-//    }
-//
-//    fun registerPlan{
-//
-//    }
-//}
+        return result
+    }
+
+    fun registerPlan(targetPlan: Plan){
+
+        GlobalScope.launch {
+            delay(1000)
+            try {
+                service.postPlan(targetPlan).execute()
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch postPlan", e)
+            }
+        }
+    }
+}
