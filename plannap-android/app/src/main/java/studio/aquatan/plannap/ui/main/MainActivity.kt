@@ -12,6 +12,7 @@ import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import studio.aquatan.plannap.ui.home.HomeFragment
 import studio.aquatan.plannap.ui.plan.list.PlanListFragment
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchActivity
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private val fragmentMap by lazy(LazyThreadSafetyMode.NONE) {
         mapOf(
-            MainFragmentType.HOME to PlanListFragment.newInstance(),
+            MainFragmentType.HOME to HomeFragment.newInstance(),
             MainFragmentType.SEARCH to PlanSearchFragment.newInstance(),
             MainFragmentType.FAVORITE to PlanListFragment.newInstance(),
             MainFragmentType.PROFILE to PlanListFragment.newInstance()
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         if (supportFragmentManager.fragments.isEmpty()) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, PlanListFragment.newInstance())
+                .replace(R.id.container, HomeFragment.newInstance())
                 .commit()
         }
 
