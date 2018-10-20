@@ -2,18 +2,14 @@ package studio.aquatan.plannap.data.model
 
 import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
-import java.time.Duration
 
-data class Plan(
+data class User(
     val id: Long,
-    @Json(name = "user_id") val userId: Int,
-    val name: String,
-    val price: Int,
-    val duration: Duration,
-    val geo: Int,
-    @Json(name = "course_id") val courseId: Int,
-    val note: Int
-    ) {
+    val name: Int,
+    @Json(name = "screnn_name") val screenName: String,
+    val mail: String,
+    val pass: String
+) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
             override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {
