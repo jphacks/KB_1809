@@ -18,6 +18,7 @@ import studio.aquatan.plannap.ui.plan.list.PlanListFragment
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchFragment
+import studio.aquatan.plannap.ui.profile.ProfileFragment
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             MainFragmentType.HOME to HomeFragment.newInstance(),
             MainFragmentType.SEARCH to PlanSearchFragment.newInstance(),
             MainFragmentType.FAVORITE to FavoriteFragment.newInstance(),
-            MainFragmentType.PROFILE to PlanListFragment.newInstance()
+            MainFragmentType.PROFILE to ProfileFragment.newInstance()
         )
     }
 
