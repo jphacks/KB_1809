@@ -5,16 +5,21 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanPostBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -29,12 +34,13 @@ class PlanPostActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    lateinit var viewModel: PlanPostViewModel
+    private lateinit var binding: ActivityPlanPostBinding
+    private lateinit var viewModel: PlanPostViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityPlanPostBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_plan_post)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_plan_post)
+        binding.setLifecycleOwner(this)
 
         AndroidInjection.inject(this)
 
@@ -56,7 +62,9 @@ class PlanPostActivity : AppCompatActivity() {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val uri = resultData?.data
             if (uri != null) {
-                viewModel.onImageSelected(getBitmapFromUri(uri))
+                viewModel.onImageSelected(
+                    getBitmapFromUri(uri),
+                    getLatLongFromUri(uri))
             }
         }
     }
@@ -76,14 +84,50 @@ class PlanPostActivity : AppCompatActivity() {
 
             startActivityForResult(intent, READ_REQUEST_CODE)
         })
+
+        validation.observe(activity, Observer { result ->
+            if (result.isEmptyName) {
+                binding.titleLayouts.error = getString(R.string.error_require_field)
+            }
+            if (result.isEmptyNote) {
+                binding.noteLayouts.error = getString(R.string.error_require_field)
+            }
+            if (result.isShortSpot) {
+                Snackbar.make(binding.root, R.string.error_short_spots, Snackbar.LENGTH_LONG).show()
+            }
+        })
+
+        errorSelectedImage.observe(activity, Observer {
+            Toast.makeText(activity, R.string.error_not_support_img, Toast.LENGTH_LONG).show()
+        })
     }
 
-    @Throws(Exception::class)
-    private fun getBitmapFromUri(uri: Uri): Bitmap {
-        val parcelFileDescriptor = contentResolver.openFileDescriptor(uri, "r") ?: throw Exception()
-        val fileDescriptor = parcelFileDescriptor.fileDescriptor
-        val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-        parcelFileDescriptor.close()
-        return image
+    private fun getBitmapFromUri(uri: Uri): Bitmap? {
+        try {
+            val parcelFileDescriptor = contentResolver.openFileDescriptor(uri, "r") ?: return null
+            val fileDescriptor = parcelFileDescriptor.fileDescriptor
+            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+            parcelFileDescriptor.close()
+            return image
+        } catch (e: IOException) {
+            Log.e(javaClass.simpleName, "Failed to get Bitmap", e)
+        }
+
+        return null
+    }
+
+    private fun getLatLongFromUri(uri: Uri): FloatArray? {
+        try {
+            val exifInterface = ExifInterface(contentResolver.openInputStream(uri))
+            val latLng = FloatArray(2)
+
+            if (exifInterface.getLatLong(latLng)) {
+                return latLng
+            }
+        } catch (e: IOException) {
+            Log.e(javaClass.simpleName, "Failed to get LatLong", e)
+        }
+
+        return null
     }
 }

@@ -10,7 +10,7 @@
                 type="studio.aquatan.plannap.ui.plan.post.PlanPostViewModel"/>
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -26,6 +26,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    app:errorEnabled="@{viewModel.isEnabledErrorName}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="16dp">
@@ -33,6 +34,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={viewModel.name}"
                         android:singleLine="true"
                         android:hint="@string/hint_title"/>
 
@@ -45,6 +47,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="16dp"
+                    app:errorEnabled="@{viewModel.isEnabledErrorNote}"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
@@ -53,6 +56,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={viewModel.note}"
                         android:hint="@string/hint_note"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -71,6 +75,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={viewModel.duration}"
                         android:hint="@string/hint_time"
                         android:singleLine="true"
                         android:inputType="number"/>
@@ -92,6 +97,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={viewModel.price}"
                         android:hint="@string/hint_money"
                         android:singleLine="true"
                         android:inputType="number"/>
@@ -147,6 +153,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/time_layouts"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

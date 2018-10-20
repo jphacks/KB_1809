@@ -50,6 +50,8 @@
     <!-- Error -->
     <string name="error_require_field">未入力です</string>
     <string name="error_not_found">情報が見つかりませんでした</string>
+    <string name="error_short_spots">スポットは2つ以上入力してください</string>
+    <string name="error_not_support_img">サポートされていない画像形式です</string>
 
     <!-- 勝手に生成される系 -->
     <string name="large_text">
