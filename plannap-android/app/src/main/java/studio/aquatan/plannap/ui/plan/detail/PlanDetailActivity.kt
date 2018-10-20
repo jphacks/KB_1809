@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanDetailBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import studio.aquatan.plannap.ui.plan.list.SpotAdapter
 import javax.inject.Inject
 
 class PlanDetailActivity : AppCompatActivity() {
@@ -37,17 +39,35 @@ class PlanDetailActivity : AppCompatActivity() {
 
         AndroidInjection.inject(this)
 
-        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlanDetailViewModel::class.java)
         binding.viewModel = viewModel
 
+        val adapter = SpotAdapter(layoutInflater)
+
+        binding.recyclerView.apply {
+            setAdapter(adapter)
+            setHasFixedSize(true)
+        }
+
+        viewModel.subscribe(adapter)
         viewModel.onActivityCreated(intent.getLongExtra(EXTRA_ID, -1))
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         finish()
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun PlanDetailViewModel.subscribe(adapter: SpotAdapter) {
+        val activity = this@PlanDetailActivity
+
+        plan.observe(activity, Observer {
+            title = it.name
+
+            // TODO
+//            adapter.submitList(it.spotList)
+        })
     }
 }

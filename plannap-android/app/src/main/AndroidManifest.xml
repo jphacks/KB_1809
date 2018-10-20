@@ -27,9 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ui.plan.detail.PlanDetailActivity"
-                android:label=""
-                android:theme="@style/AppTheme.NoActionBar">
+                android:name=".ui.plan.detail.PlanDetailActivity">
         </activity>
         <activity android:name=".ui.plan.searchresult.PlanSearchResultActivity">
         </activity>
