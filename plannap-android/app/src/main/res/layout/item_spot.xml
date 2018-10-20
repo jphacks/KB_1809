@@ -23,9 +23,9 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:layout_constraintTop_toBottomOf="@+id/detail_arrow2"
-                app:layout_constraintBottom_toTopOf="@+id/detail_arrow1"
-                app:layout_constraintStart_toStartOf="@+id/detail_arrow1"
-                app:layout_constraintEnd_toEndOf="@+id/detail_arrow1"/>
+                app:layout_constraintBottom_toTopOf="@+id/detail_arrow1" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp" app:layout_constraintEnd_toStartOf="@+id/detail_location"
+                android:layout_marginEnd="8dp"/>
 
         <ImageView
                 android:id="@+id/image"
@@ -81,8 +81,8 @@
                 android:tint="@color/colorPrimary"
                 app:layout_constraintTop_toBottomOf="@+id/detail_pin"
                 app:layout_constraintBottom_toTopOf="@+id/detail_arrow3"
-                app:layout_constraintStart_toStartOf="@+id/detail_arrow3"
-                app:layout_constraintEnd_toEndOf="@+id/detail_arrow3"/>
+                app:layout_constraintStart_toStartOf="@+id/detail_pin"
+                app:layout_constraintEnd_toEndOf="@+id/detail_pin"/>
 
         <ImageView
                 android:id="@+id/detail_arrow2"
@@ -103,8 +103,8 @@
                 android:tint="@color/colorPrimary"
                 app:layout_constraintTop_toBottomOf="@+id/detail_arrow1"
                 app:layout_constraintBottom_toTopOf="@+id/detail_arrow4"
-                app:layout_constraintStart_toStartOf="@+id/detail_arrow4"
-                app:layout_constraintEnd_toEndOf="@+id/detail_arrow4"/>
+                app:layout_constraintStart_toStartOf="@+id/detail_arrow1"
+                app:layout_constraintEnd_toEndOf="@+id/detail_arrow1"/>
 
         <ImageView
                 android:id="@+id/detail_arrow4"
@@ -114,8 +114,8 @@
                 android:tint="@color/colorPrimary"
                 app:layout_constraintTop_toBottomOf="@+id/detail_arrow3"
                 app:layout_constraintBottom_toTopOf="@+id/detail_arrow5"
-                app:layout_constraintStart_toStartOf="@+id/detail_arrow5"
-                app:layout_constraintEnd_toEndOf="@+id/detail_arrow5"/>
+                app:layout_constraintStart_toStartOf="@+id/detail_arrow3"
+                app:layout_constraintEnd_toEndOf="@+id/detail_arrow3"/>
 
         <ImageView
                 android:id="@+id/detail_arrow5"
@@ -124,8 +124,8 @@
                 android:src="@drawable/ic_keyboard_arrow_down_white_24dp"
                 android:tint="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/detail_arrow4"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/detail_comment" android:layout_marginEnd="8dp"/>
+                app:layout_constraintStart_toStartOf="@+id/detail_arrow4"
+                app:layout_constraintEnd_toEndOf="@+id/detail_arrow4"/>
 
         <androidx.constraintlayout.widget.Group
                 android:id="@+id/arrow_top"
