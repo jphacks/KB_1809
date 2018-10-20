@@ -5,13 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanSearchResultBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import studio.aquatan.plannap.ui.plan.PlanAdapter
 import javax.inject.Inject
 
 class PlanSearchResultActivity : AppCompatActivity() {
@@ -43,7 +46,15 @@ class PlanSearchResultActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlanSearchResultViewModel::class.java)
         binding.viewModel = viewModel
 
-        viewModel.subscribe()
+        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick)
+
+        binding.recyclerView.apply {
+            setAdapter(adapter)
+            setHasFixedSize(true)
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
+
+        viewModel.subscribe(adapter)
         viewModel.onActivityCreated(intent.getStringExtra(EXTRA_AREA_NAME))
     }
 
@@ -52,9 +63,15 @@ class PlanSearchResultActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun PlanSearchResultViewModel.subscribe() {
+    private fun PlanSearchResultViewModel.subscribe(adapter: PlanAdapter) {
         val activity = this@PlanSearchResultActivity
 
         title.observe(activity, Observer { activity.title = it })
+        planList.observe(activity, Observer { list ->
+            binding.progressBar.isVisible = false
+            binding.notFoundText.isVisible = list.isEmpty()
+
+            adapter.submitList(list)
+        })
     }
 }
