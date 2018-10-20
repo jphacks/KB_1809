@@ -1,9 +1,9 @@
 package studio.aquatan.plannap.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,34 +19,28 @@ class CommentRepository {
 
     private val service = retrofit.create(CommentService::class.java)
 
-    fun getCommentList(): LiveData<List<Comment>> {
+    fun getCommentList(planId: Long): LiveData<List<Comment>> {
         val result = MutableLiveData<List<Comment>>()
 
         GlobalScope.launch {
-            // TODO fetch plan list via API
-            delay(2000)
-//            result.postValue(DUMMY_LIST)
-
-//            try {
-//                val response = service.plans().execute()
-//                result.postValue(response.body())
-//            } catch (e: Exception) {
-//                Log.e(javaClass.simpleName, "Failed to fetch plans", e)
-//            }
+            try {
+                val response = service.getComments(planId).execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch getComments", e)
+            }
         }
 
         return result
     }
 
-    fun getCommentById(id: Long): LiveData<Comment> {
-        val result = MutableLiveData<Comment>()
-
+    fun registerSpot(targetComment: Comment) {
         GlobalScope.launch {
-            // TODO fetch plan via API
-            delay(1000)
-//            result.postValue(DUMMY_LIST.find { it.id == id })
+            try {
+                service.postComment(targetComment).execute()
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch postComment", e)
+            }
         }
-
-        return result
     }
 }
