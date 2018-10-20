@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.FragmentHomeBinding
@@ -56,7 +55,6 @@ class HomeFragment : Fragment() {
         binding.recyclerView.apply {
             setAdapter(adapter)
             setHasFixedSize(true)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
         viewModel.subscribe(adapter)
