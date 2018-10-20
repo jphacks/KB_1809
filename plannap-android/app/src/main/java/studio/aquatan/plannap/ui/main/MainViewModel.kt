@@ -6,13 +6,13 @@ import studio.aquatan.plannap.ui.SingleLiveEvent
 class MainViewModel : ViewModel() {
 
     val startSearchActivity = SingleLiveEvent<Unit>()
-    val startPlanAddActivity = SingleLiveEvent<Unit>()
+    val startPlanPostActivity = SingleLiveEvent<Unit>()
 
     fun onSearchClick() {
         startSearchActivity.value = Unit
     }
 
-    fun onPlanAddClick() {
-        startPlanAddActivity.value = Unit
+    fun onPlanPostClick() {
+        startPlanPostActivity.value = Unit
     }
 }
