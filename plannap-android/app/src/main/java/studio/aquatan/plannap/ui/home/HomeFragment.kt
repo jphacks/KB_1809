@@ -38,6 +38,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.setLifecycleOwner(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
 
         return binding.root
     }
@@ -49,6 +50,7 @@ class HomeFragment : Fragment() {
         val provider = ViewModelProvider(requireActivity(), viewModelFactory)
 
         viewModel = provider.get(HomeViewModel::class.java)
+        binding.viewModel = viewModel
 
         val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick)
         binding.recyclerView.apply {
@@ -68,6 +70,8 @@ class HomeFragment : Fragment() {
 
         planList.observe(fragment, Observer { list ->
             binding.progressBar.isVisible = false
+            binding.swipeRefreshLayout.isRefreshing = false
+
             adapter.submitList(list)
         })
         startPlanDetailActivity.observe(fragment, Observer { id ->
