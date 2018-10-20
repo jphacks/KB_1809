@@ -6,10 +6,10 @@ import com.squareup.moshi.Json
 data class User(
     @Json(name = "pk") val id: Long,
     val username: String,
-    val email: String,
-    @Json(name = "created_at") val createdDate: String,
+    val email: String = "hoge@piyo.com",
+    @Json(name = "created_at") val createdDate: String = "hoge",
     @Json(name = "icon") val iconUrl: String,
-    @Json(name = "update_at") val updateDate: String
+    @Json(name = "update_at") val updateDate: String = "hoge"
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
