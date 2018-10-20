@@ -10,7 +10,11 @@ data class Plan(
     val price: Int,
     val duration: Int,
     @Json(name = "course_id") val courseId: Int,
-    val note: String
+    val note: String,
+    val spots: List<Spot>,
+    val reports: List<Report>,
+    val comments: List<Comment>,
+    val favorites: List<Favorite>
     ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {

@@ -25,7 +25,7 @@ class ReportRepository {
         GlobalScope.launch {
             try {
                 val response = service.getReports(planId).execute()
-                result.postValue(response.body())
+                result.postValue(response.body() ?: emptyList())
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to fetch getReports", e)
             }
