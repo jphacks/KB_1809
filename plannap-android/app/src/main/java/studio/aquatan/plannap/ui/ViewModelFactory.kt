@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.ui.favorite.FavoriteFragment
+import studio.aquatan.plannap.ui.favorite.FavoriteViewModel
 import studio.aquatan.plannap.ui.home.HomeViewModel
 import studio.aquatan.plannap.ui.main.MainViewModel
 import studio.aquatan.plannap.ui.plan.post.PlanPostViewModel
@@ -23,6 +25,7 @@ class ViewModelFactory(
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel()
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepository)
+                isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(PlanListViewModel::class.java) -> PlanListViewModel(planRepository)
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(planRepository)
                 isAssignableFrom(PlanSearchViewModel::class.java) -> PlanSearchViewModel()
