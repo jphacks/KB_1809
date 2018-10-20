@@ -3,6 +3,8 @@ package studio.aquatan.plannap.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
@@ -14,7 +16,12 @@ class PlanRepository {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://plannap.aquatan.studio")
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(
+            //TODO 独自アダプタをここに記述?
+            Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+        ))
         .build()
 
     private val service = retrofit.create(PlanService::class.java)
