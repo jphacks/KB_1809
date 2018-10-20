@@ -5,6 +5,7 @@ import com.squareup.moshi.Json
 
 data class User(
     @Json(name = "pk") val id: Long,
+    val username: String,
     val email: String,
     @Json(name = "created_at") val createdDate: String,
     @Json(name = "icon") val iconUrl: String,
