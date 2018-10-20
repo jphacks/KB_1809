@@ -7,7 +7,7 @@ import studio.aquatan.plannap.data.model.Location
 
 interface LocationService {
 
-    @GET("/api/v1/location/{id}")
+    @GET("/plan/location/{id}")
     fun getLocation(@Path("id") locationId: Long): Call<Location>
 
 }

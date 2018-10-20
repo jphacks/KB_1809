@@ -5,13 +5,13 @@ import retrofit2.http.*
 import studio.aquatan.plannap.data.model.Favorite
 
 interface FavoriteService {
-    @GET("/api/v1/favorite/")
+    @GET("/plan/favorite/")
     fun getFavoriteByPlanid(@Path("planId") planId: Long): Call<Favorite>
 
-    @GET("/api/v1/favorite/")
+    @GET("/plan/favorite/")
     fun getFavoriteByUserid(@Path("userId") userId: Long): Call<Favorite>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
-    @POST("/api/v1/favorite")
+    @POST("/plan/favorite")
     fun postFavorite(@Body favorite: Favorite): Call<Favorite>
 }

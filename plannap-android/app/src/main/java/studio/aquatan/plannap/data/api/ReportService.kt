@@ -9,6 +9,6 @@ interface ReportService {
     fun getReports(@Query("planId") planId: Int): Call<List<Report>>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
-    @POST("/api/v1/report")
+    @POST("/plan/report")
     fun postReport(@Body report: Report): Call<Report>
 }
