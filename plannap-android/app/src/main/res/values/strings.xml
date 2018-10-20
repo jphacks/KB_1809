@@ -42,6 +42,10 @@
     <string name="hint_note">全体のレビュー</string>
     <string name="hint_comment">コメント</string>
 
+    <!-- Text -->
+    <string name="text_price">約%1$d円</string>
+    <string name="text_duration">約%1$d分</string>
+
     <!-- Error -->
     <string name="error_require_field">未入力です</string>
     <string name="error_not_found">情報が見つかりませんでした</string>

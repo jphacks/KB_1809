@@ -23,6 +23,7 @@
                     android:id="@+id/user_icon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    app:srcUrl="@{viewModel.plan.user.iconUrl}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="16dp"
@@ -33,6 +34,7 @@
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.plan.user.username}"
                     tools:text="lanqiu"
                     android:gravity="center_vertical"
                     app:layout_constraintStart_toEndOf="@+id/user_icon"
@@ -76,7 +78,8 @@
                     android:id="@+id/plan_name"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:text="プランの名前"
+                    android:text="@{viewModel.plan.name}"
+                    tools:text="プランの名前"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +93,8 @@
                     android:id="@+id/plan_evaluation"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:text="プランの総評"
+                    android:text="@{viewModel.plan.note}"
+                    tools:text="プランの総評"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -113,6 +117,7 @@
                         android:id="@+id/detail_date"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
+                        android:text="@{viewModel.plan.date}"
                         tools:text="2018/10/20"
                         android:gravity="center_vertical"
                         android:layout_weight="1" android:textAlignment="center"/>
@@ -121,6 +126,7 @@
                         android:id="@+id/detail_time"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
+                        app:duration="@{viewModel.plan.duration}"
                         tools:text="Time:1hour"
                         android:gravity="center_vertical"
                         android:layout_weight="1" android:textAlignment="center"/>
@@ -131,6 +137,7 @@
                         android:layout_height="50dp"
                         tools:text="Money:5000yen"
                         android:gravity="center_vertical"
+                        app:price="@{viewModel.plan.price}"
                         android:layout_weight="1" android:textAlignment="center"/>
 
 
