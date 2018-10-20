@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.app_bar_main.*
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
@@ -40,15 +41,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             addDrawerListener(toggle)
             toggle.syncState()
+            toggle.isDrawerIndicatorEnabled = false
         }
-
-        binding.navView.setNavigationItemSelectedListener(this)
 
         if (supportFragmentManager.fragments.isEmpty()) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, PlanListFragment.newInstance())
                 .commit()
         }
+
 
         viewModel.subscribe()
     }

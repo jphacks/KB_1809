@@ -5,7 +5,6 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
                 name="viewModel"
                 type="studio.aquatan.plannap.ui.main.MainViewModel"/>
@@ -15,8 +14,7 @@
             android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            tools:openDrawer="start">
+            android:fitsSystemWindows="true">
 
         <include
                 android:id="@+id/app_bar"
@@ -25,14 +23,6 @@
                 android:layout_height="match_parent"
                 bind:viewModel="@{viewModel}"/>
 
-        <com.google.android.material.navigation.NavigationView
-                android:id="@+id/nav_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:fitsSystemWindows="true"
-                app:headerLayout="@layout/nav_header_main"
-                app:menu="@menu/activity_main_drawer"/>
-
     </androidx.drawerlayout.widget.DrawerLayout>
+
 </layout>
