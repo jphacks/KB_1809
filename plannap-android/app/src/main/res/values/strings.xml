@@ -10,6 +10,10 @@
     <!-- Title -->
     <string name="title_plan_search_activity">検索</string>
     <string name="title_plan_post_activity">プランを投稿</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_profile">Profile</string>
 
     <!-- Menu -->
     <string name="menu_plans">プラン一覧</string>

@@ -7,20 +7,28 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.app_bar_main.*
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
-import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.list.PlanListFragment
+import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchActivity
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
+
+    private val fragmentMap by lazy(LazyThreadSafetyMode.NONE) {
+        mapOf(
+            MainFragmentType.HOME to PlanListFragment.newInstance(),
+            MainFragmentType.SEARCH to PlanListFragment.newInstance(),
+            MainFragmentType.FAVORITE to PlanListFragment.newInstance(),
+            MainFragmentType.PROFILE to PlanListFragment.newInstance()
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +71,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
+            if (supportFragmentManager.backStackEntryCount <= 0) {
+                finish()
+                return
+            }
+
             super.onBackPressed()
         }
     }
@@ -76,22 +89,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_plans -> {
-
-            }
-            R.id.nav_settings -> {
-
-            }
-        }
-
-        binding.drawerLayout.closeDrawer(GravityCompat.START)
-        return true
-    }
-
     private fun MainViewModel.subscribe() {
         val activity = this@MainActivity
+
+        replaceFragment.observe(activity, Observer {
+            val newFragment = fragmentMap[it] ?: return@Observer
+
+            supportFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.container, newFragment)
+                .addToBackStack(null)
+                .commit()
+        })
+
+        attachFragment.observe(activity, Observer {
+//            title = getString(it.titleResId)
+            binding.appBar.bottomNavigation.menu.findItem(it.menuItemId).isChecked = true
+        })
 
         startSearchActivity.observe(activity, Observer {
             startActivity(PlanSearchActivity.createIntent(activity))
