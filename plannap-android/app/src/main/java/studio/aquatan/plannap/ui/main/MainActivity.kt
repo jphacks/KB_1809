@@ -12,6 +12,7 @@ import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import studio.aquatan.plannap.ui.favorite.FavoriteFragment
 import studio.aquatan.plannap.ui.home.HomeFragment
 import studio.aquatan.plannap.ui.plan.list.PlanListFragment
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         mapOf(
             MainFragmentType.HOME to HomeFragment.newInstance(),
             MainFragmentType.SEARCH to PlanSearchFragment.newInstance(),
-            MainFragmentType.FAVORITE to PlanListFragment.newInstance(),
+            MainFragmentType.FAVORITE to FavoriteFragment.newInstance(),
             MainFragmentType.PROFILE to PlanListFragment.newInstance()
         )
     }
