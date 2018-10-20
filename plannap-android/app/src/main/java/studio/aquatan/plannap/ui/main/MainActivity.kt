@@ -1,22 +1,27 @@
 package studio.aquatan.plannap.ui.main
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
+import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.plan.list.PlanListFragment
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchActivity
+import studio.aquatan.plannap.ui.plan.search.PlanSearchFragment
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
@@ -24,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val fragmentMap by lazy(LazyThreadSafetyMode.NONE) {
         mapOf(
             MainFragmentType.HOME to PlanListFragment.newInstance(),
-            MainFragmentType.SEARCH to PlanListFragment.newInstance(),
+            MainFragmentType.SEARCH to PlanSearchFragment.newInstance(),
             MainFragmentType.FAVORITE to PlanListFragment.newInstance(),
             MainFragmentType.PROFILE to PlanListFragment.newInstance()
         )
@@ -37,7 +42,9 @@ class MainActivity : AppCompatActivity() {
         binding.setLifecycleOwner(this)
         setSupportActionBar(binding.appBar.toolbar)
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        AndroidInjection.inject(this)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.drawerLayout.apply {
@@ -58,13 +65,7 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
-
         viewModel.subscribe()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
     }
 
     override fun onBackPressed() {
@@ -78,15 +79,6 @@ class MainActivity : AppCompatActivity() {
 
             super.onBackPressed()
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_search -> viewModel.onSearchClick()
-            android.R.id.home -> finish()
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     private fun MainViewModel.subscribe() {

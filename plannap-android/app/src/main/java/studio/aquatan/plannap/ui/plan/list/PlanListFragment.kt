@@ -14,6 +14,8 @@ import dagger.android.support.AndroidSupportInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.FragmentPlanListBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import studio.aquatan.plannap.ui.main.MainFragmentType
+import studio.aquatan.plannap.ui.main.MainViewModel
 import studio.aquatan.plannap.ui.plan.PlanAdapter
 import studio.aquatan.plannap.ui.plan.detail.PlanDetailActivity
 import javax.inject.Inject
@@ -42,7 +44,9 @@ class PlanListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         AndroidSupportInjection.inject(this)
 
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(PlanListViewModel::class.java)
+        val provider = ViewModelProvider(requireActivity(), viewModelFactory)
+
+        viewModel = provider.get(PlanListViewModel::class.java)
 
         val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick)
         binding.recyclerView.apply {
@@ -53,6 +57,9 @@ class PlanListFragment : Fragment() {
 
         viewModel.subscribe(adapter)
         viewModel.onActivityCreated()
+
+        provider.get(MainViewModel::class.java)
+            .onAttachFragment(MainFragmentType.HOME)
     }
 
     private fun PlanListViewModel.subscribe(adapter: PlanAdapter) {
