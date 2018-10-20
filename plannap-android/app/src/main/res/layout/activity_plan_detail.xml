@@ -12,49 +12,126 @@
                 type="studio.aquatan.plannap.ui.plan.detail.PlanDetailViewModel"/>
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="?android:colorBackground">
 
-        <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/app_bar"
+        <ImageView
+                android:id="@+id/detail_user_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+        <TextView
+                android:id="@+id/detail_user"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                tools:text="lanqiu"
+                android:gravity="center_vertical" app:layout_constraintStart_toEndOf="@+id/detail_user_image"
+                app:layout_constraintTop_toTopOf="@+id/detail_user_image"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_user_image"
+                app:layout_constraintEnd_toStartOf="@+id/favorite_button"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/favorite_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:text="200k"
+                app:icon="@drawable/ic_favorite_white_24dp"
+                app:layout_constraintTop_toTopOf="@+id/detail_user"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_user" app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintEnd_toStartOf="@+id/comments_button"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/comments_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:text="15k"
+                android:textColor="@color/grey_600"
+                app:icon="@drawable/ic_mode_comment_white_24dp"
+                app:iconTint="@color/grey_600"
+                app:layout_constraintTop_toTopOf="@+id/favorite_button"
+                app:layout_constraintBottom_toBottomOf="@+id/favorite_button"
+                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginBottom="8dp" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+                android:id="@+id/plan_name"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/app_bar_height"
-                android:fitsSystemWindows="true"
-                android:theme="@style/AppTheme.AppBarOverlay">
+                android:layout_height="50dp"
+                android:text="プランの名前"
+                android:textSize="24sp" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/detail_user_image"/>
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:id="@+id/toolbar_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    app:title="@{viewModel.plan.name}"
-                    app:contentScrim="?attr/colorPrimary"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    app:toolbarId="@+id/toolbar">
+        <TextView
+                android:id="@+id/plan_evaluation"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="プランの総評"
+                android:textSize="14sp" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/plan_name"/>
 
-                <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        app:layout_collapseMode="pin"
-                        app:popupTheme="@style/AppTheme.PopupOverlay"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/linearLayout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/plan_evaluation">
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+            <TextView
+                    android:id="@+id/detail_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    tools:text="2018/10/20"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1" android:textAlignment="center"/>
 
-        <include
-                layout="@layout/content_plan"
-                bind:data="@{viewModel.plan}"/>
+            <TextView
+                    android:id="@+id/detail_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    tools:text="Time:1hour"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1" android:textAlignment="center"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                app:layout_anchor="@id/app_bar"
-                app:layout_anchorGravity="bottom|end"/>
+            <TextView
+                    android:id="@+id/detail_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    tools:text="Money:5000yen"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1" android:textAlignment="center"/>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" app:layout_constraintVertical_bias="0.0">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
