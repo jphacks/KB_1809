@@ -29,6 +29,7 @@
     <!-- Name -->
     <string name="name_area">エリア</string>
     <string name="name_search_btn">検索する</string>
+    <string name="name_post_btn">投稿する</string>
 
     <!-- Search Hint -->
     <string name="hint_area">エリア</string>

@@ -33,6 +33,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="@string/hint_title"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -70,7 +71,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_time"/>
+                        android:hint="@string/hint_time"
+                        android:singleLine="true"
+                        android:inputType="numberSigned"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,7 +92,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_money"/>
+                        android:hint="@string/hint_money"
+                        android:singleLine="true"
+                        android:inputType="numberSigned"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,7 +119,7 @@
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="63dp"
-                    android:text="投稿する"
+                    android:text="@string/name_post_btn"
                     app:icon="@drawable/ic_check_white_24dp"
                     app:backgroundTint="@color/colorPrimary"
                     app:iconSize="30dp"
