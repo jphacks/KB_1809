@@ -11,7 +11,7 @@ data class Plan(
     val duration: Int,
     val price: Int,
     @Json(name = "favorite_count") val favoriteCount: Long,
-    @Json(name = "comments_count") val commentcount: Long,
+    @Json(name = "comments_count") val commentCount: Long,
     @Json(name = "comments") val commentList: List<Comment>,
     @Json(name = "spots") val spotList: List<Spot>,
     @Json(name = "reports") val reportList: List<Report>,
