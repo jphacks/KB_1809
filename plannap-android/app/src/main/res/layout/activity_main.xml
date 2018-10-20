@@ -5,6 +5,7 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
                 name="viewModel"
                 type="studio.aquatan.plannap.ui.main.MainViewModel"/>
