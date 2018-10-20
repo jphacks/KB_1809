@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.app_bar_main.*
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
 import studio.aquatan.plannap.ui.plan.add.PlanAddActivity
@@ -31,24 +32,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
-//        binding.drawerLayout.apply {
-//            val toggle = ActionBarDrawerToggle(
-//                this@MainActivity, this, binding.appBar.toolbar,
-//                R.string.navigation_drawer_open,
-//                R.string.navigation_drawer_close
-//            )
-//
-////            addDrawerListener(toggle)
-//            toggle.syncState()
-//        }
+        binding.drawerLayout.apply {
+            val toggle = ActionBarDrawerToggle(
+                this@MainActivity, this, binding.appBar.toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+            )
 
-//        binding.navView.setNavigationItemSelectedListener(this)
+            addDrawerListener(toggle)
+            toggle.syncState()
+            toggle.isDrawerIndicatorEnabled = false
+        }
 
         if (supportFragmentManager.fragments.isEmpty()) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, PlanListFragment.newInstance())
                 .commit()
         }
+
 
         viewModel.subscribe()
     }
@@ -59,11 +60,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-//        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            binding.drawerLayout.closeDrawer(GravityCompat.START)
-//        } else {
-//            super.onBackPressed()
-//        }
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-//        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
