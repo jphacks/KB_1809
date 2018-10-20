@@ -49,11 +49,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="@color/colorPrimary"
-                app:itemIconTint="@color/colorAccent"
-                app:itemTextColor="@color/colorAccent"
-                app:menu="@menu/bottom_menus" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+                app:OnNavigationItemSelectedListener="@{viewModel::onNavigationItemSelected}"
+                app:menu="@menu/bottom_menus"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
