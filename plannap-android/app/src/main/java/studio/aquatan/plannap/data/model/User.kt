@@ -1,13 +1,10 @@
 package studio.aquatan.plannap.data.model
 
 import androidx.recyclerview.widget.DiffUtil
-import com.squareup.moshi.Json
 
 data class User(
     val id: Long,
-    val name: Int,
-    @Json(name = "screnn_name") val screenName: String,
-    val mail: String,
+    val name: String,
     val pass: String
 ) {
     companion object {

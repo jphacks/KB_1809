@@ -4,9 +4,9 @@ import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
 
 data class Favorite(
-    val id: Long,
-    @Json(name = "user_id") val userId: Int,
-    @Json(name = "course_id") val courseId: Int
+    @Json(name = "pk") val id: Long,
+    val user: User,
+    @Json(name = "plan") val planId: Int
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {

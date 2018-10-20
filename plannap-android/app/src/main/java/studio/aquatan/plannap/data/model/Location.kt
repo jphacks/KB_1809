@@ -4,11 +4,11 @@ import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
 
 data class Location(
-    val id: Long,
-    @Json(name = "pname") val prefectureName: String,
-    @Json(name = "pcode") val prefectureCode: Int,
-    @Json(name = "mname") val municipalityName: String,
-    @Json(name = "mcode") val municipality: String
+    @Json(name = "pk") val id: Long,
+    @Json(name = "p_name") val prefectureName: String,
+    @Json(name = "p_code") val prefectureCode: Int,
+    @Json(name = "m_name") val municipalityName: String,
+    @Json(name = "m_code") val municipalityCode: Int
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {

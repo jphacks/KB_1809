@@ -4,11 +4,10 @@ import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
 
 data class Comment(
-    val id: Long,
-    @Json(name = "user_id") val userId: Int,
-    @Json(name = "user_id") val courseId: Int,
-    val text: String,
-    val name: String
+    @Json(name = "pk") val id: Long,
+    val user: User,
+    @Json(name = "plan") val planId: Int,
+    val text: String
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Comment>() {

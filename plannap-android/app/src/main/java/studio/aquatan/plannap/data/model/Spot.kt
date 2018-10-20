@@ -4,10 +4,14 @@ import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
 
 data class Spot(
-    val id: Long,
-    @Json(name = "user_id") val userId: Int,
-    val geo: Float,
-    val note: String
+    @Json(name = "pk") val id: Long,
+    val name: String,
+    val order: Int,
+    val lat: Float,
+    val lon: Float,
+    val note: String,
+    @Json(name = "image") val imageUrl: String,
+    @Json(name = "created_at") val createdDate: String
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Spot>() {
