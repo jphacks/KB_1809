@@ -53,14 +53,14 @@ class PlanPostViewModel(
         val index = selectedId ?: return
         selectedId = null
 
-        if (bitmap == null || latLong == null) {
+        if (bitmap == null || latLong == null || latLong.size < 2) {
             errorSelectedImage.value = Unit
             return
         }
 
         val list = postSpotList.value?.toMutableList() ?: return
 
-        list[index] = list[index].copy(picture = bitmap)
+        list[index] = list[index].copy(picture = bitmap, latLong = latLong)
 
         postSpotList.value = list
         selectedId = null
@@ -83,6 +83,9 @@ class PlanPostViewModel(
         }
         if (spotList.size < 2) {
             result = result.copy(isShortSpot = true)
+        }
+        if (spotList.any { it.name.isNullOrBlank() || it.note.isNullOrBlank() || it.picture == null || it.latLong == null }) {
+            result = result.copy(isInvalidSpot = true)
         }
 
         if (result.isError) {

@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.DiffUtil
 
 data class PostSpot (
     val id: Int,
+    var name: String? = null,
+    var note: String? = null,
     val picture: Bitmap? = null,
-    var note: String? = null
+    val latLong: FloatArray? = null
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PostSpot>() {

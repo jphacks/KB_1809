@@ -95,6 +95,9 @@ class PlanPostActivity : AppCompatActivity() {
             if (result.isShortSpot) {
                 Snackbar.make(binding.root, R.string.error_short_spots, Snackbar.LENGTH_LONG).show()
             }
+            if (result.isInvalidSpot) {
+                Snackbar.make(binding.root, R.string.error_invalid_spot, Snackbar.LENGTH_LONG).show()
+            }
         })
 
         errorSelectedImage.observe(activity, Observer {
