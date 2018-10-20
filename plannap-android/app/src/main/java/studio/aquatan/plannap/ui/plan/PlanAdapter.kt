@@ -37,6 +37,28 @@ class PlanAdapter(
         fun bind(plan: Plan) {
             binding.data = plan
             binding.root.setOnClickListener { onClick(plan.id) }
+
+            // User
+//            binding.user.text = plan.user.name
+//            Glide.with(binding.root)
+//                .load(plan.user.url)
+//                .into(binding.userImage)
+
+//            Glide.with(binding.root)
+//                .load(plan.spotList.first().url)
+
+            binding.apply {
+                data = plan
+                root.setOnClickListener { onClick(plan.id) }
+
+//                start.text = plan.spotList.first().name
+//                end.text = plan.spotList.last().name
+
+                time.text = plan.duration.toString()
+
+                favoriteButton.text = plan.favoriteCount.toString()
+                commentsButton.text = plan.commentCount.toString()
+            }
         }
     }
 }

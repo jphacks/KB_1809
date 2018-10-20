@@ -15,7 +15,7 @@ class PlanSearchResultViewModel(
 
     val planList = Transformations.switchMap(keyword) {
         title.value = it
-        return@switchMap planRepository.getPlanByKeyword(it)
+        return@switchMap planRepository.getPlanListByKeyword(it)
     }
 
     fun onActivityCreated(areaName: String?) {
