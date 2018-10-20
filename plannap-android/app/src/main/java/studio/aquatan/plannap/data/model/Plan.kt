@@ -5,12 +5,18 @@ import com.squareup.moshi.Json
 
 data class Plan(
     val id: Long,
-    @Json(name = "user_id") val userId: Int,
+    val note: String,
     val name: String,
-    val price: Int,
+    val date: String,
     val duration: Int,
-    @Json(name = "course_id") val courseId: Int,
-    val note: String
+    val price: Int,
+    @Json(name = "favorite_count") val favoriteCount: Long,
+    @Json(name = "comments_count") val commentCount: Long,
+    @Json(name = "comments") val commentList: List<Comment>,
+    @Json(name = "spots") val spotList: List<Spot>,
+    @Json(name = "reports") val reportList: List<Report>,
+    @Json(name = "favorites") val favoriteList: List<Favorite>,
+    val user: User
     ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {

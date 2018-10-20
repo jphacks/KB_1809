@@ -50,13 +50,13 @@ class PlanRepository {
         return result
     }
 
-    fun getPlanByKeyword(keyword: String): LiveData<List<Plan>> {
+    fun getPlanListByKeyword(keyword: String): LiveData<List<Plan>> {
         val result = MutableLiveData<List<Plan>>()
 
         GlobalScope.launch {
             try {
                 val response = service.getPlan(keyword).execute()
-                result.postValue(response.body())
+                result.postValue(response.body() ?: emptyList() )
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to fetch getPlan", e)
             }

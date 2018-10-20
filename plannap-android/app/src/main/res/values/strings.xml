@@ -30,6 +30,7 @@
     <string name="name_area">エリア</string>
     <string name="name_search_btn">検索する</string>
     <string name="name_post_btn">投稿する</string>
+    <string name="name_comment">コメント</string>
 
     <!-- Search Hint -->
     <string name="hint_area">エリア</string>
@@ -43,6 +44,7 @@
 
     <!-- Error -->
     <string name="error_require_field">未入力です</string>
+    <string name="error_not_found">情報が見つかりませんでした</string>
 
     <!-- 勝手に生成される系 -->
     <string name="large_text">

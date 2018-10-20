@@ -25,7 +25,7 @@ class SpotRepository {
         GlobalScope.launch {
             try {
                 val response = service.getSpots(planId).execute()
-                result.postValue(response.body())
+                result.postValue(response.body() ?: emptyList())
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to fetch getSpots", e)
             }
