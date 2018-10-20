@@ -17,15 +17,15 @@
             android:layout_marginLeft="@dimen/mtrl_card_spacing"
             android:layout_marginTop="@dimen/mtrl_card_spacing"
             android:layout_marginRight="@dimen/mtrl_card_spacing"
-            android:minHeight="200dp">
+            android:minHeight="200dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="?android:colorBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:background="?android:colorBackground">
+                android:layout_height="wrap_content">
 
             <ImageView
                     android:id="@+id/user_image"

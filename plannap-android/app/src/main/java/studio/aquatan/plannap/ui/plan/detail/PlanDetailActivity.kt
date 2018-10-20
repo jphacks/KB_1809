@@ -49,11 +49,11 @@ class PlanDetailActivity : AppCompatActivity() {
 
         binding.spotRecyclerView.apply {
             adapter = spotAdapter
-            setHasFixedSize(true)
+            isNestedScrollingEnabled = false
         }
         binding.commentRecyclerView.apply {
             adapter = commentAdapter
-            setHasFixedSize(true)
+            isNestedScrollingEnabled = false
         }
 
         viewModel.subscribe(spotAdapter, commentAdapter)
@@ -71,9 +71,8 @@ class PlanDetailActivity : AppCompatActivity() {
         plan.observe(activity, Observer {
             title = it.name
 
-            // TODO
-//            spotAdapter.submitList(it.spotList)
-//            commentAdapter.submitList(it.commentList)
+            spotAdapter.submitList(it.spotList)
+            commentAdapter.submitList(it.commentList)
         })
     }
 }

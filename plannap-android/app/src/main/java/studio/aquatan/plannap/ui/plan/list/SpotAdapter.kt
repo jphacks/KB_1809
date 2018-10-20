@@ -3,9 +3,13 @@ package studio.aquatan.plannap.ui.plan.list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import studio.aquatan.plannap.R
 import studio.aquatan.plannap.data.model.Spot
+import studio.aquatan.plannap.databinding.ItemSpotBinding
 
 class SpotAdapter(
     private val layoutInflater: LayoutInflater
@@ -14,7 +18,7 @@ class SpotAdapter(
     companion object {
         private const val START_TYPE = 0 // 始点
         private const val NORMAL_TYPE = 1 // それ以外
-        private const val END_TYPE = 2 // 終点
+        private const val GOAL_TYPE = 2 // 終点
     }
 
     init {
@@ -26,26 +30,72 @@ class SpotAdapter(
     override fun getItemViewType(position: Int): Int {
         return when {
             position == 0 -> START_TYPE
-            position + 1 >= itemCount -> END_TYPE
+            position + 1 >= itemCount -> GOAL_TYPE
             else -> NORMAL_TYPE
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        when (viewType) {
-            START_TYPE -> {}
-            NORMAL_TYPE -> {}
-            END_TYPE -> {}
+        val binding: ItemSpotBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.item_spot, parent, false)
+
+        return when (viewType) {
+            START_TYPE -> StartViewHolder(binding)
+            NORMAL_TYPE -> NormalViewHolder(binding)
+            GOAL_TYPE -> GoalViewHolder(binding)
+            else -> throw IllegalArgumentException("Invalid viewType: $viewType")
         }
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        holder.bind(getItem(position))
     }
 
+    class StartViewHolder(
+        private val binding: ItemSpotBinding
+    ) : ViewHolder(binding) {
+        override fun bind(spot: Spot) {
+            super.bind(spot)
 
-    abstract class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            binding.detailPin.setImageResource(R.mipmap.pin_start)
+            binding.arrowTop.visibility = View.INVISIBLE
+            binding.arrowBottom.visibility = View.VISIBLE
+        }
+    }
 
+    class NormalViewHolder(
+        private val binding: ItemSpotBinding
+    ) : ViewHolder(binding) {
+        override fun bind(spot: Spot) {
+            super.bind(spot)
+
+            binding.detailPin.setImageResource(R.mipmap.pin_spot)
+            binding.arrowTop.visibility = View.VISIBLE
+            binding.arrowBottom.visibility = View.VISIBLE
+        }
+    }
+
+    class GoalViewHolder(
+        private val binding: ItemSpotBinding
+    ) : ViewHolder(binding) {
+        override fun bind(spot: Spot) {
+            super.bind(spot)
+
+            binding.detailPin.setImageResource(R.mipmap.pin_goal)
+            binding.arrowTop.visibility = View.VISIBLE
+            binding.arrowBottom.visibility = View.INVISIBLE
+        }
+    }
+
+    abstract class ViewHolder(
+        private val binding: ItemSpotBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        open fun bind(spot: Spot) {
+            binding.data = spot
+
+            Glide.with(binding.root)
+                .load(spot.imageUrl)
+                .into(binding.image)
+        }
     }
 }

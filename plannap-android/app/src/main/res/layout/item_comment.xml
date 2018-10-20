@@ -4,6 +4,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.plan.post.PlanPostActivity">
 
+    <data>
+
+        <variable
+                name="data"
+                type="studio.aquatan.plannap.data.model.Comment" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -12,6 +19,7 @@
                 android:id="@+id/user_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                app:srcUrl="@{data.user.iconUrl}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="16dp" android:layout_marginStart="16dp"/>
@@ -20,6 +28,7 @@
                 android:id="@+id/user"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{data.user.username}"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="lanqiu"
                 android:gravity="center_vertical" app:layout_constraintStart_toEndOf="@+id/user_image"
@@ -33,6 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{data.text}"
                 tools:text="おすすめのお店はどこですか？"
                 android:gravity="center_vertical"
                 app:layout_constraintHorizontal_bias="0.0"
