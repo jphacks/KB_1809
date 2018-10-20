@@ -31,18 +31,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
-        binding.drawerLayout.apply {
-            val toggle = ActionBarDrawerToggle(
-                this@MainActivity, this, binding.appBar.toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-            )
+//        binding.drawerLayout.apply {
+//            val toggle = ActionBarDrawerToggle(
+//                this@MainActivity, this, binding.appBar.toolbar,
+//                R.string.navigation_drawer_open,
+//                R.string.navigation_drawer_close
+//            )
+//
+////            addDrawerListener(toggle)
+//            toggle.syncState()
+//        }
 
-            addDrawerListener(toggle)
-            toggle.syncState()
-        }
-
-        binding.navView.setNavigationItemSelectedListener(this)
+//        binding.navView.setNavigationItemSelectedListener(this)
 
         if (supportFragmentManager.fragments.isEmpty()) {
             supportFragmentManager.beginTransaction()
@@ -59,11 +59,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
+//        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            binding.drawerLayout.closeDrawer(GravityCompat.START)
+//        } else {
+//            super.onBackPressed()
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-        binding.drawerLayout.closeDrawer(GravityCompat.START)
+//        binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 

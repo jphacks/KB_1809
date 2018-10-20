@@ -16,7 +16,11 @@
     <string name="menu_settings">設定</string>
 
     <!-- Action -->
-    <string name="action_search">検索</string>
+    <string name="action_home">Home</string>
+    <string name="action_search">Search</string>
+    <string name="action_post">Post</string>
+    <string name="action_favorite">Favorite</string>
+    <string name="action_profile">Profile</string>
 
     <!-- Name -->
     <string name="name_area">エリア</string>
