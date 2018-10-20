@@ -16,6 +16,7 @@ import studio.aquatan.plannap.databinding.ActivityMainBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.favorite.FavoriteFragment
 import studio.aquatan.plannap.ui.home.HomeFragment
+import studio.aquatan.plannap.ui.plan.detail.PlanDetailActivity
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchFragment
 import studio.aquatan.plannap.ui.profile.ProfileFragment
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, HomeFragment.newInstance())
                 .commit()
         }
+
+        startActivity(PlanDetailActivity.createIntent(this, 1))
 
         viewModel.subscribe()
     }
