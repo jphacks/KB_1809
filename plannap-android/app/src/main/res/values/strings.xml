@@ -9,7 +9,7 @@
 
     <!-- Title -->
     <string name="title_plan_search_activity">検索</string>
-    <string name="title_plan_add_activity">プランを投稿</string>
+    <string name="title_plan_post_activity">プランを投稿</string>
 
     <!-- Menu -->
     <string name="menu_plans">プラン一覧</string>

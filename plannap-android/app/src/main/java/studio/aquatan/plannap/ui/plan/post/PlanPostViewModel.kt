@@ -1,9 +1,9 @@
-package studio.aquatan.plannap.ui.plan.add
+package studio.aquatan.plannap.ui.plan.post
 
 import androidx.lifecycle.ViewModel
 import studio.aquatan.plannap.data.PlanRepository
 
-class PlanAddViewModel(
+class PlanPostViewModel(
     private val planRepository: PlanRepository
 ) : ViewModel() {
 }

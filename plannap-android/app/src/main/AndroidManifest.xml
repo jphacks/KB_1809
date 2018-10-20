@@ -37,8 +37,8 @@
         <activity android:name=".ui.plan.searchresult.PlanSearchResultActivity">
         </activity>
         <activity
-                android:name=".ui.plan.add.PlanAddActivity"
-                android:label="@string/title_plan_add_activity">
+                android:name=".ui.plan.post.PlanPostActivity"
+                android:label="@string/title_plan_post_activity">
         </activity>
     </application>
 
