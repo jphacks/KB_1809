@@ -34,8 +34,11 @@
     <string name="hint_area">エリア</string>
     <string name="hint_start">出発地点</string>
     <string name="hint_goal">到着地点</string>
-    <string name="hint_time">所要時間</string>
-    <string name="hint_money">予算</string>
+    <string name="hint_time">所要時間(分)</string>
+    <string name="hint_money">費用(円)</string>
+    <string name="hint_title">タイトル</string>
+    <string name="hint_note">全体のレビュー</string>
+    <string name="hint_comment">コメント</string>
 
     <!-- Error -->
     <string name="error_require_field">未入力です</string>
