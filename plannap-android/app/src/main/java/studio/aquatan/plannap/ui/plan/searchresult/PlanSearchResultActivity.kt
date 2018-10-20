@@ -15,6 +15,7 @@ import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanSearchResultBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.plan.PlanAdapter
+import studio.aquatan.plannap.ui.plan.detail.PlanDetailActivity
 import javax.inject.Inject
 
 class PlanSearchResultActivity : AppCompatActivity() {
@@ -67,11 +68,16 @@ class PlanSearchResultActivity : AppCompatActivity() {
         val activity = this@PlanSearchResultActivity
 
         title.observe(activity, Observer { activity.title = it })
+
         planList.observe(activity, Observer { list ->
             binding.progressBar.isVisible = false
             binding.notFoundText.isVisible = list.isEmpty()
 
             adapter.submitList(list)
+        })
+
+        startPlanDetailActivity.observe(activity, Observer { id ->
+            startActivity(PlanDetailActivity.createIntent(activity, id))
         })
     }
 }
