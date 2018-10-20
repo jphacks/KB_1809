@@ -1,10 +1,12 @@
 package studio.aquatan.plannap.ui.plan
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.databinding.ItemPlanBinding
@@ -34,25 +36,27 @@ class PlanAdapter(
     inner class ViewHolder(
         private val binding: ItemPlanBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        @SuppressLint("CheckResult")
         fun bind(plan: Plan) {
             binding.data = plan
             binding.root.setOnClickListener { onClick(plan.id) }
 
             // User
-//            binding.user.text = plan.user.name
-//            Glide.with(binding.root)
-//                .load(plan.user.url)
-//                .into(binding.userImage)
+            binding.user.text = plan.user.username
+            Glide.with(binding.root)
+                .load(plan.user.iconUrl)
+                .into(binding.userImage)
 
-//            Glide.with(binding.root)
-//                .load(plan.spotList.first().url)
+            Glide.with(binding.root)
+                .load(plan.spotList.first().imageUrl)
 
             binding.apply {
                 data = plan
                 root.setOnClickListener { onClick(plan.id) }
 
-//                start.text = plan.spotList.first().name
-//                end.text = plan.spotList.last().name
+                start.text = plan.spotList.first().name
+                goal.text = plan.spotList.last().name
 
                 time.text = plan.duration.toString()
 
