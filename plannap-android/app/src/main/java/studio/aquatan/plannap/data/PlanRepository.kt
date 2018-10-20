@@ -50,7 +50,7 @@ class PlanRepository {
         return result
     }
 
-    fun getPlanByKeyword(keyword: String): LiveData<List<Plan>> {
+    fun getPlanListByKeyword(keyword: String): LiveData<List<Plan>> {
         val result = MutableLiveData<List<Plan>>()
 
         GlobalScope.launch {
