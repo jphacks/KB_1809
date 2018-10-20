@@ -44,14 +44,19 @@ class PlanDetailActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlanDetailViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = SpotAdapter(layoutInflater)
+        val spotAdapter = SpotAdapter(layoutInflater)
+        val commentAdapter = CommentAdapter(layoutInflater)
 
-        binding.recyclerView.apply {
-            setAdapter(adapter)
+        binding.spotRecyclerView.apply {
+            adapter = spotAdapter
+            setHasFixedSize(true)
+        }
+        binding.commentRecyclerView.apply {
+            adapter = commentAdapter
             setHasFixedSize(true)
         }
 
-        viewModel.subscribe(adapter)
+        viewModel.subscribe(spotAdapter, commentAdapter)
         viewModel.onActivityCreated(intent.getLongExtra(EXTRA_ID, -1))
     }
 
@@ -60,14 +65,15 @@ class PlanDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun PlanDetailViewModel.subscribe(adapter: SpotAdapter) {
+    private fun PlanDetailViewModel.subscribe(spotAdapter: SpotAdapter, commentAdapter: CommentAdapter) {
         val activity = this@PlanDetailActivity
 
         plan.observe(activity, Observer {
             title = it.name
 
             // TODO
-//            adapter.submitList(it.spotList)
+//            spotAdapter.submitList(it.spotList)
+//            commentAdapter.submitList(it.commentList)
         })
     }
 }

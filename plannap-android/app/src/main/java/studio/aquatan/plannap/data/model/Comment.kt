@@ -11,12 +11,12 @@ data class Comment(
     val name: String
 ) {
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
-            override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Comment>() {
+            override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Plan, newItem: Plan): Boolean {
+            override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
                 return oldItem == newItem
             }
         }
