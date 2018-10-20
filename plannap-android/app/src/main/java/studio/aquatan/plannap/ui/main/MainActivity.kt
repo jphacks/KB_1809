@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.app_bar_main.*
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityMainBinding
-import studio.aquatan.plannap.ui.plan.add.PlanAddActivity
+import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.list.PlanListFragment
 import studio.aquatan.plannap.ui.plan.search.PlanSearchActivity
 
@@ -96,8 +96,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startSearchActivity.observe(activity, Observer {
             startActivity(PlanSearchActivity.createIntent(activity))
         })
-        startPlanAddActivity.observe(activity, Observer {
-            startActivity(PlanAddActivity.createIntent(activity))
+        startPlanPostActivity.observe(activity, Observer {
+            startActivity(PlanPostActivity.createIntent(activity))
         })
     }
 }

@@ -1,4 +1,4 @@
-package studio.aquatan.plannap.ui.plan.add
+package studio.aquatan.plannap.ui.plan.post
 
 import android.content.Context
 import android.content.Intent
@@ -8,14 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
-import studio.aquatan.plannap.databinding.ActivityPlanAddBinding
+import studio.aquatan.plannap.databinding.ActivityPlanPostBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import javax.inject.Inject
 
-class PlanAddActivity : AppCompatActivity() {
+class PlanPostActivity : AppCompatActivity() {
 
     companion object {
-        fun createIntent(context: Context) = Intent(context, PlanAddActivity::class.java)
+        fun createIntent(context: Context) = Intent(context, PlanPostActivity::class.java)
     }
 
     @Inject
@@ -23,14 +23,14 @@ class PlanAddActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityPlanAddBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_plan_add)
+        val binding: ActivityPlanPostBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_plan_post)
 
         AndroidInjection.inject(this)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(PlanAddViewModel::class.java)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(PlanPostViewModel::class.java)
 
         binding.viewModel = viewModel
     }

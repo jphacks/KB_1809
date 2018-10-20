@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".ui.plan.add.PlanAddActivity">
+        tools:context=".ui.plan.post.PlanPostActivity">
 
     <data>
 
         <variable
                 name="viewModel"
-                type="studio.aquatan.plannap.ui.plan.add.PlanAddViewModel"/>
+                type="studio.aquatan.plannap.ui.plan.post.PlanPostViewModel"/>
     </data>
 
     <ScrollView
