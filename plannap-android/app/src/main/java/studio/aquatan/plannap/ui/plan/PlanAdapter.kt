@@ -50,6 +50,7 @@ class PlanAdapter(
 
             Glide.with(binding.root)
                 .load(plan.spotList.first().imageUrl)
+                .into(binding.picture)
 
             binding.apply {
                 data = plan
