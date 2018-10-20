@@ -7,20 +7,22 @@ import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import studio.aquatan.plannap.data.api.CommentService
 import studio.aquatan.plannap.data.api.PlanService
+import studio.aquatan.plannap.data.model.Comment
 import studio.aquatan.plannap.data.model.Plan
 
-class PlanRepository {
+class CommentRepository {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://plannap.aquatan.studio")
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
-    private val service = retrofit.create(PlanService::class.java)
+    private val service = retrofit.create(CommentService::class.java)
 
-    fun getPlanList(): LiveData<List<Plan>> {
-        val result = MutableLiveData<List<Plan>>()
+    fun getCommentList(): LiveData<List<Comment>> {
+        val result = MutableLiveData<List<Comment>>()
 
         GlobalScope.launch {
             // TODO fetch plan list via API
@@ -38,8 +40,8 @@ class PlanRepository {
         return result
     }
 
-    fun getPlanById(id: Long): LiveData<Plan> {
-        val result = MutableLiveData<Plan>()
+    fun getCommentById(id: Long): LiveData<Comment> {
+        val result = MutableLiveData<Comment>()
 
         GlobalScope.launch {
             // TODO fetch plan via API

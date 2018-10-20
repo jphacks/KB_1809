@@ -7,23 +7,23 @@ import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import studio.aquatan.plannap.data.api.PlanService
-import studio.aquatan.plannap.data.model.Plan
+import studio.aquatan.plannap.data.api.SpotService
+import studio.aquatan.plannap.data.model.Spot
 
-class PlanRepository {
+class SpotRepository {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://plannap.aquatan.studio")
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
-    private val service = retrofit.create(PlanService::class.java)
+    private val service = retrofit.create(SpotService::class.java)
 
-    fun getPlanList(): LiveData<List<Plan>> {
-        val result = MutableLiveData<List<Plan>>()
+    fun getSpotList(): LiveData<List<Spot>> {
+        val result = MutableLiveData<List<Spot>>()
 
         GlobalScope.launch {
-            // TODO fetch plan list via API
+            // TODO fetch Spot list via API
             delay(2000)
             result.postValue(DUMMY_LIST)
 
@@ -38,15 +38,16 @@ class PlanRepository {
         return result
     }
 
-    fun getPlanById(id: Long): LiveData<Plan> {
-        val result = MutableLiveData<Plan>()
+    fun getSpotById(id: Long): LiveData<Spot> {
+        val result = MutableLiveData<Spot>()
 
         GlobalScope.launch {
-            // TODO fetch plan via API
+            // TODO fetch Spot via API
             delay(1000)
             result.postValue(DUMMY_LIST.find { it.id == id })
         }
 
         return result
     }
+}
 }
