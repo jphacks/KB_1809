@@ -1,9 +1,9 @@
-package studio.aquatan.Favoritenap.data
+package studio.aquatan.plannap.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,34 +19,43 @@ class FavoriteRepository {
 
     private val service = retrofit.create(FavoriteService::class.java)
 
-    fun getFavoriteList(): LiveData<List<Favorite>> {
-        val result = MutableLiveData<List<Favorite>>()
+    fun getFavoriteByPlan(planId: Long): LiveData<Favorite> {
+        val result = MutableLiveData<Favorite>()
 
         GlobalScope.launch {
-            // TODO fetch Favorite list via API
-            delay(2000)
-//            result.postValue(DUMMY_LIST)
-
-//            try {
-//                val response = service.plans().execute()
-//                result.postValue(response.body())
-//            } catch (e: Exception) {
-//                Log.e(javaClass.simpleName, "Failed to fetch plans", e)
-//            }
+            try {
+                val response = service.getFavoriteByPlanid(planId).execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch getFavoriteByPlanid", e)
+            }
         }
 
         return result
     }
 
-    fun getFavoriteById(id: Long): LiveData<Favorite> {
+    fun getFavoriteByUser(userId: Long): LiveData<Favorite> {
         val result = MutableLiveData<Favorite>()
 
         GlobalScope.launch {
-            // TODO fetch Favorite via API
-            delay(1000)
-//            result.postValue(DUMMY_LIST.find { it.id == id })
+            try {
+                val response = service.getFavoriteByPlanid(userId).execute()
+                result.postValue(response.body())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch getFavoriteByUserid", e)
+            }
         }
 
         return result
+    }
+
+    fun registerFavorite(targetFavorite: Favorite) {
+        GlobalScope.launch {
+            try {
+                service.postFavorite(targetFavorite).execute()
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to fetch postFavorite", e)
+            }
+        }
     }
 }
