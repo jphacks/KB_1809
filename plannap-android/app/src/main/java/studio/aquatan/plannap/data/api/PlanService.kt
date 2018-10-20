@@ -16,5 +16,5 @@ interface PlanService {
 
     @Headers("Accept: application/json", "Content-Type: application/json")
     @POST("/api/v1/plan")
-    fun postPicture(@Body body: HashMap<String, String>): Call<String>
+    fun postPlan(@Body plan: Plan): Call<Plan>
 }
