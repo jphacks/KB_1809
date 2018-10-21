@@ -1,4 +1,4 @@
-<img src="./media/logo.png" width="420px">
+![logo](./media/logo.png)
 
 
 ## 製品概要
