@@ -13,6 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import studio.aquatan.plannap.data.api.PlanService
 import studio.aquatan.plannap.data.model.Plan
+import studio.aquatan.plannap.data.model.PostPlan
 import studio.aquatan.plannap.data.model.PostSpotMeta
 import studio.aquatan.plannap.ui.plan.post.PostSpot
 import java.io.ByteArrayOutputStream
@@ -84,28 +85,33 @@ class PlanRepository {
             val mipmap = it.picture ?: return
             val byteArrayOutputStream = ByteArrayOutputStream()
             mipmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-            val byteArray = byteArrayOutputStream .toByteArray()
+            val byteArray = byteArrayOutputStream.toByteArray()
 
             return@map PostSpotMeta(
-                it.id,
                 it.name ?: "unknown",
                 it.note ?: "nothing",
                 Base64.encodeToString(byteArray, Base64.DEFAULT),
-                it.latLong?.get(0) ?: 0.0f,
-                it.latLong?.get(1) ?: 0.0f
+//                it.latLong?.get(0) ?: 135.0f,
+//                it.latLong?.get(1) ?: 35.0f
+            135.0f,
+                35.0f
             )
         }
 
+//        val moshi = Moshi.Builder().build()
+//        val jsonAdapter = moshi.adapter(PostPlan::class.java)
+        val plan = PostPlan(name, price, duration, note, metaList)
+//        val postTarget: HashMap<String, Any> = hashMapOf(
+//            "name" to name, "price" to price, "duration" to duration,
+//            "note" to note, "spots" to metaList
+//        )
+
         GlobalScope.launch {
             try {
-                PostSpotMeta
-                service.postPlan(
-                    name,
-                    price,
-                    duration,
-                    note,
-                    metaList
-                ).execute()
+//                val json_str = jsonAdapter.toJson(plan)
+//                val json = JSONObject(json_str)
+                service.postPlan(plan).execute()
+//                Log.d("test-api",json.toString())
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to fetch postPlan", e)
             }

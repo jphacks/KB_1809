@@ -54,10 +54,10 @@ class PlanPostViewModel(
         val index = selectedId ?: return
         selectedId = null
 
-        if (bitmap == null || latLong == null || latLong.size < 2) {
-            errorSelectedImage.value = Unit
-            return
-        }
+//        if (bitmap == null || latLong == null || latLong.size < 2) {
+//            errorSelectedImage.value = Unit
+//            return
+//        }
 
         val list = postSpotList.value?.toMutableList() ?: return
 
@@ -89,13 +89,14 @@ class PlanPostViewModel(
             result = result.copy(isInvalidSpot = true)
         }
 
-        if (result.isError) {
-            validation.value = result
-            return
-        }
+//        if (result.isError) {
+//            validation.value = result
+//            return
+//        }
 
         // TODO post
-//        planRepository.registerPlan()
+        planRepository.registerPlan(name!!, price ?: 0, duration ?: 0,
+            note!!, spotList)
         finishActivity.value = Unit
     }
 

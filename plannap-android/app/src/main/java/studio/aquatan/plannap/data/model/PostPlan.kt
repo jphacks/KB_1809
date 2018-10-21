@@ -2,12 +2,12 @@ package studio.aquatan.plannap.data.model
 
 import androidx.recyclerview.widget.DiffUtil
 
-data class PostSpotMeta(
-    var name: String,
-    var note: String,
-    val image: String,
-    val lat: Float,
-    val lon: Float
+data class PostPlan(
+    val name: String,
+    val price: Int,
+    val duration: Int,
+    val note: String,
+    val spots: List<PostSpotMeta>
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
