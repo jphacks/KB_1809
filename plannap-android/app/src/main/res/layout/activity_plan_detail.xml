@@ -80,14 +80,15 @@
                     android:layout_height="50dp"
                     android:text="@{viewModel.plan.name}"
                     tools:text="プランの名前"
-                    android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:gravity="center"
                     app:layout_constraintTop_toBottomOf="@+id/user_icon"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"/>
+                    android:layout_marginEnd="16dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textSize="24sp"/>
 
             <TextView
                     android:id="@+id/plan_evaluation"
