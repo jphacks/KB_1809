@@ -24,9 +24,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginStart="16dp"
                 app:srcCompat="@drawable/ic_insert_photo_white_24dp"
-                android:tint="@color/grey_600"
                 app:layout_constraintBottom_toTopOf="@+id/comment_layouts"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/name_layouts"
