@@ -50,15 +50,16 @@
         <TextView
                 android:id="@+id/detail_location_name"
                 android:layout_width="242dp"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:text="@{data.name}"
                 tools:text="京都工芸繊維大学"
                 android:gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintTop_toTopOf="@+id/detail_location"
-                app:layout_constraintBottom_toBottomOf="@+id/detail_location" app:layout_constraintVertical_bias="0.0"
-        />
+                app:layout_constraintBottom_toBottomOf="@+id/detail_location"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                />
 
         <TextView
                 android:id="@+id/detail_comment"
