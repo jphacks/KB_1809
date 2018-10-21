@@ -24,6 +24,7 @@ class PlanPostViewModel(
     val postSpotList = MutableLiveData<List<PostSpot>>()
 
     val openFileChooser = SingleLiveEvent<Unit>()
+    val finishActivity = SingleLiveEvent<Unit>()
     val validation = SingleLiveEvent<ValidationResult>()
     val errorSelectedImage = SingleLiveEvent<Unit>()
 
@@ -94,6 +95,8 @@ class PlanPostViewModel(
         }
 
         // TODO post
+//        planRepository.registerPlan()
+        finishActivity.value = Unit
     }
 
     private fun ObservableField<String>.setErrorCancelCallback(error: SingleLiveEvent<Boolean>) {

@@ -85,6 +85,11 @@ class PlanPostActivity : AppCompatActivity() {
             startActivityForResult(intent, READ_REQUEST_CODE)
         })
 
+        finishActivity.observe(activity, Observer {
+            Toast.makeText(activity, R.string.text_post_success, Toast.LENGTH_LONG).show()
+            activity.finish()
+        })
+
         validation.observe(activity, Observer { result ->
             if (result.isEmptyName) {
                 binding.titleLayouts.error = getString(R.string.error_require_field)
