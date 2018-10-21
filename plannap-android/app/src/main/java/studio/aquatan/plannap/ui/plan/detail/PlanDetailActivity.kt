@@ -71,6 +71,9 @@ class PlanDetailActivity : AppCompatActivity() {
         plan.observe(activity, Observer {
             title = it.name
 
+            binding.favoriteButton.text = it.favoriteCount.toString()
+            binding.commentsButton.text = it.commentCount.toString()
+
             spotAdapter.submitList(it.spotList)
             commentAdapter.submitList(it.commentList)
         })
