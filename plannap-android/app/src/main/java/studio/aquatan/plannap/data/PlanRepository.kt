@@ -23,7 +23,6 @@ class PlanRepository {
         .baseUrl("https://plannap.aquatan.studio")
         .addConverterFactory(
             MoshiConverterFactory.create(
-                //TODO 独自アダプタをここに記述?
                 Moshi.Builder()
                     .add(KotlinJsonAdapterFactory())
                     .build()
