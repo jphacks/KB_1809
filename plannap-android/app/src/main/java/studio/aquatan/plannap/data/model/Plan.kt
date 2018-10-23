@@ -10,7 +10,7 @@ data class Plan(
     @Json(name = "price") val price: Int,
     @Json(name = "duration") val duration: Int,
     @Json(name = "created_at") val date: String,
-    @Json(name = "location") val location: Location,
+    @Json(name = "location") val location: Location?,
     @Json(name = "favorite_count") val favoriteCount: Int,
     @Json(name = "comment_count") val commentCount: Int,
     @Json(name = "spots") val spotList: List<Spot> = emptyList(),
