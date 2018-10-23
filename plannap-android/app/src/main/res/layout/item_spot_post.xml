@@ -8,7 +8,7 @@
 
         <variable
                 name="data"
-                type="studio.aquatan.plannap.ui.plan.post.PostSpot" />
+                type="studio.aquatan.plannap.data.model.EditableSpot" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,12 +6,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.aquatan.plannap.R
+import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.databinding.ItemSpotPostBinding
 
 class PostSpotAdapter(
     private val layoutInflater: LayoutInflater,
     private val viewModel: PlanPostViewModel
-) : ListAdapter<PostSpot, PostSpotAdapter.ViewHolder>(PostSpot.DIFF_CALLBACK) {
+) : ListAdapter<EditableSpot, PostSpotAdapter.ViewHolder>(EditableSpot.DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemSpotPostBinding =
@@ -27,7 +28,7 @@ class PostSpotAdapter(
     inner class ViewHolder(
         private val binding: ItemSpotPostBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(spot: PostSpot) {
+        fun bind(spot: EditableSpot) {
             binding.data = spot
 
             spot.picture?.let {

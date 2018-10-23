@@ -72,7 +72,7 @@ class PlanPostActivity : AppCompatActivity() {
     private fun PlanPostViewModel.subscribe(adapter: PostSpotAdapter) {
         val activity = this@PlanPostActivity
 
-        postSpotList.observe(activity, Observer { list ->
+        spotList.observe(activity, Observer { list ->
             adapter.submitList(list)
         })
 

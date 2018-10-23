@@ -109,7 +109,7 @@
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="54dp"
                     android:layout_height="63dp"
-                    android:onClick="@{() -> viewModel.onAddPostSpotClick()}"
+                    android:onClick="@{() -> viewModel.onAddSpotClick()}"
                     app:icon="@drawable/ic_add_white_24dp"
                     app:iconSize="30dp"
                     android:layout_marginStart="16dp"
