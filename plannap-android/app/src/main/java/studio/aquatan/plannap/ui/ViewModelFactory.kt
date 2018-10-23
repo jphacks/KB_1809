@@ -4,13 +4,12 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.aquatan.plannap.data.PlanRepository
-import studio.aquatan.plannap.ui.favorite.FavoriteFragment
 import studio.aquatan.plannap.ui.favorite.FavoriteViewModel
 import studio.aquatan.plannap.ui.home.HomeViewModel
 import studio.aquatan.plannap.ui.main.MainViewModel
-import studio.aquatan.plannap.ui.plan.post.PlanPostViewModel
 import studio.aquatan.plannap.ui.plan.detail.PlanDetailViewModel
 import studio.aquatan.plannap.ui.plan.list.PlanListViewModel
+import studio.aquatan.plannap.ui.plan.post.PlanPostViewModel
 import studio.aquatan.plannap.ui.plan.search.PlanSearchViewModel
 import studio.aquatan.plannap.ui.plan.searchresult.PlanSearchResultViewModel
 import studio.aquatan.plannap.ui.profile.ProfileViewModel
@@ -32,7 +31,7 @@ class ViewModelFactory(
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(planRepository)
                 isAssignableFrom(PlanSearchViewModel::class.java) -> PlanSearchViewModel()
                 isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(planRepository)
-                isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(planRepository)
+                isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepository)
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

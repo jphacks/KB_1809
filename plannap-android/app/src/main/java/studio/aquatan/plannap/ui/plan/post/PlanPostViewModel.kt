@@ -1,91 +1,106 @@
 package studio.aquatan.plannap.ui.plan.post
 
+import android.app.Application
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.ExifInterface
+import android.net.Uri
+import android.util.Log
 import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.ui.SingleLiveEvent
+import java.io.IOException
 
 
 class PlanPostViewModel(
+    private val context: Application,
     private val planRepository: PlanRepository
-) : ViewModel() {
+) : AndroidViewModel(context) {
 
     val name = ObservableField<String>()
     val note = ObservableField<String>()
     val duration = ObservableField<String>()
     val price = ObservableField<String>()
 
+    val isPosting = ObservableBoolean()
+
     val isEnabledErrorName = SingleLiveEvent<Boolean>()
     val isEnabledErrorNote = SingleLiveEvent<Boolean>()
 
-    val postSpotList = MutableLiveData<List<PostSpot>>()
+    val spotList = MutableLiveData<MutableList<EditableSpot>>()
 
     val openFileChooser = SingleLiveEvent<Unit>()
     val finishActivity = SingleLiveEvent<Unit>()
     val validation = SingleLiveEvent<ValidationResult>()
     val errorSelectedImage = SingleLiveEvent<Unit>()
 
-    private var selectedId: Int? = null
+    private var selectedSpotId: Int? = null
 
     init {
-        postSpotList.value = listOf(PostSpot(0))
+        spotList.value = mutableListOf(EditableSpot(0))
 
         name.setErrorCancelCallback(isEnabledErrorName)
         note.setErrorCancelCallback(isEnabledErrorNote)
     }
 
-    fun onAddPostSpotClick() {
-        val list = postSpotList.value?.toMutableList() ?: return
-
-        list.add(PostSpot(list.size))
-
-        postSpotList.value = list
+    fun onAddSpotClick() {
+        val list = spotList.value ?: return
+        list.add(EditableSpot(list.size))
+        spotList.value = list
     }
 
     fun onAddPictureClick(id: Int) {
         openFileChooser.value = Unit
-        selectedId = id
+        selectedSpotId = id
     }
 
-    fun onImageSelected(bitmap: Bitmap?, latLong: FloatArray?) {
-        val index = selectedId ?: return
-        selectedId = null
+    fun onImageSelected(uri: Uri) {
+        val index = selectedSpotId ?: return
+        selectedSpotId = null
+
+        val bitmap = getBitmapFromUri(uri)
+        val latLong = getLatLongFromUri(uri)
 
         if (bitmap == null || latLong == null || latLong.size < 2) {
             errorSelectedImage.value = Unit
             return
         }
 
-        val list = postSpotList.value?.toMutableList() ?: return
-
-        list[index] = list[index].copy(picture = bitmap, latLong = latLong)
-
-        postSpotList.value = list
-        selectedId = null
+        val list = spotList.value ?: return
+        list[index] = list[index].copy(picture = bitmap, lat = latLong[0], lon = latLong[1])
+        spotList.value = list
     }
 
     fun onPostClick() {
-        val name = name.get()
-        val note = note.get()
+        if (isPosting.get()) {
+            return
+        }
+
+        val name = name.get() ?: ""
+        val note = note.get() ?: ""
         val duration = duration.get()?.toIntOrNull()
         val price = price.get()?.toIntOrNull()
-        val spotList = postSpotList.value ?: emptyList()
+        val spotList = spotList.value ?: emptyList<EditableSpot>()
 
         var result = ValidationResult()
 
-        if (name.isNullOrBlank()) {
+        if (name.isBlank()) {
             result = result.copy(isEmptyName = true)
         }
-        if (note.isNullOrBlank()) {
+        if (note.isBlank()) {
             result = result.copy(isEmptyNote = true)
         }
         if (spotList.size < 2) {
             result = result.copy(isShortSpot = true)
         }
-        if (spotList.any { it.name.isNullOrBlank() || it.note.isNullOrBlank() || it.picture == null || it.latLong == null }) {
+        if (spotList.any { it.name.isBlank() || it.note.isBlank() || it.picture == null || it.lat == null || it.lon == null }) {
             result = result.copy(isInvalidSpot = true)
         }
 
@@ -94,9 +109,47 @@ class PlanPostViewModel(
             return
         }
 
-        // TODO post
-//        planRepository.registerPlan()
-        finishActivity.value = Unit
+        GlobalScope.launch {
+            isPosting.set(true)
+
+            val isSuccess = planRepository.registerPlan(name, note, duration, price, spotList).await()
+
+            if (isSuccess) {
+                finishActivity.postValue(Unit)
+            } else {
+                isPosting.set(false)
+            }
+        }
+    }
+
+    private fun getBitmapFromUri(uri: Uri): Bitmap? {
+        try {
+            val parcelFileDescriptor = context.contentResolver.openFileDescriptor(uri, "r") ?: return null
+            val fileDescriptor = parcelFileDescriptor.fileDescriptor
+            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+            parcelFileDescriptor.close()
+
+            return image
+        } catch (e: IOException) {
+            Log.e(javaClass.simpleName, "Failed to get Bitmap", e)
+        }
+
+        return null
+    }
+
+    private fun getLatLongFromUri(uri: Uri): FloatArray? {
+        try {
+            val exifInterface = ExifInterface(context.contentResolver.openInputStream(uri))
+            val latLng = FloatArray(2)
+
+            if (exifInterface.getLatLong(latLng)) {
+                return latLng
+            }
+        } catch (e: IOException) {
+            Log.e(javaClass.simpleName, "Failed to get LatLong", e)
+        }
+
+        return null
     }
 
     private fun ObservableField<String>.setErrorCancelCallback(error: SingleLiveEvent<Boolean>) {

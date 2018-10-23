@@ -14,6 +14,7 @@
     <string name="title_search">Search</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_profile">Profile</string>
+    <string name="title_post">投稿</string>
 
     <!-- Menu -->
     <string name="menu_plans">プラン一覧</string>
@@ -28,6 +29,7 @@
 
     <!-- Name -->
     <string name="name_area">エリア</string>
+    <string name="name_spot">スポット</string>
     <string name="name_search_btn">検索する</string>
     <string name="name_post_btn">投稿する</string>
     <string name="name_comment">コメント</string>

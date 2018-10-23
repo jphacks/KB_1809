@@ -1,27 +1,35 @@
 package studio.aquatan.plannap.data
 
+import android.graphics.Bitmap
+import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import studio.aquatan.plannap.data.api.PlanService
 import studio.aquatan.plannap.data.model.Plan
+import studio.aquatan.plannap.data.model.EditableSpot
+import studio.aquatan.plannap.data.model.PostPlan
+import studio.aquatan.plannap.data.model.PostSpot
+import java.io.ByteArrayOutputStream
 
 class PlanRepository {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://plannap.aquatan.studio")
-        .addConverterFactory(MoshiConverterFactory.create(
-            //TODO 独自アダプタをここに記述?
-            Moshi.Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
-        ))
+        .addConverterFactory(
+            MoshiConverterFactory.create(
+                Moshi.Builder()
+                    .add(KotlinJsonAdapterFactory())
+                    .build()
+            )
+        )
         .build()
 
     private val service = retrofit.create(PlanService::class.java)
@@ -63,7 +71,7 @@ class PlanRepository {
         GlobalScope.launch {
             try {
                 val response = service.getPlan(keyword).execute()
-                result.postValue(response.body() ?: emptyList() )
+                result.postValue(response.body() ?: emptyList())
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to fetch getPlan", e)
             }
@@ -72,14 +80,36 @@ class PlanRepository {
         return result
     }
 
-    fun registerPlan(targetPlan: Plan){
+    fun registerPlan(name: String, note: String, duration: Int?, price: Int?, editableSpotList: List<EditableSpot>) =
+        GlobalScope.async {
+            val spotList = editableSpotList.map { spot ->
+                if (spot.picture == null || spot.lat == null || spot.lon == null) {
+                    return@async false
+                }
 
-        GlobalScope.launch {
-            try {
-                service.postPlan(targetPlan).execute()
-            } catch (e: Exception) {
-                Log.e(javaClass.simpleName, "Failed to fetch postPlan", e)
+                val stream = ByteArrayOutputStream()
+                spot.picture.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                val bytes = stream.toByteArray()
+
+                return@map PostSpot(
+                    spot.name,
+                    spot.note,
+                    Base64.encodeToString(bytes, Base64.DEFAULT),
+                    spot.lat,
+                    spot.lon)
             }
+
+            try {
+                val postPlan = PostPlan(name, price, duration, note, spotList)
+
+                val response = service.postPlan(postPlan).execute()
+                Log.d(javaClass.simpleName, response.body() ?: "empty response")
+
+                return@async true
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to post a Plan", e)
+            }
+
+            return@async false
         }
-    }
 }
