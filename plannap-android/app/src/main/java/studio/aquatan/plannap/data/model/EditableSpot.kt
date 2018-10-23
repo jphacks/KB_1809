@@ -13,13 +13,8 @@ data class EditableSpot (
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<EditableSpot>() {
-            override fun areItemsTheSame(oldItem: EditableSpot, newItem: EditableSpot): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: EditableSpot, newItem: EditableSpot): Boolean {
-                return oldItem == newItem
-            }
+            override fun areItemsTheSame(oldItem: EditableSpot, newItem: EditableSpot) = oldItem.id == newItem.id
+            override fun areContentsTheSame(oldItem: EditableSpot, newItem: EditableSpot) = oldItem == newItem
         }
     }
 }

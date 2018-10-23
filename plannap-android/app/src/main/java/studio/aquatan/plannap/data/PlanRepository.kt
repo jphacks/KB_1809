@@ -103,11 +103,11 @@ class PlanRepository {
                 val postPlan = PostPlan(name, price, duration, note, spotList)
 
                 val response = service.postPlan(postPlan).execute()
-                Log.d(javaClass.simpleName, response.body())
+                Log.d(javaClass.simpleName, response.body() ?: "empty response")
 
                 return@async true
             } catch (e: Exception) {
-                Log.e(javaClass.simpleName, "Failed to fetch postPlan", e)
+                Log.e(javaClass.simpleName, "Failed to post a Plan", e)
             }
 
             return@async false
