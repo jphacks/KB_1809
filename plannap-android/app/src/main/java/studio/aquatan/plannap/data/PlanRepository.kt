@@ -100,7 +100,7 @@ class PlanRepository {
             }
 
             try {
-                val postPlan = PostPlan(name, price, duration, note, spotList)
+                val postPlan = PostPlan(name, price ?: 0, duration ?: 0, note, spotList)
 
                 val response = service.postPlan(postPlan).execute()
                 Log.d(javaClass.simpleName, "response code: ${response.code()}")
