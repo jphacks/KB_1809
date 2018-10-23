@@ -5,23 +5,19 @@ import com.squareup.moshi.Json
 
 data class Spot(
     @Json(name = "pk") val id: Long,
-    val name: String,
-    val order: Int,
-    val lat: Float,
-    val lon: Float,
-    val note: String,
+    @Json(name = "plan") val planId: Long,
+    @Json(name = "name") val name: String,
+    @Json(name = "order") val order: Int,
+    @Json(name = "lat") val lat: Float,
+    @Json(name = "lon") val lon: Float,
+    @Json(name = "note") val note: String,
     @Json(name = "image") val imageUrl: String,
     @Json(name = "created_at") val createdDate: String
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Spot>() {
-            override fun areItemsTheSame(oldItem: Spot, newItem: Spot): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: Spot, newItem: Spot): Boolean {
-                return oldItem == newItem
-            }
+            override fun areItemsTheSame(oldItem: Spot, newItem: Spot) = oldItem.id == newItem.id
+            override fun areContentsTheSame(oldItem: Spot, newItem: Spot) = oldItem == newItem
         }
     }
 }
