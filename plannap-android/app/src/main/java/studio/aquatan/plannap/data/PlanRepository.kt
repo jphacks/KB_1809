@@ -103,9 +103,9 @@ class PlanRepository {
                 val postPlan = PostPlan(name, price, duration, note, spotList)
 
                 val response = service.postPlan(postPlan).execute()
-                Log.d(javaClass.simpleName, response.body() ?: "empty response")
+                Log.d(javaClass.simpleName, "response code: ${response.code()}")
 
-                return@async true
+                return@async response.code() == 201
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to post a Plan", e)
             }
