@@ -49,9 +49,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@{data.name}"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         tools:text="Plan name"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintStart_toEndOf="@+id/user_icon"
                         android:layout_marginStart="16dp"
                         android:textSize="20sp"
@@ -64,10 +66,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@{data.user.username}"
+                        android:singleLine="true"
                         tools:text="Username"
                         app:layout_constraintTop_toBottomOf="@+id/plan_name"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintStart_toStartOf="@+id/plan_name"/>
 
                 <ImageView
@@ -96,6 +99,8 @@
                         android:id="@+id/start_spot_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         tools:text="Start Spot"
                         app:layout_constraintTop_toTopOf="@+id/start_spot_header"
                         app:layout_constraintBottom_toBottomOf="@+id/start_spot_header"
@@ -118,13 +123,15 @@
                         android:id="@+id/goal_spot_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         tools:text="Goal Spot"
                         app:layout_constraintTop_toTopOf="@+id/goal_spot_header"
                         app:layout_constraintBottom_toBottomOf="@+id/goal_spot_header"
                         app:layout_constraintStart_toEndOf="@+id/duration_header"
                         android:layout_marginStart="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="8dp"/>
+                        android:layout_marginEnd="16dp"/>
 
                 <TextView
                         android:id="@+id/duration_header"
@@ -142,13 +149,15 @@
                         android:id="@+id/duration"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         tools:text="120分"
                         app:layout_constraintStart_toEndOf="@+id/duration_header"
                         android:layout_marginStart="16dp"
                         app:layout_constraintTop_toTopOf="@+id/duration_header"
                         app:layout_constraintBottom_toBottomOf="@+id/duration_header"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="8dp"/>
+                        android:layout_marginEnd="16dp"/>
 
 
                 <com.google.android.material.button.MaterialButton
