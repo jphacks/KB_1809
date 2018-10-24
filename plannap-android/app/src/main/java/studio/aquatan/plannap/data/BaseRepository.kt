@@ -1,6 +1,5 @@
 package studio.aquatan.plannap.data
 
-import android.util.Log
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
@@ -59,8 +58,6 @@ abstract class BaseRepository(
                     .addHeader("Authorization", "JWT ${session.token}")
                     .build()
             )
-
-            Log.d(javaClass.simpleName, "response code: ${response.code()}")
 
             // Require auth
             if (response.code() == 401 || response.code() == 403) {
