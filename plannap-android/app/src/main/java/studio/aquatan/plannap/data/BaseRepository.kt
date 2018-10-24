@@ -1,6 +1,8 @@
 package studio.aquatan.plannap.data
 
 import android.util.Log
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -19,12 +21,18 @@ abstract class BaseRepository(
         private const val BASE_URL = "https://plannap.aquatan.studio"
     }
 
-    protected val baseRetrofit: Retrofit.Builder =
+    protected val retrofitBuilder: Retrofit.Builder =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(
+                MoshiConverterFactory.create(
+                    Moshi.Builder()
+                        .add(KotlinJsonAdapterFactory())
+                        .build()
+                )
+            )
 
-    protected fun buildRetrofit(): Retrofit = baseRetrofit.client(buildClient()).build()
+    protected fun buildRetrofit(): Retrofit = retrofitBuilder.client(buildClient()).build()
 
     private fun buildClient(): OkHttpClient =
         OkHttpClient.Builder()
