@@ -60,7 +60,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     // Anko Commons
-    def anko_version='0.10.7'
+    def anko_version = '0.10.7'
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
