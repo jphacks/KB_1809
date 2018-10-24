@@ -3,15 +3,21 @@ package studio.aquatan.plannap.ui.main
 import android.view.MenuItem
 import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.R
+import studio.aquatan.plannap.data.AuthRepository
 import studio.aquatan.plannap.ui.SingleLiveEvent
 
-class MainViewModel : ViewModel(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainViewModel(
+    private val authRepository: AuthRepository
+) : ViewModel(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     val attachFragment = SingleLiveEvent<MainFragmentType>()
     val replaceFragment = SingleLiveEvent<MainFragmentType>()
 
     val startPlanPostActivity = SingleLiveEvent<Unit>()
+    val startLoginActivity = SingleLiveEvent<Unit>()
 
     private var currentFragment = MainFragmentType.HOME
 
@@ -28,6 +34,15 @@ class MainViewModel : ViewModel(), BottomNavigationView.OnNavigationItemSelected
         }
 
         return true
+    }
+
+    fun onActivityCreated() {
+        GlobalScope.launch {
+            val isSuccess = authRepository.verify().await()
+            if (!isSuccess) {
+                startLoginActivity.postValue(Unit)
+            }
+        }
     }
 
     fun onAttachFragment(type: MainFragmentType) {

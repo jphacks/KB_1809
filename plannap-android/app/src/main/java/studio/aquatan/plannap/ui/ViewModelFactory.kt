@@ -26,7 +26,7 @@ class ViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(MainViewModel::class.java) -> MainViewModel()
+                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepository)
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepository)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
