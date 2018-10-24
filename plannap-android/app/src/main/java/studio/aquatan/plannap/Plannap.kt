@@ -18,25 +18,28 @@ class Plannap : DaggerApplication() {
             .build()
     }
 
-    val session = object : Session {
-        override var token: String = defaultSharedPreferences.getString("token", null) ?: ""
-            set(value) {
-                defaultSharedPreferences.edit { putString("token", value) }
-                field = value
-            }
+    val session: Session by lazy {
+        object : Session {
+            override var token: String = defaultSharedPreferences.getString("token", null) ?: ""
+                set(value) {
+                    defaultSharedPreferences.edit { putString("token", value) }
+                    field = value
+                }
 
-        override var username: String = defaultSharedPreferences.getString("username", null) ?: ""
-            set(value) {
-                defaultSharedPreferences.edit { putString("username", value) }
-                field = value
-            }
+            override var username: String = defaultSharedPreferences.getString("username", null) ?: ""
+                set(value) {
+                    defaultSharedPreferences.edit { putString("username", value) }
+                    field = value
+                }
 
-        override var password: String = defaultSharedPreferences.getString("password", null) ?: ""
-            set(value) {
-                defaultSharedPreferences.edit { putString("password", value) }
-                field = value
-            }
+            override var password: String = defaultSharedPreferences.getString("password", null) ?: ""
+                set(value) {
+                    defaultSharedPreferences.edit { putString("password", value) }
+                    field = value
+                }
+        }
     }
+
 
     @Singleton
     @dagger.Component(

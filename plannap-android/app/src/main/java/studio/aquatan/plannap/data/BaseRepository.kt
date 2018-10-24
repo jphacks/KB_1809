@@ -1,8 +1,7 @@
 package studio.aquatan.plannap.data
 
-import android.util.Log
+import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -21,10 +20,9 @@ abstract class BaseRepository(
         private const val BASE_URL = "https://plannap.aquatan.studio"
     }
 
-    protected fun buildRetrofit(): Retrofit =
+    protected val retrofitBuilder: Retrofit.Builder =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(buildClient())
             .addConverterFactory(
                 MoshiConverterFactory.create(
                     Moshi.Builder()
@@ -32,7 +30,8 @@ abstract class BaseRepository(
                         .build()
                 )
             )
-            .build()
+
+    protected fun buildRetrofit(): Retrofit = retrofitBuilder.client(buildClient()).build()
 
     private fun buildClient(): OkHttpClient =
         OkHttpClient.Builder()
@@ -59,8 +58,6 @@ abstract class BaseRepository(
                     .addHeader("Authorization", "JWT ${session.token}")
                     .build()
             )
-
-            Log.d(javaClass.simpleName, "response code: ${response.code()}")
 
             // Require auth
             if (response.code() == 401 || response.code() == 403) {

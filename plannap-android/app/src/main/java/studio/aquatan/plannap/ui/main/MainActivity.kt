@@ -1,5 +1,7 @@
 package studio.aquatan.plannap.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,7 @@ import studio.aquatan.plannap.databinding.ActivityMainBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.favorite.FavoriteFragment
 import studio.aquatan.plannap.ui.home.HomeFragment
+import studio.aquatan.plannap.ui.login.LoginActivity
 import studio.aquatan.plannap.ui.plan.post.PlanPostActivity
 import studio.aquatan.plannap.ui.plan.search.PlanSearchFragment
 import studio.aquatan.plannap.ui.profile.ProfileFragment
@@ -23,6 +26,13 @@ import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        fun createIntent(context: Context) = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -74,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.subscribe()
+        viewModel.onActivityCreated()
     }
 
     override fun onBackPressed() {
@@ -109,6 +120,16 @@ class MainActivity : AppCompatActivity() {
 
         startPlanPostActivity.observe(activity, Observer {
             startActivity(PlanPostActivity.createIntent(activity))
+        })
+
+        startLoginActivity.observe(activity, Observer {
+            val intent = LoginActivity.createIntent(activity).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+
+            startActivity(intent)
+            finish()
         })
     }
 }

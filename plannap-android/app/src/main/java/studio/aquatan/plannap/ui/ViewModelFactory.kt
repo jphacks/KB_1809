@@ -3,9 +3,11 @@ package studio.aquatan.plannap.ui
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import studio.aquatan.plannap.data.AuthRepository
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.ui.favorite.FavoriteViewModel
 import studio.aquatan.plannap.ui.home.HomeViewModel
+import studio.aquatan.plannap.ui.login.LoginViewModel
 import studio.aquatan.plannap.ui.main.MainViewModel
 import studio.aquatan.plannap.ui.plan.detail.PlanDetailViewModel
 import studio.aquatan.plannap.ui.plan.list.PlanListViewModel
@@ -16,14 +18,15 @@ import studio.aquatan.plannap.ui.profile.ProfileViewModel
 
 class ViewModelFactory(
     private val context: Application,
-    private val planRepository: PlanRepository
+    private val planRepository: PlanRepository,
+    private val authRepository: AuthRepository
 ) : ViewModelProvider.AndroidViewModelFactory(context) {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(MainViewModel::class.java) -> MainViewModel()
+                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepository)
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepository)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
@@ -32,6 +35,7 @@ class ViewModelFactory(
                 isAssignableFrom(PlanSearchViewModel::class.java) -> PlanSearchViewModel()
                 isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(planRepository)
                 isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepository)
+                isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepository)
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
