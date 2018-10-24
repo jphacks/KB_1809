@@ -10,7 +10,7 @@ interface PlanService {
     @GET("/plan/plans/")
     fun getPlans(): Call<List<Plan>>
 
-    @GET("/plan/plans/{id}")
+    @GET("/plan/plans/{id}/")
     fun getPlan(@Path("id") planId: Long): Call<Plan>
 
     @GET("/plan/plans/")
@@ -21,5 +21,5 @@ interface PlanService {
         "Content-Type: application/json"
     )
     @POST("/plan/plans/")
-    fun postPlan(@Body body: PostPlan): Call<String>
+    fun postPlan(@Body body: PostPlan): Call<Plan>
 }
