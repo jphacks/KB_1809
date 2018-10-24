@@ -1,5 +1,7 @@
 package studio.aquatan.plannap.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +25,10 @@ import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        fun createIntent(context: Context) = Intent(context, MainActivity::class.java)
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

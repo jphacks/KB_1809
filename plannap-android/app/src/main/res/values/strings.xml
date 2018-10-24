@@ -10,6 +10,7 @@
     <!-- Title -->
     <string name="title_plan_search_activity">検索</string>
     <string name="title_plan_post_activity">プランを投稿</string>
+    <string name="title_plan_login_activity">ログイン</string>
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
     <string name="title_favorite">Favorite</string>
@@ -26,6 +27,7 @@
     <string name="action_post">Post</string>
     <string name="action_favorite">Favorite</string>
     <string name="action_profile">Profile</string>
+    <string name="action_login">Login</string>
 
     <!-- Name -->
     <string name="name_area">エリア</string>
@@ -34,7 +36,7 @@
     <string name="name_post_btn">投稿する</string>
     <string name="name_comment">コメント</string>
 
-    <!-- Search Hint -->
+    <!-- Hint -->
     <string name="hint_area">エリア</string>
     <string name="hint_location">場所</string>
     <string name="hint_start">出発地点</string>
@@ -44,6 +46,8 @@
     <string name="hint_title">タイトル</string>
     <string name="hint_note">全体のレビュー</string>
     <string name="hint_comment">コメント</string>
+    <string name="hint_username">ユーザー名</string>
+    <string name="hint_password">パスワード</string>
 
     <!-- Text -->
     <string name="text_price">約%1$d円</string>
@@ -56,6 +60,7 @@
     <string name="error_short_spots">スポットは2つ以上入力してください</string>
     <string name="error_invalid_spot">スポットの属性が不足しています</string>
     <string name="error_not_support_img">サポートされていない画像形式です</string>
+    <string name="error_login">ログインに失敗しました</string>
 
     <!-- 勝手に生成される系 -->
     <string name="large_text">
