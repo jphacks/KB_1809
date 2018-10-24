@@ -1,6 +1,6 @@
 package studio.aquatan.plannap.data
 
-import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -57,6 +56,8 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
         }
 
+        binding.swipeRefreshLayout.isRefreshing = true
+
         viewModel.subscribe(adapter)
 
         provider.get(MainViewModel::class.java)
@@ -67,7 +68,6 @@ class HomeFragment : Fragment() {
         val fragment = this@HomeFragment
 
         planList.observe(fragment, Observer { list ->
-            binding.progressBar.isVisible = false
             binding.swipeRefreshLayout.isRefreshing = false
 
             adapter.submitList(list)

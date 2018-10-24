@@ -1,8 +1,10 @@
 package studio.aquatan.plannap.ui.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.ui.SingleLiveEvent
 
 class HomeViewModel(
@@ -11,7 +13,7 @@ class HomeViewModel(
 
     private val refreshRequest = SingleLiveEvent<Unit>()
 
-    var planList = Transformations.switchMap(refreshRequest) {
+    var planList: LiveData<List<Plan>> = Transformations.switchMap(refreshRequest) {
         planRepository.getPlanList()
     }
     val startPlanDetailActivity = SingleLiveEvent<Long>()
