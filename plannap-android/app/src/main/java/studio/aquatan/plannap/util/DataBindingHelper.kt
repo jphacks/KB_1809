@@ -5,7 +5,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import studio.aquatan.plannap.GlideApp
 import studio.aquatan.plannap.R
 
 @BindingAdapter("isVisible")
@@ -31,7 +32,8 @@ fun setDuration(view: TextView, duration: Int) {
 fun setSrcUrl(view: ImageView, url: String?) {
     url ?: return
 
-    Glide.with(view.context)
+    GlideApp.with(view.context)
         .load(url)
+        .transition(DrawableTransitionOptions.withCrossFade())
         .into(view)
 }
