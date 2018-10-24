@@ -10,4 +10,10 @@ interface AuthService {
 
     @POST("/auth/jwt/create")
     fun login(@Body user: LoginUser): Call<Authorization>
+
+    @POST("/auth/jwt/refresh")
+    fun refresh(@Body token: String): Call<Authorization>
+
+    @POST("/auth/jwt/verify")
+    fun verify(@Body token: String): Call<Authorization>
 }
