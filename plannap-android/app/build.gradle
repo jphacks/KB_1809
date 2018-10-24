@@ -49,15 +49,19 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit2_version"
 
-    //moshi
-    def moshiVerion = '1.5.0'
-    implementation "com.squareup.moshi:moshi:$moshiVerion"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshiVerion"
+    // Moshi
+    def moshi_version = '1.7.0'
+    implementation "com.squareup.moshi:moshi:$moshi_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
 
     // Glide
     def glide_version = '4.8.0'
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    // Anko Commons
+    def anko_version = '0.10.7'
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
 

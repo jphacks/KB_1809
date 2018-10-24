@@ -6,23 +6,19 @@ import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.data.model.PostPlan
 
 interface PlanService {
-    //現在，トークンはハードコーディング
-    @Headers("Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldmVsb3AiLCJleHAiOjE1NDA1NjY2MjEsImVtYWlsIjoiaG9nZUBnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU0MDMwNzQyMX0.Af_dX3BzQzDSPxLvHtYxLY5UjZf4HfhSfuiC7yy5fwQ")
+
     @GET("/plan/plans/")
     fun getPlans(): Call<List<Plan>>
 
-    @Headers("Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldmVsb3AiLCJleHAiOjE1NDA1NjY2MjEsImVtYWlsIjoiaG9nZUBnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU0MDMwNzQyMX0.Af_dX3BzQzDSPxLvHtYxLY5UjZf4HfhSfuiC7yy5fwQ")
     @GET("/plan/plans/{id}")
     fun getPlan(@Path("id") planId: Long): Call<Plan>
 
-    @Headers("Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldmVsb3AiLCJleHAiOjE1NDA1NjY2MjEsImVtYWlsIjoiaG9nZUBnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU0MDMwNzQyMX0.Af_dX3BzQzDSPxLvHtYxLY5UjZf4HfhSfuiC7yy5fwQ")
     @GET("/plan/plans/")
     fun getPlan(@Query("location") location: String): Call<List<Plan>>
 
     @Headers(
         "Accept: application/json",
-        "Content-Type: application/json",
-        "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldmVsb3AiLCJleHAiOjE1NDA1NjY2MjEsImVtYWlsIjoiaG9nZUBnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU0MDMwNzQyMX0.Af_dX3BzQzDSPxLvHtYxLY5UjZf4HfhSfuiC7yy5fwQ"
+        "Content-Type: application/json"
     )
     @POST("/plan/plans/")
     fun postPlan(@Body body: PostPlan): Call<String>
