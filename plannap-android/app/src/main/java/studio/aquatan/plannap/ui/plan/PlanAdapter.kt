@@ -46,19 +46,19 @@ class PlanAdapter(
             GlideApp.with(binding.root)
                 .load(plan.spotList.first().imageUrl)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.picture)
+                .into(binding.planImage)
 
             binding.apply {
                 data = plan
                 root.setOnClickListener { onClick(plan.id) }
 
-                start.text = plan.spotList.first().name
-                goal.text = plan.spotList.last().name
+                startSpotName.text = plan.spotList.first().name
+                goalSpotName.text = plan.spotList.last().name
 
-                time.text = plan.duration.toString()
+                duration.text = plan.duration.toString() + "分"
 
                 favoriteButton.text = plan.favoriteCount.toString()
-                commentsButton.text = plan.commentCount.toString()
+                commentButton.text = plan.commentCount.toString()
             }
         }
     }
