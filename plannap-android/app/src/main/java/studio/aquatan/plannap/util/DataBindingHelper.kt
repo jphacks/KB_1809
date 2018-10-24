@@ -37,3 +37,14 @@ fun setSrcUrl(view: ImageView, url: String?) {
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(view)
 }
+
+@BindingAdapter("iconUrl")
+fun setIconUrl(view: ImageView, url: String?) {
+    url ?: return
+
+    GlideApp.with(view.context)
+        .load(url)
+        .circleCrop()
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(view)
+}

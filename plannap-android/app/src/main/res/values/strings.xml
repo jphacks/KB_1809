@@ -16,6 +16,9 @@
     <string name="title_favorite">Favorite</string>
     <string name="title_profile">Profile</string>
     <string name="title_post">投稿</string>
+    <string name="title_start_spot">出発</string>
+    <string name="title_goal_spot">到着</string>
+    <string name="title_duration">所要時間</string>
 
     <!-- Menu -->
     <string name="menu_plans">プラン一覧</string>
