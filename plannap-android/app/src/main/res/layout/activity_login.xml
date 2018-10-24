@@ -24,7 +24,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:hint="@string/hint_username"
-                app:errorEnabled="@{viewModel.isEnabledErrorUsername}"
+                app:errorEnabled="@{safeUnbox(viewModel.isEnabledErrorUsername)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -46,7 +46,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:hint="@string/hint_password"
-                app:errorEnabled="@{viewModel.isEnabledErrorPassword}"
+                app:errorEnabled="@{safeUnbox(viewModel.isEnabledErrorPassword)}"
                 app:passwordToggleEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

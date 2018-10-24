@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     app:layout_constraintTop_toBottomOf="@+id/search_top_image1"
-                    app:errorEnabled="@{viewModel.isEnabledErrorArea}"
+                    app:errorEnabled="@{safeUnbox(viewModel.isEnabledErrorArea)}"
                     android:id="@+id/area_layout"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
