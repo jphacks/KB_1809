@@ -6,7 +6,7 @@ import com.squareup.moshi.Json
 data class Favorite(
     @Json(name = "pk") val id: Long,
     val user: User,
-    @Json(name = "plan") val planId: Int
+    @Json(name = "plan_id") val planId: Int
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
