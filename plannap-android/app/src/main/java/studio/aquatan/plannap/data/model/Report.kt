@@ -6,7 +6,7 @@ import com.squareup.moshi.Json
 data class Report(
     @Json(name = "pk")val id: Long,
     val user: User,
-    @Json(name = "plan") val planId: Int,
+    @Json(name = "plan_id") val planId: Int,
     @Json(name = "image") val imageUrl: String,
     val text: String
 ) {

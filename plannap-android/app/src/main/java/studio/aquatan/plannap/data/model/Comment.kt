@@ -6,7 +6,7 @@ import com.squareup.moshi.Json
 data class Comment(
     @Json(name = "pk") val id: Long,
     val user: User,
-    @Json(name = "plan") val planId: Int,
+    @Json(name = "plan_id") val planId: Int,
     val text: String
 ) {
     companion object {

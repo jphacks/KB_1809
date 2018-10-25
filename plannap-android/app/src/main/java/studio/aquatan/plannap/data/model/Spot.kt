@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 
 data class Spot(
     @Json(name = "pk") val id: Long,
-    @Json(name = "plan") val planId: Long,
+    @Json(name = "plan_id") val planId: Long,
     @Json(name = "name") val name: String,
     @Json(name = "order") val order: Int,
     @Json(name = "lat") val lat: Float,
