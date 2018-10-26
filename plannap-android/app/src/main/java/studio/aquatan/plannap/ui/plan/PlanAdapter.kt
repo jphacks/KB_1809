@@ -1,6 +1,5 @@
 package studio.aquatan.plannap.ui.plan
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -12,7 +11,8 @@ import studio.aquatan.plannap.databinding.ItemPlanBinding
 
 class PlanAdapter(
     private val layoutInflater: LayoutInflater,
-    private val onClick: (Long) -> Unit
+    private val onClick: (Long) -> Unit,
+    private val onFavoriteClick: (Long, Boolean) -> Unit
 ) : ListAdapter<Plan, PlanAdapter.ViewHolder>(Plan.DIFF_CALLBACK) {
 
     init {
@@ -29,15 +29,14 @@ class PlanAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
     inner class ViewHolder(
         private val binding: ItemPlanBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("CheckResult")
-        fun bind(plan: Plan) {
+        fun bind(plan: Plan, position: Int) {
             binding.apply {
                 data = plan
                 root.setOnClickListener { onClick(plan.id) }
@@ -49,8 +48,15 @@ class PlanAdapter(
 
                 duration.text = plan.duration.toString() + "分"
 
-                favoriteButton.text = plan.favoriteCount.toString()
                 commentButton.text = plan.commentCount.toString()
+
+                favoriteButton.setOnFavoriteChangedListener { favorite, count ->
+                    getItem(position).apply {
+                        isFavorite = favorite
+                        favoriteCount = count
+                    }
+                    onFavoriteClick(plan.id, favorite)
+                }
             }
         }
     }

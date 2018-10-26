@@ -11,7 +11,9 @@ interface FavoriteService {
     @GET("/plan/favorite/")
     fun getFavoriteByUserid(@Path("userId") userId: Long): Call<Favorite>
 
-    @Headers("Accept: application/json", "Content-Type: application/json")
-    @POST("/plan/favorite")
-    fun postFavorite(@Body favorite: Favorite): Call<Favorite>
+    @POST("/plan/plans/{id}/favs/me/")
+    fun postFavorite(@Path("id") planId: Long): Call<Favorite>
+
+    @DELETE("/plan/plans/{id}/favs/me/")
+    fun deleteFavorite(@Path("id") planId: Long): Call<Favorite>
 }

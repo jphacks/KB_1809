@@ -1,4 +1,4 @@
-package studio.aquatan.plannap.ui.plan.list
+package studio.aquatan.plannap.ui.plan
 
 import android.view.LayoutInflater
 import android.view.View

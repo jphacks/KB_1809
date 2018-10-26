@@ -46,7 +46,7 @@ class PlanSearchResultActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlanSearchResultViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick)
+        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick)
 
         binding.recyclerView.apply {
             setAdapter(adapter)
