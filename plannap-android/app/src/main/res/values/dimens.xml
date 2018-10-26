@@ -15,6 +15,9 @@
     <dimen name="user_icon_height">40dp</dimen>
     <dimen name="user_icon_width">40dp</dimen>
 
+    <dimen name="user_icon_height_small">32dp</dimen>
+    <dimen name="user_icon_width_small">32dp</dimen>
+
     <dimen name="plan_item_img_height">194dp</dimen>
     <dimen name="plan_item_img_width">344dp</dimen>
 </resources>

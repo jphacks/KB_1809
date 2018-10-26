@@ -12,7 +12,6 @@ import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanDetailBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
-import studio.aquatan.plannap.ui.plan.SpotAdapter
 import javax.inject.Inject
 
 class PlanDetailActivity : AppCompatActivity() {
@@ -71,8 +70,8 @@ class PlanDetailActivity : AppCompatActivity() {
         plan.observe(activity, Observer {
             title = it.name
 
-            binding.favoriteButton.text = it.favoriteCount.toString()
-            binding.commentsButton.text = it.commentCount.toString()
+//            binding.favoriteButton.text = it.favoriteCount.toString()
+//            binding.commentsButton.text = it.commentCount.toString()
 
             spotAdapter.submitList(it.spotList)
             commentAdapter.submitList(it.commentList)
