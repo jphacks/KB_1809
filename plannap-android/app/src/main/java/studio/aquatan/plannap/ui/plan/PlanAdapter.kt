@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import studio.aquatan.plannap.GlideApp
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.databinding.ItemPlanBinding
@@ -41,17 +39,11 @@ class PlanAdapter(
 
         @SuppressLint("CheckResult")
         fun bind(plan: Plan) {
-            binding.data = plan
-            binding.root.setOnClickListener { onClick(plan.id) }
-
-            GlideApp.with(binding.root)
-                .load(plan.spotList.first().imageUrl)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.planImage)
-
             binding.apply {
                 data = plan
                 root.setOnClickListener { onClick(plan.id) }
+
+                planImage.setImageURI(plan.spotList.first().imageUrl)
 
                 startSpotName.text = plan.spotList.first().name
                 goalSpotName.text = plan.spotList.last().name

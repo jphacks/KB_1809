@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -33,16 +34,17 @@
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground">
 
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/user_icon"
                         android:layout_width="@dimen/user_icon_width"
                         android:layout_height="@dimen/user_icon_height"
-                        app:iconUrl="@{data.user.iconUrl}"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="16dp"
-                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginTop="16dp"
-                        tools:srcCompat="@tools:sample/avatars"/>
+                        fresco:roundAsCircle="true"
+                        app:imageUri="@{data.user.iconUrl}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:actualImageResource="@tools:sample/avatars"/>
 
                 <TextView
                         android:id="@+id/plan_name"
@@ -73,17 +75,18 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintStart_toStartOf="@+id/plan_name"/>
 
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/plan_image"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:layout_marginTop="16dp"
+                        fresco:actualImageScaleType="centerCrop"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/user_icon"
-                        android:layout_marginTop="16dp"
-                        android:scaleType="centerCrop"
                         app:layout_constraintDimensionRatio="h,172:97"
-                        tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+                        tools:scaleType="centerCrop"
+                        tools:actualImageResource="@tools:sample/backgrounds/scenic"/>
 
                 <TextView
                         android:id="@+id/start_spot_header"
