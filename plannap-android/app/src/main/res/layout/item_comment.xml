@@ -15,14 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/user_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:srcUrl="@{data.user.iconUrl}"
+                app:imageUri="@{data.user.iconUrl}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="16dp" android:layout_marginStart="16dp"/>
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"/>
 
         <TextView
                 android:id="@+id/user"

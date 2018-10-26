@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.data.model.Spot
 import studio.aquatan.plannap.databinding.ItemSpotBinding
@@ -92,10 +91,6 @@ class SpotAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         open fun bind(spot: Spot) {
             binding.data = spot
-
-            Glide.with(binding.root)
-                .load(spot.imageUrl)
-                .into(binding.image)
         }
     }
 }

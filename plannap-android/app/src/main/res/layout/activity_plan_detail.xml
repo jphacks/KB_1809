@@ -19,11 +19,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/user_icon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:srcUrl="@{viewModel.plan.user.iconUrl}"
+                    app:imageUri="@{viewModel.plan.user.iconUrl}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="16dp"

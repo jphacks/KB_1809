@@ -1,6 +1,7 @@
 package studio.aquatan.plannap
 
 import androidx.core.content.edit
+import com.facebook.drawee.backends.pipeline.Fresco
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import dagger.android.support.DaggerApplication
@@ -11,12 +12,6 @@ import studio.aquatan.plannap.di.FragmentModule
 import javax.inject.Singleton
 
 class Plannap : DaggerApplication() {
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerPlannap_Component.builder()
-            .appModule(AppModule(this))
-            .build()
-    }
 
     val session: Session by lazy {
         object : Session {
@@ -38,6 +33,17 @@ class Plannap : DaggerApplication() {
                     field = value
                 }
         }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        Fresco.initialize(this)
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerPlannap_Component.builder()
+            .appModule(AppModule(this))
+            .build()
     }
 
 
