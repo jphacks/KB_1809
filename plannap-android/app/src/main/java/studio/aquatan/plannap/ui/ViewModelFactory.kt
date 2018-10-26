@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.aquatan.plannap.data.AuthRepository
+import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.ui.favorite.FavoriteViewModel
 import studio.aquatan.plannap.ui.home.HomeViewModel
@@ -19,6 +20,7 @@ import studio.aquatan.plannap.ui.profile.ProfileViewModel
 class ViewModelFactory(
     private val context: Application,
     private val planRepository: PlanRepository,
+    private val favoriteRepository: FavoriteRepository,
     private val authRepository: AuthRepository
 ) : ViewModelProvider.AndroidViewModelFactory(context) {
 
@@ -27,7 +29,7 @@ class ViewModelFactory(
         with(modelClass) {
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepository)
-                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepository)
+                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepository, favoriteRepository)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
                 isAssignableFrom(PlanListViewModel::class.java) -> PlanListViewModel(planRepository)

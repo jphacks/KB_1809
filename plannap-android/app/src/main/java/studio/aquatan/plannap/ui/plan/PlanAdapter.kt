@@ -14,7 +14,8 @@ import studio.aquatan.plannap.databinding.ItemPlanBinding
 
 class PlanAdapter(
     private val layoutInflater: LayoutInflater,
-    private val onClick: (Long) -> Unit
+    private val onClick: (Long) -> Unit,
+    private val onFavoriteClick: (Long, Boolean) -> Unit
 ) : ListAdapter<Plan, PlanAdapter.ViewHolder>(Plan.DIFF_CALLBACK) {
 
     init {
@@ -57,8 +58,15 @@ class PlanAdapter(
 
                 duration.text = plan.duration.toString() + "分"
 
-                favoriteButton.text = plan.favoriteCount.toString()
                 commentButton.text = plan.commentCount.toString()
+
+                favoriteButton.apply {
+                    count = plan.favoriteCount
+                    setOnFavoriteChangedListener {
+                        plan.isFavorite = it
+                        onFavoriteClick(plan.id, it)
+                    }
+                }
             }
         }
     }

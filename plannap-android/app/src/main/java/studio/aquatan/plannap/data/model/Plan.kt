@@ -18,7 +18,7 @@ data class Plan(
     @Json(name = "reports") val reportList: List<Report> = emptyList(),
     @Json(name = "comments") val commentList: List<Comment> = emptyList(),
     @Json(name = "user") val user: User,
-    @Json(name = "is_favorite") val isFavorite: Boolean
+    @Json(name = "is_favorite") var isFavorite: Boolean
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
