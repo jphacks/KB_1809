@@ -6,12 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import studio.aquatan.plannap.Session
 import studio.aquatan.plannap.data.api.FavoriteService
 import studio.aquatan.plannap.data.model.Favorite
-import studio.aquatan.plannap.data.model.PostFavorite
 
 class FavoriteRepository(session: Session) : BaseRepository(session) {
 
@@ -50,8 +47,8 @@ class FavoriteRepository(session: Session) : BaseRepository(session) {
     fun postFavorite(planId: Long) =
         GlobalScope.async {
             try {
-                val response = service.postFavorite(PostFavorite(planId)).execute()
-                return@async response.code() == 200
+                val response = service.postFavorite(planId).execute()
+                return@async response.code() == 201
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to post Favorite", e)
             }
@@ -62,7 +59,7 @@ class FavoriteRepository(session: Session) : BaseRepository(session) {
     fun deleteFavorite(planId: Long) =
         GlobalScope.async {
             try {
-                val response = service.deleteFavorite(PostFavorite(planId)).execute()
+                val response = service.deleteFavorite(planId).execute()
                 return@async response.code() == 204
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to delete Favorite", e)

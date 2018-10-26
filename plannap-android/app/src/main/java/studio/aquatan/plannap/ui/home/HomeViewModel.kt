@@ -37,6 +37,10 @@ class HomeViewModel(
             } else {
                 favoriteRepository.deleteFavorite(id)
             }.await()
+
+            if (!isSuccess) {
+                refreshRequest.postValue(Unit)
+            }
         }
     }
 

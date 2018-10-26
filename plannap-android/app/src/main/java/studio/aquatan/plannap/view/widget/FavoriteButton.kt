@@ -11,7 +11,7 @@ class FavoriteButton @JvmOverloads constructor(
     defStyleAttr: Int = com.google.android.material.R.attr.materialButtonStyle
 ) : MaterialButton(context, attrs, defStyleAttr) {
 
-    private var onFavoriteChangedListener: ((Boolean) -> Unit)? = null
+    private var onFavoriteChangedListener: ((Boolean, Int) -> Unit)? = null
 
     init {
         setOnClickListener {
@@ -23,7 +23,7 @@ class FavoriteButton @JvmOverloads constructor(
                 count--
             }
 
-            onFavoriteChangedListener?.invoke(isFavorite)
+            onFavoriteChangedListener?.invoke(isFavorite, count)
         }
     }
 
@@ -44,7 +44,7 @@ class FavoriteButton @JvmOverloads constructor(
             field = value
         }
 
-    fun setOnFavoriteChangedListener(listener: (Boolean) -> Unit) {
+    fun setOnFavoriteChangedListener(listener: (Boolean, Int) -> Unit) {
         onFavoriteChangedListener = listener
     }
 }

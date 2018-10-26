@@ -1,6 +1,5 @@
 package studio.aquatan.plannap.ui.plan
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -30,15 +29,14 @@ class PlanAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
     inner class ViewHolder(
         private val binding: ItemPlanBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("CheckResult")
-        fun bind(plan: Plan) {
+        fun bind(plan: Plan, position: Int) {
             binding.apply {
                 data = plan
                 root.setOnClickListener { onClick(plan.id) }
@@ -52,12 +50,12 @@ class PlanAdapter(
 
                 commentButton.text = plan.commentCount.toString()
 
-                favoriteButton.apply {
-                    count = plan.favoriteCount
-                    setOnFavoriteChangedListener {
-                        plan.isFavorite = it
-                        onFavoriteClick(plan.id, it)
+                favoriteButton.setOnFavoriteChangedListener { favorite, count ->
+                    getItem(position).apply {
+                        isFavorite = favorite
+                        favoriteCount = count
                     }
+                    onFavoriteClick(plan.id, favorite)
                 }
             }
         }
