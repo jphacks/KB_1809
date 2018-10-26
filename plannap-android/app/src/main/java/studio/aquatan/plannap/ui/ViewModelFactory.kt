@@ -11,7 +11,6 @@ import studio.aquatan.plannap.ui.home.HomeViewModel
 import studio.aquatan.plannap.ui.login.LoginViewModel
 import studio.aquatan.plannap.ui.main.MainViewModel
 import studio.aquatan.plannap.ui.plan.detail.PlanDetailViewModel
-import studio.aquatan.plannap.ui.plan.list.PlanListViewModel
 import studio.aquatan.plannap.ui.plan.post.PlanPostViewModel
 import studio.aquatan.plannap.ui.plan.search.PlanSearchViewModel
 import studio.aquatan.plannap.ui.plan.searchresult.PlanSearchResultViewModel
@@ -32,10 +31,9 @@ class ViewModelFactory(
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepository, favoriteRepository)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
-                isAssignableFrom(PlanListViewModel::class.java) -> PlanListViewModel(planRepository)
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(planRepository)
                 isAssignableFrom(PlanSearchViewModel::class.java) -> PlanSearchViewModel()
-                isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(planRepository)
+                isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(planRepository, favoriteRepository)
                 isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepository)
                 isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepository)
 
