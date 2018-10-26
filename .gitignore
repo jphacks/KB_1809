@@ -1,10 +1,7 @@
 *.iml
 .gradle
 /plannap-android/local.properties
-/plannap-android/.idea/caches/build_file_checksums.ser
-/plannap-android/.idea/libraries
-/plannap-android/.idea/modules.xml
-/plannap-android/.idea/workspace.xml
+/plannap-android/.idea
 .DS_Store
 /plannap-android/build
 /plannap-android/captures
