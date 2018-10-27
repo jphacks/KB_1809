@@ -78,7 +78,7 @@
 
                 <TextView
                         android:id="@+id/username"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:singleLine="true"
                         android:layout_marginEnd="8dp"
@@ -86,7 +86,7 @@
                         android:textSize="12sp"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
-                        app:layout_constraintWidth_default="wrap"
+                        app:layout_constrainedWidth="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/user_icon"
                         app:layout_constraintHorizontal_bias="0.5"

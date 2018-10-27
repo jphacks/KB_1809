@@ -57,6 +57,8 @@ class PlanDetailActivity : AppCompatActivity() {
             isNestedScrollingEnabled = false
         }
 
+        binding.favoriteButton.setOnFavoriteChangedListener(viewModel::onFavoriteChanged)
+
         viewModel.subscribe(spotAdapter, reportAdapter, commentAdapter)
         viewModel.onActivityCreated(intent.getLongExtra(EXTRA_ID, -1))
     }

@@ -19,25 +19,25 @@ import studio.aquatan.plannap.ui.profile.ProfileViewModel
 
 class ViewModelFactory(
     private val context: Application,
-    private val planRepository: PlanRepository,
-    private val favoriteRepository: FavoriteRepository,
-    private val commentRepository: CommentRepository,
-    private val authRepository: AuthRepository
+    private val planRepo: PlanRepository,
+    private val favoriteRepo: FavoriteRepository,
+    private val commentRepo: CommentRepository,
+    private val authRepo: AuthRepository
 ) : ViewModelProvider.AndroidViewModelFactory(context) {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepository)
-                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepository, favoriteRepository)
+                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepo)
+                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo, favoriteRepo)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
-                isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(planRepository, commentRepository)
+                isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(planRepo, favoriteRepo, commentRepo)
                 isAssignableFrom(PlanSearchViewModel::class.java) -> PlanSearchViewModel()
-                isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(planRepository, favoriteRepository)
-                isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepository)
-                isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepository)
+                isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(planRepo, favoriteRepo)
+                isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepo)
+                isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepo)
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

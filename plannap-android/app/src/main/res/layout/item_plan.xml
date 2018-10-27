@@ -169,12 +169,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/pink_600"
+                        android:layout_marginEnd="16dp"
                         app:favorite="@{data.favorite}"
                         app:count="@{data.favoriteCount}"
                         app:iconTint="@color/pink_600"
                         app:rippleColor="@color/pink_300"
                         app:layout_constraintEnd_toStartOf="@+id/comment_button"
-                        android:layout_marginEnd="16dp"
                         app:layout_constraintBottom_toBottomOf="@+id/comment_button"
                         tools:icon="@drawable/ic_favorite_border_black_24dp"
                         tools:text="7"/>

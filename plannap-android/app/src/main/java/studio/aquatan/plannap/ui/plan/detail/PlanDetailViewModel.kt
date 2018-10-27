@@ -10,11 +10,13 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.CommentRepository
+import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.Plan
 
 class PlanDetailViewModel(
     private val planRepository: PlanRepository,
+    private val favoriteRepository: FavoriteRepository,
     private val commentRepository: CommentRepository
 ) : ViewModel() {
 
@@ -39,6 +41,22 @@ class PlanDetailViewModel(
 
     fun onActivityCreated(id: Long) {
         planId.value = id
+    }
+
+    fun onFavoriteChanged(isFavorite: Boolean, count: Int) {
+        val id = planId.value ?: return
+
+        GlobalScope.launch {
+            val isSuccess = if (isFavorite) {
+                favoriteRepository.postFavorite(id)
+            } else {
+                favoriteRepository.deleteFavorite(id)
+            }.await()
+
+            if (!isSuccess) {
+                planId.postValue(id)
+            }
+        }
     }
 
     fun onReportPostClick() {
