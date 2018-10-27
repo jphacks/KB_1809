@@ -13,6 +13,7 @@ import studio.aquatan.plannap.data.CommentRepository
 import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.Plan
+import studio.aquatan.plannap.ui.SingleLiveEvent
 
 class PlanDetailViewModel(
     private val planRepository: PlanRepository,
@@ -30,6 +31,8 @@ class PlanDetailViewModel(
     val isEnabledSubmit = ObservableBoolean()
     val comment = ObservableField<String>()
     val errorComment = ObservableField<String>()
+
+    val startCommentListActivity = SingleLiveEvent<Pair<Long, String>>()
 
     init {
         comment.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
@@ -85,5 +88,10 @@ class PlanDetailViewModel(
 
             isSubmitting.set(false)
         }
+    }
+
+    fun onCommentListClick() {
+        val plan = plan.value ?: return
+        startCommentListActivity.value = plan.id to plan.name
     }
 }

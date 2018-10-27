@@ -25,7 +25,6 @@
     <string name="title_spots">スポット一覧</string>
     <string name="title_reports">レポート</string>
     <string name="title_comment">コメント</string>
-    <string name="title_post_report">レポートを送る</string>
 
     <!-- Menu -->
     <string name="menu_plans">プラン一覧</string>
@@ -45,6 +44,8 @@
     <string name="name_search_btn">検索する</string>
     <string name="name_post_btn">投稿する</string>
     <string name="name_comment">コメント</string>
+    <string name="name_post_report">レポートを送る</string>
+    <string name="name_all_show">すべて表示</string>
 
     <!-- Hint -->
     <string name="hint_area">エリア</string>
