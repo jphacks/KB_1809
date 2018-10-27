@@ -35,7 +35,8 @@
         </activity>
         <activity
                 android:name=".ui.login.LoginActivity"
-                android:label="@string/title_plan_login_activity" />
+                android:label="@string/title_plan_login_activity"/>
+        <activity android:name=".ui.comment.list.CommentListActivity"/>
     </application>
 
 </manifest>

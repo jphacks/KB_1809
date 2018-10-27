@@ -7,6 +7,7 @@ import studio.aquatan.plannap.data.AuthRepository
 import studio.aquatan.plannap.data.CommentRepository
 import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.ui.comment.list.CommentListViewModel
 import studio.aquatan.plannap.ui.favorite.FavoriteViewModel
 import studio.aquatan.plannap.ui.home.HomeViewModel
 import studio.aquatan.plannap.ui.login.LoginViewModel
@@ -38,6 +39,7 @@ class ViewModelFactory(
                 isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(planRepo, favoriteRepo)
                 isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepo)
                 isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepo)
+                isAssignableFrom(CommentListViewModel::class.java) -> CommentListViewModel(commentRepo)
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

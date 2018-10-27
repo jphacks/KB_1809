@@ -13,6 +13,7 @@ import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanSearchResultBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import studio.aquatan.plannap.ui.comment.list.CommentListActivity
 import studio.aquatan.plannap.ui.plan.PlanAdapter
 import studio.aquatan.plannap.ui.plan.detail.PlanDetailActivity
 import javax.inject.Inject
@@ -46,7 +47,7 @@ class PlanSearchResultActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlanSearchResultViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick)
+        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick, viewModel::onCommentClick)
 
         binding.recyclerView.apply {
             setAdapter(adapter)
@@ -76,6 +77,9 @@ class PlanSearchResultActivity : AppCompatActivity() {
 
         startPlanDetailActivity.observe(activity, Observer { id ->
             startActivity(PlanDetailActivity.createIntent(activity, id))
+        })
+        startCommentListActivity.observe(activity, Observer { (id, name) ->
+            startActivity(CommentListActivity.createIntent(activity, id, name))
         })
     }
 }
