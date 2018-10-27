@@ -21,6 +21,7 @@ class HomeViewModel(
         planRepository.getPlanList()
     }
     val startPlanDetailActivity = SingleLiveEvent<Long>()
+    val startCommentListActivity = SingleLiveEvent<Pair<Long, String>>()
 
     init {
         refreshRequest.value = Unit
@@ -46,6 +47,10 @@ class HomeViewModel(
                 refreshRequest.postValue(Unit)
             }
         }
+    }
+
+    fun onCommentClick(id: Long, name: String) {
+        startCommentListActivity.value = id to name
     }
 
     fun onRefresh() {

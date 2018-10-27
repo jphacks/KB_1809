@@ -25,6 +25,7 @@ class PlanSearchResultViewModel(
         return@switchMap planRepository.getPlanListByKeyword(it)
     }
     val startPlanDetailActivity = SingleLiveEvent<Long>()
+    val startCommentListActivity = SingleLiveEvent<Pair<Long, String>>()
 
     fun onActivityCreated(areaName: String?) {
         keyword.value = areaName
@@ -46,5 +47,9 @@ class PlanSearchResultViewModel(
                 keyword.postValue(keyword.value)
             }
         }
+    }
+
+    fun onCommentClick(id: Long, name: String) {
+        startCommentListActivity.value = id to name
     }
 }

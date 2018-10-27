@@ -1,38 +1,29 @@
-package studio.aquatan.plannap.ui.plan.detail
+package studio.aquatan.plannap.ui.comment.list
 
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.CommentRepository
-import studio.aquatan.plannap.data.FavoriteRepository
-import studio.aquatan.plannap.data.PlanRepository
-import studio.aquatan.plannap.data.model.Plan
-import studio.aquatan.plannap.ui.SingleLiveEvent
 
-class PlanDetailViewModel(
-    private val planRepository: PlanRepository,
-    private val favoriteRepository: FavoriteRepository,
+class CommentListViewModel(
     private val commentRepository: CommentRepository
 ) : ViewModel() {
 
     private val planId = MutableLiveData<Long>()
 
-    val plan: LiveData<Plan> = Transformations.switchMap(planId) { id ->
-        planRepository.getPlanById(id)
+    val commentList = Transformations.switchMap(planId) { id ->
+        commentRepository.getCommentList(id)
     }
 
     val isSubmitting = ObservableBoolean()
     val isEnabledSubmit = ObservableBoolean()
     val comment = ObservableField<String>()
     val errorComment = ObservableField<String>()
-
-    val startCommentListActivity = SingleLiveEvent<Pair<Long, String>>()
 
     init {
         comment.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
@@ -46,27 +37,7 @@ class PlanDetailViewModel(
         planId.value = id
     }
 
-    fun onFavoriteChanged(isFavorite: Boolean, count: Int) {
-        val id = planId.value ?: return
-
-        GlobalScope.launch {
-            val isSuccess = if (isFavorite) {
-                favoriteRepository.postFavorite(id)
-            } else {
-                favoriteRepository.deleteFavorite(id)
-            }.await()
-
-            if (!isSuccess) {
-                planId.postValue(id)
-            }
-        }
-    }
-
-    fun onReportPostClick() {
-
-    }
-
-    fun onCommentSubmitClick() {
+    fun onSubmitClick() {
         val id = planId.value
         val text = comment.get()?.trimEnd() ?: ""
 
@@ -88,10 +59,5 @@ class PlanDetailViewModel(
 
             isSubmitting.set(false)
         }
-    }
-
-    fun onCommentListClick() {
-        val plan = plan.value ?: return
-        startCommentListActivity.value = plan.id to plan.name
     }
 }

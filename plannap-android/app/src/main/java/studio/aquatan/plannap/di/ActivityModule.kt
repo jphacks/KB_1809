@@ -2,6 +2,7 @@ package studio.aquatan.plannap.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import studio.aquatan.plannap.ui.comment.list.CommentListActivity
 import studio.aquatan.plannap.ui.login.LoginActivity
 import studio.aquatan.plannap.ui.main.MainActivity
 import studio.aquatan.plannap.ui.plan.detail.PlanDetailActivity
@@ -24,4 +25,7 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun contributeLoginActivity(): LoginActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeCommentListActivity(): CommentListActivity
 }
