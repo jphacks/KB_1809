@@ -65,15 +65,13 @@ class PlanRepository(session: Session): BaseRepository(session) {
         return result
     }
 
-    fun registerPlan(name: String, note: String, duration: Int?, price: Int?, editableSpotList: List<EditableSpot>) =
+    fun postPlan(name: String, note: String, duration: Int, price: Int, editableSpotList: List<EditableSpot>) =
         GlobalScope.async {
             val spotList = editableSpotList.map { spot ->
-                if (spot.picture == null || spot.lat == null || spot.lon == null) {
-                    return@async false
-                }
+                val image = spot.image ?: return@async false
 
                 val stream = ByteArrayOutputStream()
-                spot.picture.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                image.compress(Bitmap.CompressFormat.PNG, 85, stream)
                 val bytes = stream.toByteArray()
 
                 return@map PostSpot(
@@ -81,11 +79,11 @@ class PlanRepository(session: Session): BaseRepository(session) {
                     spot.note,
                     Base64.encodeToString(bytes, Base64.DEFAULT),
                     spot.lat,
-                    spot.lon)
+                    spot.long)
             }
 
             try {
-                val postPlan = PostPlan(name, price ?: 0, duration ?: 0, note, spotList)
+                val postPlan = PostPlan(name, price, duration, note, spotList)
 
                 val response = service.postPlan(postPlan).execute()
                 Log.d(javaClass.simpleName, "response code: ${response.code()}")

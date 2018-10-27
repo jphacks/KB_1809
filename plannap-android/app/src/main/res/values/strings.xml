@@ -52,10 +52,11 @@
     <string name="hint_location">場所</string>
     <string name="hint_start">出発地点</string>
     <string name="hint_goal">到着地点</string>
-    <string name="hint_time">所要時間(分)</string>
-    <string name="hint_money">費用(円)</string>
+    <string name="hint_duration">所要時間（分）</string>
+    <string name="hint_cost">コスト（円）</string>
     <string name="hint_title">タイトル</string>
-    <string name="hint_note">全体のレビュー</string>
+    <string name="hint_plan_note">まとめ</string>
+    <string name="hint_spot_name">名前</string>
     <string name="hint_comment">コメント</string>
     <string name="hint_username">ユーザー名</string>
     <string name="hint_password">パスワード</string>

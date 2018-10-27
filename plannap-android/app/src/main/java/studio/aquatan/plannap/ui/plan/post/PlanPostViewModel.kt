@@ -3,12 +3,12 @@ package studio.aquatan.plannap.ui.plan.post
 import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.ExifInterface
 import android.net.Uri
 import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
@@ -16,6 +16,7 @@ import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.ui.SingleLiveEvent
+import studio.aquatan.plannap.util.calcScaleWidthHeight
 import java.io.IOException
 
 
@@ -23,6 +24,11 @@ class PlanPostViewModel(
     private val context: Application,
     private val planRepository: PlanRepository
 ) : AndroidViewModel(context) {
+
+    companion object {
+        private const val MAX_IMAGE_WIDTH = 1920.0
+        private const val MAX_IMAGE_HEIGHT = 1920.0
+    }
 
     val name = ObservableField<String>()
     val note = ObservableField<String>()
@@ -34,7 +40,8 @@ class PlanPostViewModel(
     val isEnabledErrorName = SingleLiveEvent<Boolean>()
     val isEnabledErrorNote = SingleLiveEvent<Boolean>()
 
-    val spotList = MutableLiveData<MutableList<EditableSpot>>()
+    private val _spotList = mutableListOf(EditableSpot(0), EditableSpot(1))
+    val spotList = MutableLiveData<List<EditableSpot>>()
 
     val openFileChooser = SingleLiveEvent<Unit>()
     val finishActivity = SingleLiveEvent<Unit>()
@@ -44,16 +51,16 @@ class PlanPostViewModel(
     private var selectedSpotId: Int? = null
 
     init {
-        spotList.value = mutableListOf(EditableSpot(0))
+        spotList.value = _spotList
 
         name.setErrorCancelCallback(isEnabledErrorName)
         note.setErrorCancelCallback(isEnabledErrorNote)
     }
 
     fun onAddSpotClick() {
-        val list = spotList.value ?: return
-        list.add(EditableSpot(list.size))
-        spotList.value = list
+        val nextId = _spotList.size
+        _spotList.add(EditableSpot(nextId))
+        spotList.value = _spotList
     }
 
     fun onAddPictureClick(id: Int) {
@@ -65,17 +72,16 @@ class PlanPostViewModel(
         val index = selectedSpotId ?: return
         selectedSpotId = null
 
-        val bitmap = getBitmapFromUri(uri)
-        val latLong = getLatLongFromUri(uri)
+        val bitmap = uri.toBitmap()
+        val latLong = uri.toLatLong()
 
         if (bitmap == null || latLong == null || latLong.size < 2) {
             errorSelectedImage.value = Unit
             return
         }
 
-        val list = spotList.value ?: return
-        list[index] = list[index].copy(picture = bitmap, lat = latLong[0], lon = latLong[1])
-        spotList.value = list
+        _spotList[index] = _spotList[index].copy(image = bitmap, lat = latLong[0], long = latLong[1])
+        spotList.value = _spotList
     }
 
     fun onPostClick() {
@@ -85,9 +91,9 @@ class PlanPostViewModel(
 
         val name = name.get() ?: ""
         val note = note.get() ?: ""
-        val duration = duration.get()?.toIntOrNull()
-        val price = price.get()?.toIntOrNull()
-        val spotList = spotList.value ?: emptyList<EditableSpot>()
+        val duration = duration.get()?.toIntOrNull() ?: 0
+        val price = price.get()?.toIntOrNull() ?: 0
+        val spotList = _spotList
 
         var result = ValidationResult()
 
@@ -100,7 +106,7 @@ class PlanPostViewModel(
         if (spotList.size < 2) {
             result = result.copy(isShortSpot = true)
         }
-        if (spotList.any { it.name.isBlank() || it.note.isBlank() || it.picture == null || it.lat == null || it.lon == null }) {
+        if (spotList.any { it.name.isBlank() || it.note.isBlank() || it.image == null }) {
             result = result.copy(isInvalidSpot = true)
         }
 
@@ -112,7 +118,7 @@ class PlanPostViewModel(
         GlobalScope.launch {
             isPosting.set(true)
 
-            val isSuccess = planRepository.registerPlan(name, note, duration, price, spotList).await()
+            val isSuccess = planRepository.postPlan(name, note, duration, price, spotList).await()
 
             if (isSuccess) {
                 finishActivity.postValue(Unit)
@@ -122,14 +128,16 @@ class PlanPostViewModel(
         }
     }
 
-    private fun getBitmapFromUri(uri: Uri): Bitmap? {
+    private fun Uri.toBitmap(): Bitmap? {
         try {
-            val parcelFileDescriptor = context.contentResolver.openFileDescriptor(uri, "r") ?: return null
-            val fileDescriptor = parcelFileDescriptor.fileDescriptor
-            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-            parcelFileDescriptor.close()
+            val parcelFile = context.contentResolver.openFileDescriptor(this, "r") ?: return null
 
-            return image
+            val image = BitmapFactory.decodeFileDescriptor(parcelFile.fileDescriptor)
+            parcelFile.close()
+
+            val (width, height) = image.calcScaleWidthHeight(MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT)
+
+            return Bitmap.createScaledBitmap(image, width, height, true)
         } catch (e: IOException) {
             Log.e(javaClass.simpleName, "Failed to get Bitmap", e)
         }
@@ -137,20 +145,21 @@ class PlanPostViewModel(
         return null
     }
 
-    private fun getLatLongFromUri(uri: Uri): FloatArray? {
+    private fun Uri.toLatLong(): DoubleArray? {
+        val stream = context.contentResolver.openInputStream(this) ?: return null
         try {
-            val exifInterface = ExifInterface(context.contentResolver.openInputStream(uri))
-            val latLng = FloatArray(2)
-
-            if (exifInterface.getLatLong(latLng)) {
-                return latLng
-            }
+            val exifInterface = ExifInterface(stream)
+            return exifInterface.latLong
         } catch (e: IOException) {
             Log.e(javaClass.simpleName, "Failed to get LatLong", e)
+        } finally {
+            stream.close()
         }
 
         return null
     }
+
+
 
     private fun ObservableField<String>.setErrorCancelCallback(error: SingleLiveEvent<Boolean>) {
         addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {

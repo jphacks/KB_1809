@@ -7,9 +7,9 @@ data class EditableSpot (
     val id: Int,
     var name: String = "",
     var note: String = "",
-    val picture: Bitmap? = null,
-    val lat: Float? = null,
-    val lon: Float? = null
+    val image: Bitmap? = null,
+    val lat: Double = 0.0,
+    val long: Double = 0.0
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<EditableSpot>() {
