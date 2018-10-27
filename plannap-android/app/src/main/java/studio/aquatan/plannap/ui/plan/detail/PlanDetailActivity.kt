@@ -44,18 +44,20 @@ class PlanDetailActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         val spotAdapter = SpotAdapter(layoutInflater)
+        val reportAdapter = ReportAdapter(layoutInflater)
         val commentAdapter = CommentAdapter(layoutInflater)
 
         binding.spotRecyclerView.apply {
             adapter = spotAdapter
             isNestedScrollingEnabled = false
         }
+        binding.reportRecyclerView.adapter = reportAdapter
         binding.commentRecyclerView.apply {
             adapter = commentAdapter
             isNestedScrollingEnabled = false
         }
 
-        viewModel.subscribe(spotAdapter, commentAdapter)
+        viewModel.subscribe(spotAdapter, reportAdapter, commentAdapter)
         viewModel.onActivityCreated(intent.getLongExtra(EXTRA_ID, -1))
     }
 
@@ -64,7 +66,7 @@ class PlanDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun PlanDetailViewModel.subscribe(spotAdapter: SpotAdapter, commentAdapter: CommentAdapter) {
+    private fun PlanDetailViewModel.subscribe(spotAdapter: SpotAdapter, reportAdapter: ReportAdapter, commentAdapter: CommentAdapter) {
         val activity = this@PlanDetailActivity
 
         plan.observe(activity, Observer {
@@ -74,6 +76,7 @@ class PlanDetailActivity : AppCompatActivity() {
 //            binding.commentsButton.text = it.commentCount.toString()
 
             spotAdapter.submitList(it.spotList)
+            reportAdapter.submitList(it.reportList)
             commentAdapter.submitList(it.commentList)
         })
     }

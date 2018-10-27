@@ -41,6 +41,10 @@ class PlanDetailViewModel(
         planId.value = id
     }
 
+    fun onReportPostClick() {
+
+    }
+
     fun onCommentSubmitClick() {
         val planId = planId.value
         val text = comment.get() ?: ""

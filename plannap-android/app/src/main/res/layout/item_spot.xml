@@ -58,7 +58,7 @@
                 fresco:actualImageScaleType="centerCrop"
                 fresco:layout_constraintEnd_toEndOf="parent"
                 tools:scaleType="centerCrop"
-                tools:actualImageResource="@tools:sample/backgrounds/scenic"
+                tools:actualImageResource="@tools:sample/backgrounds/scenic[9]"
                 app:layout_constraintStart_toEndOf="@+id/circle"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="8dp"
