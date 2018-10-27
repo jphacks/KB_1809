@@ -34,7 +34,7 @@ class PlanDetailViewModel(
     init {
         comment.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                isEnabledSubmit.set(!comment.get().isNullOrBlank())
+                isEnabledSubmit.set(!comment.get()?.trimEnd().isNullOrBlank())
             }
         })
     }
@@ -65,7 +65,7 @@ class PlanDetailViewModel(
 
     fun onCommentSubmitClick() {
         val id = planId.value
-        val text = comment.get() ?: ""
+        val text = comment.get()?.trimEnd() ?: ""
 
         if (id == null || text.isBlank()) {
             return
