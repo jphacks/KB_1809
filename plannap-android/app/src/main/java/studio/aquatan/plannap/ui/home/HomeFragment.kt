@@ -12,6 +12,7 @@ import dagger.android.support.AndroidSupportInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.FragmentHomeBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import studio.aquatan.plannap.ui.comment.list.CommentListActivity
 import studio.aquatan.plannap.ui.main.MainFragmentType
 import studio.aquatan.plannap.ui.main.MainViewModel
 import studio.aquatan.plannap.ui.plan.PlanAdapter
@@ -50,7 +51,7 @@ class HomeFragment : Fragment() {
         viewModel = provider.get(HomeViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick)
+        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick, viewModel::onCommentClick)
         binding.recyclerView.apply {
             setAdapter(adapter)
             setHasFixedSize(true)
@@ -79,6 +80,9 @@ class HomeFragment : Fragment() {
         })
         startPlanDetailActivity.observe(fragment, Observer { id ->
             startActivity(PlanDetailActivity.createIntent(requireContext(), id))
+        })
+        startCommentListActivity.observe(fragment, Observer { (id, name) ->
+            startActivity(CommentListActivity.createIntent(requireContext(), id, name))
         })
     }
 }

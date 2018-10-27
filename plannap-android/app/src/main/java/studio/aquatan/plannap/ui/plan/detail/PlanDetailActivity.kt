@@ -12,6 +12,7 @@ import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanDetailBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
+import studio.aquatan.plannap.ui.comment.CommentAdapter
 import javax.inject.Inject
 
 class PlanDetailActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package studio.aquatan.plannap.ui.plan.detail
+package studio.aquatan.plannap.ui.comment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
