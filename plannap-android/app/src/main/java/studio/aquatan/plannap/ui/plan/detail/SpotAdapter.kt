@@ -39,15 +39,9 @@ class SpotAdapter(
             DataBindingUtil.inflate(layoutInflater, R.layout.item_spot, parent, false)
 
         return when (viewType) {
-            START_TYPE -> StartViewHolder(
-                binding
-            )
-            NORMAL_TYPE -> NormalViewHolder(
-                binding
-            )
-            GOAL_TYPE -> GoalViewHolder(
-                binding
-            )
+            START_TYPE -> StartViewHolder(binding)
+            NORMAL_TYPE -> NormalViewHolder(binding)
+            GOAL_TYPE -> GoalViewHolder(binding)
             else -> throw IllegalArgumentException("Invalid viewType: $viewType")
         }
     }
@@ -62,7 +56,6 @@ class SpotAdapter(
         override fun bind(spot: Spot) {
             super.bind(spot)
 
-//            binding.detailPin.setImageResource(R.mipmap.pin_start)
             binding.topLine.visibility = View.INVISIBLE
             binding.bottomLine.visibility = View.VISIBLE
         }
@@ -74,7 +67,6 @@ class SpotAdapter(
         override fun bind(spot: Spot) {
             super.bind(spot)
 
-//            binding.detailPin.setImageResource(R.mipmap.pin_spot)
             binding.topLine.visibility = View.VISIBLE
             binding.bottomLine.visibility = View.VISIBLE
         }
@@ -86,7 +78,6 @@ class SpotAdapter(
         override fun bind(spot: Spot) {
             super.bind(spot)
 
-//            binding.detailPin.setImageResource(R.mipmap.pin_goal)
             binding.topLine.visibility = View.VISIBLE
             binding.bottomLine.visibility = View.INVISIBLE
         }
