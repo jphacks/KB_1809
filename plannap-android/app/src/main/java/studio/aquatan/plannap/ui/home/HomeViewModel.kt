@@ -26,6 +26,10 @@ class HomeViewModel(
         refreshRequest.value = Unit
     }
 
+    fun onActivityResumed() {
+        refreshRequest.value = Unit
+    }
+
     fun onPlanClick(id: Long) {
         startPlanDetailActivity.value = id
     }

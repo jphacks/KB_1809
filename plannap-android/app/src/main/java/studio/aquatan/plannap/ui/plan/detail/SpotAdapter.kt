@@ -1,4 +1,4 @@
-package studio.aquatan.plannap.ui.plan
+package studio.aquatan.plannap.ui.plan.detail
 
 import android.view.LayoutInflater
 import android.view.View
@@ -56,9 +56,8 @@ class SpotAdapter(
         override fun bind(spot: Spot) {
             super.bind(spot)
 
-            binding.detailPin.setImageResource(R.mipmap.pin_start)
-            binding.arrowTop.visibility = View.INVISIBLE
-            binding.arrowBottom.visibility = View.VISIBLE
+            binding.topLine.visibility = View.INVISIBLE
+            binding.bottomLine.visibility = View.VISIBLE
         }
     }
 
@@ -68,9 +67,8 @@ class SpotAdapter(
         override fun bind(spot: Spot) {
             super.bind(spot)
 
-            binding.detailPin.setImageResource(R.mipmap.pin_spot)
-            binding.arrowTop.visibility = View.VISIBLE
-            binding.arrowBottom.visibility = View.VISIBLE
+            binding.topLine.visibility = View.VISIBLE
+            binding.bottomLine.visibility = View.VISIBLE
         }
     }
 
@@ -80,9 +78,8 @@ class SpotAdapter(
         override fun bind(spot: Spot) {
             super.bind(spot)
 
-            binding.detailPin.setImageResource(R.mipmap.pin_goal)
-            binding.arrowTop.visibility = View.VISIBLE
-            binding.arrowBottom.visibility = View.INVISIBLE
+            binding.topLine.visibility = View.VISIBLE
+            binding.bottomLine.visibility = View.INVISIBLE
         }
     }
 

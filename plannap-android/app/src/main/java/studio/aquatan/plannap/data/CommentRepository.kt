@@ -4,20 +4,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import studio.aquatan.plannap.Session
 import studio.aquatan.plannap.data.api.CommentService
 import studio.aquatan.plannap.data.model.Comment
 
-class CommentRepository {
+class CommentRepository(session: Session): BaseRepository(session) {
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://plannap.aquatan.studio")
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
-
-    private val service = retrofit.create(CommentService::class.java)
+    private val service = buildRetrofit().create(CommentService::class.java)
 
     fun getCommentList(planId: Long): LiveData<List<Comment>> {
         val result = MutableLiveData<List<Comment>>()
@@ -33,6 +31,12 @@ class CommentRepository {
 
         return result
     }
+
+    fun postComment(planId: Long, text: String) =
+            GlobalScope.async {
+                delay(1000)
+                return@async false
+            }
 
     fun registerSpot(targetComment: Comment) {
         GlobalScope.launch {

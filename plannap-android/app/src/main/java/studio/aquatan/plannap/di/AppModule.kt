@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import studio.aquatan.plannap.Plannap
 import studio.aquatan.plannap.data.AuthRepository
+import studio.aquatan.plannap.data.CommentRepository
 import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.ui.ViewModelFactory
@@ -16,6 +17,7 @@ class AppModule(
 ) {
     private val planRepository = PlanRepository(app.session)
     private val favoriteRepository = FavoriteRepository(app.session)
+    private val commentRepository = CommentRepository(app.session)
     private val authRepository = AuthRepository(app.session)
 
     @Provides
@@ -24,5 +26,5 @@ class AppModule(
 
     @Provides
     @Singleton
-    fun provideViewModelFactory() = ViewModelFactory(app, planRepository, favoriteRepository, authRepository)
+    fun provideViewModelFactory() = ViewModelFactory(app, planRepository, favoriteRepository, commentRepository, authRepository)
 }

@@ -19,6 +19,12 @@
     <string name="title_start_spot">出発</string>
     <string name="title_goal_spot">到着</string>
     <string name="title_duration">所要時間</string>
+    <string name="title_cost">コスト</string>
+    <string name="title_date">投稿日時</string>
+    <string name="title_spots">スポット一覧</string>
+    <string name="title_reports">レポート</string>
+    <string name="title_comment">コメント</string>
+    <string name="title_post_report">レポートを送る</string>
 
     <!-- Menu -->
     <string name="menu_plans">プラン一覧</string>

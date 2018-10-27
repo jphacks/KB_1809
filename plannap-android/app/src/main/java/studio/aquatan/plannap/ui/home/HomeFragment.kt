@@ -64,6 +64,11 @@ class HomeFragment : Fragment() {
             .onAttachFragment(MainFragmentType.HOME)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onActivityResumed()
+    }
+
     private fun HomeViewModel.subscribe(adapter: PlanAdapter) {
         val fragment = this@HomeFragment
 

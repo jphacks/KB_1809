@@ -12,7 +12,6 @@ import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanDetailBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
-import studio.aquatan.plannap.ui.plan.SpotAdapter
 import javax.inject.Inject
 
 class PlanDetailActivity : AppCompatActivity() {
@@ -45,18 +44,22 @@ class PlanDetailActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         val spotAdapter = SpotAdapter(layoutInflater)
+        val reportAdapter = ReportAdapter(layoutInflater)
         val commentAdapter = CommentAdapter(layoutInflater)
 
         binding.spotRecyclerView.apply {
             adapter = spotAdapter
             isNestedScrollingEnabled = false
         }
+        binding.reportRecyclerView.adapter = reportAdapter
         binding.commentRecyclerView.apply {
             adapter = commentAdapter
             isNestedScrollingEnabled = false
         }
 
-        viewModel.subscribe(spotAdapter, commentAdapter)
+        binding.favoriteButton.setOnFavoriteChangedListener(viewModel::onFavoriteChanged)
+
+        viewModel.subscribe(spotAdapter, reportAdapter, commentAdapter)
         viewModel.onActivityCreated(intent.getLongExtra(EXTRA_ID, -1))
     }
 
@@ -65,16 +68,14 @@ class PlanDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun PlanDetailViewModel.subscribe(spotAdapter: SpotAdapter, commentAdapter: CommentAdapter) {
+    private fun PlanDetailViewModel.subscribe(spotAdapter: SpotAdapter, reportAdapter: ReportAdapter, commentAdapter: CommentAdapter) {
         val activity = this@PlanDetailActivity
 
         plan.observe(activity, Observer {
             title = it.name
 
-            binding.favoriteButton.text = it.favoriteCount.toString()
-            binding.commentsButton.text = it.commentCount.toString()
-
             spotAdapter.submitList(it.spotList)
+            reportAdapter.submitList(it.reportList)
             commentAdapter.submitList(it.commentList)
         })
     }
