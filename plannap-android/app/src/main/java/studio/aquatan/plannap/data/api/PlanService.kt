@@ -7,19 +7,19 @@ import studio.aquatan.plannap.data.model.PostPlan
 
 interface PlanService {
 
-    @GET("/plan/plans/")
+    @GET("/api/v1/plans/")
     fun getPlans(): Call<List<Plan>>
 
-    @GET("/plan/plans/{id}/")
+    @GET("/api/v1/plans/{id}/")
     fun getPlan(@Path("id") planId: Long): Call<Plan>
 
-    @GET("/plan/plans/")
+    @GET("/api/v1/plans/")
     fun getPlan(@Query("location") location: String): Call<List<Plan>>
 
     @Headers(
         "Accept: application/json",
         "Content-Type: application/json"
     )
-    @POST("/plan/plans/")
+    @POST("/api/v1/plans/")
     fun postPlan(@Body body: PostPlan): Call<Plan>
 }
