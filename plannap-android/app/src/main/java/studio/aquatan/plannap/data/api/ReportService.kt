@@ -5,10 +5,10 @@ import retrofit2.http.*
 import studio.aquatan.plannap.data.model.Report
 
 interface ReportService {
-    @GET("/api/v1/reports/")
-    fun getReports(@Query("planId") planId: Int): Call<List<Report>>
+    @GET("/api/v1/plans/{id}/reports/")
+    fun getReports(@Query("id") planId: Int): Call<List<Report>>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
-    @POST("/plan/report")
+    @POST("/api/v1/plans/{id}/reports/")
     fun postReport(@Body report: Report): Call<Report>
 }

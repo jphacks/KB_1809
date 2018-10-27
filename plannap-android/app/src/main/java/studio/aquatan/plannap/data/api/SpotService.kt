@@ -5,10 +5,10 @@ import retrofit2.http.*
 import studio.aquatan.plannap.data.model.Spot
 
 interface SpotService {
-    @GET("/plan/spots/")
+    @GET("/api/v1/spots/")
     fun getSpots(@Query("planId") planId: Int): Call<List<Spot>>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
-    @POST("/plan/spot")
+    @POST("/api/v1/spots/")
     fun postSpot(@Body spot: Spot): Call<Spot>
 }
