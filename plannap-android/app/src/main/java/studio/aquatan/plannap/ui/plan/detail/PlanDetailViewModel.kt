@@ -64,10 +64,10 @@ class PlanDetailViewModel(
     }
 
     fun onCommentSubmitClick() {
-        val planId = planId.value
+        val id = planId.value
         val text = comment.get() ?: ""
 
-        if (planId == null || text.isBlank()) {
+        if (id == null || text.isBlank()) {
             return
         }
 
@@ -75,11 +75,12 @@ class PlanDetailViewModel(
             isSubmitting.set(true)
             errorComment.set(null)
 
-            val isSuccess = commentRepository.postComment(planId, text).await()
+            val (isSuccess, errorMessage) = commentRepository.postComment(id, text).await()
             if (isSuccess) {
+                planId.postValue(id)
                 comment.set("")
             } else {
-                errorComment.set("TODO")
+                errorComment.set(errorMessage)
             }
 
             isSubmitting.set(false)
