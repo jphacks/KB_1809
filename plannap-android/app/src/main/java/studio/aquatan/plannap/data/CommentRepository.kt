@@ -20,10 +20,10 @@ class CommentRepository(session: Session): BaseRepository(session) {
 
         GlobalScope.launch {
             try {
-                val response = service.getComments(planId).execute()
+                val response = service.getCommentsByPlanId(planId).execute()
                 result.postValue(response.body() ?: emptyList())
             } catch (e: Exception) {
-                Log.e(javaClass.simpleName, "Failed to fetch getComments", e)
+                Log.e(javaClass.simpleName, "Failed to fetch Comments", e)
             }
         }
 
