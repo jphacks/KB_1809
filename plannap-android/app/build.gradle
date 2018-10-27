@@ -15,8 +15,11 @@ android {
     }
     buildTypes {
         release {
+            shrinkResources true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
         }
     }
     dataBinding {
@@ -52,7 +55,7 @@ dependencies {
     // Moshi
     def moshi_version = '1.7.0'
     implementation "com.squareup.moshi:moshi:$moshi_version"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
     // Fresco
     implementation 'com.facebook.fresco:fresco:1.11.0'

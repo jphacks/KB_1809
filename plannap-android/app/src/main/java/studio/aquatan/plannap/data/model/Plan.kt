@@ -2,7 +2,9 @@ package studio.aquatan.plannap.data.model
 
 import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Plan(
     @Json(name = "pk") val id: Long,
     @Json(name = "name") val name: String,

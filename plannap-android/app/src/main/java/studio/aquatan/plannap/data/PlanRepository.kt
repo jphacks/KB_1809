@@ -26,7 +26,7 @@ class PlanRepository(session: Session): BaseRepository(session) {
         GlobalScope.launch {
             try {
                 val response = service.getPlans().execute()
-                result.postValue(response.body())
+                result.postValue(response.body() ?: emptyList())
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to fetch plans", e)
             }

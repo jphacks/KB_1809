@@ -6,7 +6,7 @@ import kotlinx.coroutines.experimental.async
 import studio.aquatan.plannap.Session
 import studio.aquatan.plannap.data.api.AuthService
 import studio.aquatan.plannap.data.model.Authorization
-import studio.aquatan.plannap.data.model.LoginUser
+import studio.aquatan.plannap.data.model.PostUser
 
 class AuthRepository(
     private val session: Session
@@ -21,7 +21,7 @@ class AuthRepository(
     fun login(username: String, password: String) =
         GlobalScope.async {
             try {
-                val user = LoginUser(username, password)
+                val user = PostUser(username, password)
 
                 val response = service.login(user).execute()
                 val auth = response.body()
