@@ -226,11 +226,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_reports"
-                    app:layout_constraintTop_toBottomOf="@+id/spot_recycler_view"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="16dp"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:drawableStart="@drawable/ic_report_black_24dp"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/grey_400"
+                    app:layout_constraintTop_toBottomOf="@+id/spot_recycler_view"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/report_recycler_view"
@@ -263,13 +266,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_comment"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="16dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:drawableStart="@drawable/ic_mode_comment_white_24dp"
                     android:drawablePadding="8dp"
                     android:drawableTint="@color/grey_400"
                     android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/post_report_button"/>
 
             <androidx.recyclerview.widget.RecyclerView
