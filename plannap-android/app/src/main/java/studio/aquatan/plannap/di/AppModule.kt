@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class AppModule(
     private val app: Plannap
 ) {
-    private val planRepository = PlanRepository(app.session)
+    private val planRepository = PlanRepository(app, app.session)
     private val favoriteRepository = FavoriteRepository(app.session)
     private val commentRepository = CommentRepository(app.session)
     private val authRepository = AuthRepository(app.session)
@@ -23,6 +23,10 @@ class AppModule(
     @Provides
     @Singleton
     fun provideContext(): Context = app
+
+    @Provides
+    @Singleton
+    fun providePlanRepository() = planRepository
 
     @Provides
     @Singleton
