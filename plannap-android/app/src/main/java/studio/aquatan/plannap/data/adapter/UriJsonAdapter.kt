@@ -6,15 +6,10 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 
 
-
 class UriJsonAdapter {
     @ToJson
-    fun toJson(uri: Uri): String {
-        return uri.toString()
-    }
+    fun toJson(uri: Uri) = uri.toString()
 
     @FromJson
-    fun fromJson(uri: String): Uri {
-        return uri.toUri()
-    }
+    fun fromJson(uri: String) = uri.toUri()
 }
