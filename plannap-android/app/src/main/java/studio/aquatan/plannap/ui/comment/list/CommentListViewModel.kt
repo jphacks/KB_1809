@@ -3,12 +3,14 @@ package studio.aquatan.plannap.ui.comment.list
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.CommentRepository
+import studio.aquatan.plannap.data.model.Comment
 
 class CommentListViewModel(
     private val commentRepository: CommentRepository
@@ -16,7 +18,7 @@ class CommentListViewModel(
 
     private val planId = MutableLiveData<Long>()
 
-    val commentList = Transformations.switchMap(planId) { id ->
+    val commentList: LiveData<List<Comment>> = Transformations.switchMap(planId) { id ->
         commentRepository.getCommentList(id)
     }
 

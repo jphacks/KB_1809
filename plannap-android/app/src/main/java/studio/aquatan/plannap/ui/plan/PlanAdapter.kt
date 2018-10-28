@@ -47,8 +47,6 @@ class PlanAdapter(
                 startSpotName.text = plan.spotList.first().name
                 goalSpotName.text = plan.spotList.last().name
 
-                duration.text = plan.duration.toString() + "分"
-
                 favoriteButton.setOnFavoriteChangedListener { favorite, count ->
                     getItem(position).apply {
                         isFavorite = favorite

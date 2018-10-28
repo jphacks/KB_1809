@@ -19,10 +19,10 @@ class FavoriteRepository(session: Session) : BaseRepository(session) {
 
         GlobalScope.launch {
             try {
-                val response = service.getFavoriteByPlanid(planId).execute()
+                val response = service.getFavoriteByPlanId(planId).execute()
                 result.postValue(response.body())
             } catch (e: Exception) {
-                Log.e(javaClass.simpleName, "Failed to fetch getFavoriteByPlanid", e)
+                Log.e(javaClass.simpleName, "Failed to fetch getFavoriteByPlanId", e)
             }
         }
 
@@ -34,10 +34,10 @@ class FavoriteRepository(session: Session) : BaseRepository(session) {
 
         GlobalScope.launch {
             try {
-                val response = service.getFavoriteByPlanid(userId).execute()
+                val response = service.getFavoriteByPlanId(userId).execute()
                 result.postValue(response.body())
             } catch (e: Exception) {
-                Log.e(javaClass.simpleName, "Failed to fetch getFavoriteByUserid", e)
+                Log.e(javaClass.simpleName, "Failed to fetch getFavoriteByUserId", e)
             }
         }
 
