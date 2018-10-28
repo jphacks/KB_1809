@@ -4,12 +4,13 @@ import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
 
 data class Report(
-    @Json(name = "pk")val id: Long,
+    @Json(name = "pk") val id: Long,
     val user: User,
     @Json(name = "plan") val planId: Int,
     @Json(name = "image") val imageUrl: String,
     val text: String
 ) {
+
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
             override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {

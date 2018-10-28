@@ -16,16 +16,17 @@ class PlanRepository {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://plannap.aquatan.studio")
-        .addConverterFactory(MoshiConverterFactory.create(
-            //TODO 独自アダプタをここに記述?
-            Moshi.Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
-        ))
+        .addConverterFactory(
+            MoshiConverterFactory.create(
+                //TODO 独自アダプタをここに記述?
+                Moshi.Builder()
+                    .add(KotlinJsonAdapterFactory())
+                    .build()
+            )
+        )
         .build()
 
     private val service = retrofit.create(PlanService::class.java)
-
 
     fun getPlanList(): LiveData<List<Plan>> {
         val result = MutableLiveData<List<Plan>>()
@@ -63,7 +64,7 @@ class PlanRepository {
         GlobalScope.launch {
             try {
                 val response = service.getPlan(keyword).execute()
-                result.postValue(response.body() ?: emptyList() )
+                result.postValue(response.body() ?: emptyList())
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to fetch getPlan", e)
             }
@@ -72,7 +73,7 @@ class PlanRepository {
         return result
     }
 
-    fun registerPlan(targetPlan: Plan){
+    fun registerPlan(targetPlan: Plan) {
 
         GlobalScope.launch {
             try {

@@ -15,7 +15,7 @@ class PostSpotAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemSpotPostBinding =
-                DataBindingUtil.inflate(layoutInflater, R.layout.item_spot_post, parent, false)
+            DataBindingUtil.inflate(layoutInflater, R.layout.item_spot_post, parent, false)
 
         return ViewHolder(binding)
     }
@@ -27,6 +27,7 @@ class PostSpotAdapter(
     inner class ViewHolder(
         private val binding: ItemSpotPostBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(spot: PostSpot) {
             binding.data = spot
 

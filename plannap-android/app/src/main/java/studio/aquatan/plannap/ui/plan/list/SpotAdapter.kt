@@ -54,6 +54,7 @@ class SpotAdapter(
     class StartViewHolder(
         private val binding: ItemSpotBinding
     ) : ViewHolder(binding) {
+
         override fun bind(spot: Spot) {
             super.bind(spot)
 
@@ -66,6 +67,7 @@ class SpotAdapter(
     class NormalViewHolder(
         private val binding: ItemSpotBinding
     ) : ViewHolder(binding) {
+
         override fun bind(spot: Spot) {
             super.bind(spot)
 
@@ -78,6 +80,7 @@ class SpotAdapter(
     class GoalViewHolder(
         private val binding: ItemSpotBinding
     ) : ViewHolder(binding) {
+
         override fun bind(spot: Spot) {
             super.bind(spot)
 
@@ -90,6 +93,7 @@ class SpotAdapter(
     abstract class ViewHolder(
         private val binding: ItemSpotBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
         open fun bind(spot: Spot) {
             binding.data = spot
 

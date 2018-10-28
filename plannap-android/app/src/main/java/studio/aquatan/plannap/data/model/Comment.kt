@@ -9,6 +9,7 @@ data class Comment(
     @Json(name = "plan") val planId: Int,
     val text: String
 ) {
+
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Comment>() {
             override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
