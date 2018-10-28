@@ -1,6 +1,10 @@
 package studio.aquatan.plannap.ui.plan.post
 
+import android.content.ContentResolver
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,7 +18,8 @@ import studio.aquatan.plannap.util.calcScaleWidthHeight
 
 class EditableSpotAdapter(
     private val layoutInflater: LayoutInflater,
-    private val viewModel: PlanPostViewModel
+    private val contentResolver: ContentResolver,
+    private val onImageClick: (Int) -> Unit
 ) : ListAdapter<EditableSpot, EditableSpotAdapter.ViewHolder>(EditableSpot.DIFF_CALLBACK) {
 
     companion object {
@@ -32,20 +37,32 @@ class EditableSpotAdapter(
         holder.bind(getItem(position))
     }
 
+    private fun Uri.toThumbnail(): Bitmap? {
+        try {
+            val parcelFile = contentResolver.openFileDescriptor(this, "r") ?: return null
+
+            val image = BitmapFactory.decodeFileDescriptor(parcelFile.fileDescriptor)
+            parcelFile.close()
+
+            val (width, height) = image.calcScaleWidthHeight(THUMBNAIL_SIZE, THUMBNAIL_SIZE)
+
+            return Bitmap.createScaledBitmap(image, width, height, true)
+        } catch (e: Exception) {
+            Log.e(javaClass.simpleName, "Failed to create Thumbnail", e)
+        }
+
+        return null
+    }
+
     inner class ViewHolder(
         private val binding: ItemEditableSpotBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(spot: EditableSpot) {
             binding.data = spot
 
-            binding.image.setOnClickListener {
-                viewModel.onAddPictureClick(spot.id)
-            }
+            binding.image.setOnClickListener { onImageClick(spot.id) }
 
-            val image = spot.image ?: return
-            val (width, height) = image.calcScaleWidthHeight(THUMBNAIL_SIZE, THUMBNAIL_SIZE)
-
-            val thumbnail =  Bitmap.createScaledBitmap(image, width, height, true)
+            val thumbnail = spot.imageUri?.toThumbnail() ?: return
 
             binding.image.apply {
                 scaleType = ImageView.ScaleType.CENTER_CROP

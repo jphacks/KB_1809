@@ -19,6 +19,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+            <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="@android:style/Widget.Material.ProgressBar.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    app:isVisible="@{viewModel.isLoading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -155,7 +168,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recycler_view"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.constraintlayout.widget.Group
+                    android:id="@+id/layout_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:isVisible="@{!viewModel.isLoading}"
+                    app:constraint_referenced_ids="note_layout,spot_header,divider,recycler_view,fab,name_layout,duration_layout,cost_layout"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

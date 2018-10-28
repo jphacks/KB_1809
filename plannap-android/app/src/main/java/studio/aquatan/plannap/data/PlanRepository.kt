@@ -1,8 +1,6 @@
 package studio.aquatan.plannap.data
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,10 +9,9 @@ import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.Session
+import studio.aquatan.plannap.data.adapter.UriJsonAdapter
 import studio.aquatan.plannap.data.api.PlanService
 import studio.aquatan.plannap.data.model.*
-import studio.aquatan.plannap.util.mapParallel
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -24,16 +21,17 @@ class PlanRepository(context: Context, session: Session): BaseRepository(session
     companion object {
         private const val TAG = "PlanRepository"
 
-        const val OUTPUT_PATH = "post-plan-outputs"
+        const val OUTPUT_PATH = "editable-plan-outputs"
     }
 
     private val service = buildRetrofit().create(PlanService::class.java)
     private val filesDir = context.filesDir
-    private val postPlanJsonAdapter: PostPlanJsonAdapter by lazy {
+    private val editablePlanJsonAdapter: EditablePlanJsonAdapter by lazy {
         val moshi = Moshi.Builder()
+            .add(UriJsonAdapter())
             .build()
 
-        return@lazy PostPlanJsonAdapter(moshi)
+        return@lazy EditablePlanJsonAdapter(moshi)
     }
 
     fun getPlanList(): LiveData<List<Plan>> {
@@ -97,9 +95,7 @@ class PlanRepository(context: Context, session: Session): BaseRepository(session
 
     fun savePlanToFile(name: String, note: String, duration: Int, price: Int, editableSpotList: List<EditableSpot>) =
         GlobalScope.async {
-            val postSpotList = editableSpotList.asPostSpotList()
-            val postPlan = PostPlan(name, price, duration, note, postSpotList)
-            
+            val plan = EditablePlan(name, note, duration, price, editableSpotList)
             val uuid = UUID.randomUUID()
 
             val fileName = "$uuid.json"
@@ -112,31 +108,13 @@ class PlanRepository(context: Context, session: Session): BaseRepository(session
             var out: FileOutputStream? = null
             try {
                 out = FileOutputStream(outputFile)
-                out.write(postPlanJsonAdapter.toJson(postPlan).toByteArray())
+                out.write(editablePlanJsonAdapter.toJson(plan).toByteArray())
             } catch (e: Exception) {
-                Log.e(TAG, "Failed to output", e)
+                Log.e(TAG, "Failed to save", e)
             } finally {
                 out?.close()
             }
 
             return@async uuid
-        }
-
-    private fun List<EditableSpot>.asPostSpotList() =
-        mapParallel {
-            val image = it.image ?: throw NullPointerException("EditableSpot image is null")
-
-            val out = ByteArrayOutputStream()
-            image.compress(Bitmap.CompressFormat.JPEG, 80, out)
-            val bytes = out.toByteArray()
-            out.close()
-
-            return@mapParallel PostSpot(
-                it.name,
-                it.note,
-                Base64.encodeToString(bytes, Base64.DEFAULT),
-                it.lat,
-                it.long
-            )
         }
 }

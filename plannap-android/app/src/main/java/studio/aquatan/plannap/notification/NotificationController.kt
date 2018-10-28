@@ -32,7 +32,7 @@ class NotificationController(context: Context): ContextWrapper(context) {
 
     fun makePostPlanStatus(title: String, status: PostStatus) {
         val builder = NotificationCompat.Builder(this, POST_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_send_black_24dp)
             .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
             .setContentTitle(title)
             .setContentText(getString(status.resId))

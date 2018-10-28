@@ -1,6 +1,10 @@
 package studio.aquatan.plannap.worker
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.util.Base64
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -8,10 +12,18 @@ import com.squareup.moshi.Moshi
 import kotlinx.coroutines.experimental.runBlocking
 import studio.aquatan.plannap.Plannap
 import studio.aquatan.plannap.data.PlanRepository
-import studio.aquatan.plannap.data.model.PostPlanJsonAdapter
+import studio.aquatan.plannap.data.adapter.UriJsonAdapter
+import studio.aquatan.plannap.data.model.EditablePlan
+import studio.aquatan.plannap.data.model.EditablePlanJsonAdapter
+import studio.aquatan.plannap.data.model.PostPlan
+import studio.aquatan.plannap.data.model.PostSpot
 import studio.aquatan.plannap.notification.NotificationController
+import studio.aquatan.plannap.util.calcScaleWidthHeight
+import studio.aquatan.plannap.util.mapParallel
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
+import java.io.IOException
 import javax.inject.Inject
 
 class PostPlanWorker(
@@ -21,6 +33,7 @@ class PostPlanWorker(
 
     companion object {
         private const val TAG = "PostPlanWorker"
+        private const val MAX_IMAGE_SIZE = 1920.0
 
         const val KEY_TITLE = "TITLE"
         const val KEY_OUTPUT_UUID = "OUTPUT_UUID"
@@ -29,9 +42,12 @@ class PostPlanWorker(
     @Inject
     lateinit var planRepository: PlanRepository
 
-    private val postPlanJsonAdapter: PostPlanJsonAdapter by lazy {
-        val moshi = Moshi.Builder().build()
-        return@lazy PostPlanJsonAdapter(moshi)
+    private val editablePlanJsonAdapter: EditablePlanJsonAdapter by lazy {
+        val moshi = Moshi.Builder()
+            .add(UriJsonAdapter())
+            .build()
+
+        return@lazy EditablePlanJsonAdapter(moshi)
     }
 
     private val notification = NotificationController(context)
@@ -53,11 +69,11 @@ class PostPlanWorker(
             input = FileInputStream(file)
             input.read(bytes)
 
-            val postPlan = postPlanJsonAdapter.fromJson(String(bytes)) ?: throw IllegalArgumentException()
+            val editablePlan = editablePlanJsonAdapter.fromJson(String(bytes)) ?: throw IllegalArgumentException()
 
             notification.makePostPlanStatus(title, PostStatus.POSTING)
 
-            runBlocking { planRepository.postPlan(postPlan) }
+            runBlocking { planRepository.postPlan(editablePlan.asPostPlan()) }
         } catch (e: Exception) {
             notification.makePostPlanStatus(title, PostStatus.FAILED)
             Log.e(TAG, "Failed to work", e)
@@ -72,4 +88,45 @@ class PostPlanWorker(
         return Result.SUCCESS
     }
 
+    private fun EditablePlan.asPostPlan(): PostPlan {
+        val postSpotList = spotList.mapParallel {
+            val image = it.imageUri?.toBitmap() ?: throw NullPointerException("imageUri is null")
+
+            val out = ByteArrayOutputStream()
+            image.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            val bytes = out.toByteArray()
+            out.close()
+
+            return@mapParallel PostSpot(
+                it.name,
+                it.note,
+                Base64.encodeToString(bytes, Base64.DEFAULT),
+                it.lat,
+                it.long
+            )
+        }
+
+        return PostPlan(name, price, duration, note, postSpotList)
+    }
+
+    private fun Uri.toBitmap(): Bitmap? {
+        try {
+            val parcelFile = applicationContext.contentResolver.openFileDescriptor(this, "r") ?: return null
+
+            val option = BitmapFactory.Options().apply {
+                inPreferredConfig = Bitmap.Config.RGB_565
+            }
+
+            val image = BitmapFactory.decodeFileDescriptor(parcelFile.fileDescriptor, null, option)
+            parcelFile.close()
+
+            val (width, height) = image.calcScaleWidthHeight(MAX_IMAGE_SIZE, MAX_IMAGE_SIZE)
+
+            return Bitmap.createScaledBitmap(image, width, height, true)
+        } catch (e: IOException) {
+            Log.e(javaClass.simpleName, "Failed to get Bitmap", e)
+        }
+
+        return null
+    }
 }

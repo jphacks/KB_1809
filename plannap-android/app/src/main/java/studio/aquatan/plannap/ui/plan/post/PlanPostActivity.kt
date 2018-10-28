@@ -46,7 +46,7 @@ class PlanPostActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlanPostViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = EditableSpotAdapter(layoutInflater, viewModel)
+        val adapter = EditableSpotAdapter(layoutInflater, contentResolver, viewModel::onAddPictureClick)
         binding.recyclerView.apply {
             setAdapter(adapter)
             isNestedScrollingEnabled = false
@@ -82,7 +82,7 @@ class PlanPostActivity : AppCompatActivity() {
         val activity = this@PlanPostActivity
 
         spotList.observe(activity, Observer {
-            adapter.submitList(it.toList())
+            adapter.submitList(it)
         })
 
         openFileChooser.observe(activity, Observer {
@@ -94,10 +94,7 @@ class PlanPostActivity : AppCompatActivity() {
             startActivityForResult(intent, READ_REQUEST_CODE)
         })
 
-        finishActivity.observe(activity, Observer {
-            Toast.makeText(activity, R.string.text_post_success, Toast.LENGTH_LONG).show()
-            activity.finish()
-        })
+        finishActivity.observe(activity, Observer { activity.finish() })
 
         validation.observe(activity, Observer { result ->
             if (result.isEmptyName) {

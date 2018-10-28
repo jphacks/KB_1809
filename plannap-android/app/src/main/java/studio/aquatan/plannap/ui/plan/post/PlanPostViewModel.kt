@@ -1,8 +1,6 @@
 package studio.aquatan.plannap.ui.plan.post
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.databinding.Observable
@@ -17,7 +15,6 @@ import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.ui.SingleLiveEvent
-import studio.aquatan.plannap.util.calcScaleWidthHeight
 import studio.aquatan.plannap.worker.PostPlanWorker
 import java.io.IOException
 
@@ -30,8 +27,6 @@ class PlanPostViewModel(
     companion object {
         private const val MAX_IMAGE_WIDTH = 1920.0
         private const val MAX_IMAGE_HEIGHT = 1920.0
-
-        private const val OUTPUT_PATH = "post-plan-outputs"
     }
 
     val name = ObservableField<String>()
@@ -39,7 +34,7 @@ class PlanPostViewModel(
     val duration = ObservableField<String>()
     val price = ObservableField<String>()
 
-    val isPosting = ObservableBoolean()
+    val isLoading = ObservableBoolean()
 
     val isEnabledErrorName = SingleLiveEvent<Boolean>()
     val isEnabledErrorNote = SingleLiveEvent<Boolean>()
@@ -76,20 +71,20 @@ class PlanPostViewModel(
         val index = selectedSpotId ?: return
         selectedSpotId = null
 
-        val bitmap = uri.toBitmap()
+//        val bitmap = uri.toBitmap()
         val latLong = uri.toLatLong()
 
-        if (bitmap == null || latLong == null || latLong.size < 2) {
+        if (latLong == null || latLong.size < 2) {
             errorSelectedImage.value = Unit
             return
         }
 
-        _spotList[index] = _spotList[index].copy(image = bitmap, lat = latLong[0], long = latLong[1])
+        _spotList[index] = _spotList[index].copy(imageUri = uri, lat = latLong[0], long = latLong[1])
         spotList.value = _spotList
     }
 
     fun onPostClick() {
-        if (isPosting.get()) {
+        if (isLoading.get()) {
             return
         }
 
@@ -110,7 +105,7 @@ class PlanPostViewModel(
         if (spotList.size < 2) {
             result = result.copy(isShortSpot = true)
         }
-        if (spotList.any { it.name.isBlank() || it.note.isBlank() || it.image == null }) {
+        if (spotList.any { it.name.isBlank() || it.note.isBlank() || it.imageUri == null }) {
             result = result.copy(isInvalidSpot = true)
         }
 
@@ -120,6 +115,8 @@ class PlanPostViewModel(
         }
 
         GlobalScope.launch {
+            isLoading.set(true)
+
             val uuid = planRepository.savePlanToFile(name, note, duration, price, spotList).await()
 
             val data = Data.Builder().apply {
@@ -137,28 +134,9 @@ class PlanPostViewModel(
                 .build()
 
             WorkManager.getInstance().enqueue(postRequest)
+
+            finishActivity.postValue(Unit)
         }
-    }
-
-    private fun Uri.toBitmap(): Bitmap? {
-        try {
-            val parcelFile = context.contentResolver.openFileDescriptor(this, "r") ?: return null
-
-            val option = BitmapFactory.Options().apply {
-                inPreferredConfig = Bitmap.Config.RGB_565
-            }
-
-            val image = BitmapFactory.decodeFileDescriptor(parcelFile.fileDescriptor, null, option)
-            parcelFile.close()
-
-            val (width, height) = image.calcScaleWidthHeight(MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT)
-
-            return Bitmap.createScaledBitmap(image, width, height, true)
-        } catch (e: IOException) {
-            Log.e(javaClass.simpleName, "Failed to get Bitmap", e)
-        }
-
-        return null
     }
 
     private fun Uri.toLatLong(): DoubleArray? {
