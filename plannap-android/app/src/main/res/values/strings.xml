@@ -74,6 +74,12 @@
     <string name="error_not_support_img">サポートされていない画像形式です</string>
     <string name="error_login">ログインに失敗しました</string>
 
+    <!-- Status -->
+    <string name="status_loading">読み込み中&#8230;</string>
+    <string name="status_posting">送信しています&#8230;</string>
+    <string name="status_success">投稿が完了しました！</string>
+    <string name="status_failed">投稿に失敗しました.</string>
+
     <!-- 勝手に生成される系 -->
     <string name="large_text">
         "Material is the metaphor.\n\n"

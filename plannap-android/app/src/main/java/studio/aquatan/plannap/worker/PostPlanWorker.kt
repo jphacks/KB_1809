@@ -5,11 +5,11 @@ import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.squareup.moshi.Moshi
-import dagger.android.AndroidInjection
 import kotlinx.coroutines.experimental.runBlocking
 import studio.aquatan.plannap.Plannap
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.PostPlanJsonAdapter
+import studio.aquatan.plannap.notification.NotificationController
 import java.io.File
 import java.io.FileInputStream
 import javax.inject.Inject
@@ -22,6 +22,7 @@ class PostPlanWorker(
     companion object {
         private const val TAG = "PostPlanWorker"
 
+        const val KEY_TITLE = "TITLE"
         const val KEY_OUTPUT_UUID = "OUTPUT_UUID"
     }
 
@@ -29,14 +30,18 @@ class PostPlanWorker(
     lateinit var planRepository: PlanRepository
 
     private val postPlanJsonAdapter: PostPlanJsonAdapter by lazy {
-        val moshi = Moshi.Builder()
-            .build()
-
+        val moshi = Moshi.Builder().build()
         return@lazy PostPlanJsonAdapter(moshi)
     }
 
+    private val notification = NotificationController(context)
+
     override fun doWork(): Result {
         (applicationContext as Plannap).component.inject(this)
+
+        val title = inputData.getString(KEY_TITLE) ?: "unknown"
+
+        notification.makePostPlanStatus(title, PostStatus.LOADING)
 
         val uuid = inputData.getString(KEY_OUTPUT_UUID)
         val dir = File(applicationContext.filesDir, PlanRepository.OUTPUT_PATH)
@@ -50,18 +55,20 @@ class PostPlanWorker(
 
             val postPlan = postPlanJsonAdapter.fromJson(String(bytes)) ?: throw IllegalArgumentException()
 
-            runBlocking {
-                planRepository.postPlan(postPlan)
-            }
+            notification.makePostPlanStatus(title, PostStatus.POSTING)
 
+            runBlocking { planRepository.postPlan(postPlan) }
         } catch (e: Exception) {
-            Log.e(TAG, "exception", e)
+            notification.makePostPlanStatus(title, PostStatus.FAILED)
+            Log.e(TAG, "Failed to work", e)
             return Result.FAILURE
         } finally {
             input?.close()
         }
 
         file.delete()
+
+        notification.makePostPlanStatus(title, PostStatus.SUCCESS)
         return Result.SUCCESS
     }
 

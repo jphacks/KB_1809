@@ -11,17 +11,15 @@ import androidx.databinding.ObservableField
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.work.Data
+import androidx.work.*
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.ui.SingleLiveEvent
 import studio.aquatan.plannap.util.calcScaleWidthHeight
-import java.io.*
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import studio.aquatan.plannap.worker.PostPlanWorker
+import java.io.IOException
 
 
 class PlanPostViewModel(
@@ -125,11 +123,17 @@ class PlanPostViewModel(
             val uuid = planRepository.savePlanToFile(name, note, duration, price, spotList).await()
 
             val data = Data.Builder().apply {
+                putString(PostPlanWorker.KEY_TITLE, name)
                 putString(PostPlanWorker.KEY_OUTPUT_UUID, uuid.toString())
             }.build()
 
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+
             val postRequest = OneTimeWorkRequest.Builder(PostPlanWorker::class.java)
                 .setInputData(data)
+                .setConstraints(constraints)
                 .build()
 
             WorkManager.getInstance().enqueue(postRequest)
