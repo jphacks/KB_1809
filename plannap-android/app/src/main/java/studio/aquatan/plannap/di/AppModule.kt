@@ -15,6 +15,7 @@ import javax.inject.Singleton
 class AppModule(
     private val app: Plannap
 ) {
+
     private val planRepository = PlanRepository(app, app.session)
     private val favoriteRepository = FavoriteRepository(app.session)
     private val commentRepository = CommentRepository(app.session)
@@ -30,5 +31,8 @@ class AppModule(
 
     @Provides
     @Singleton
-    fun provideViewModelFactory() = ViewModelFactory(app, planRepository, favoriteRepository, commentRepository, authRepository)
+    fun provideViewModelFactory() = ViewModelFactory(
+        app, planRepository, favoriteRepository, commentRepository,
+        authRepository
+    )
 }

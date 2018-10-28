@@ -68,7 +68,9 @@ class LoginViewModel(
 
     private fun ObservableField<String>.setErrorCancelCallback(error: SingleLiveEvent<Boolean>) {
         addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) { error.value = false }
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                error.value = false
+            }
         })
     }
 }

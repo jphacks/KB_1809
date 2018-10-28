@@ -12,6 +12,7 @@ data class Location(
     @Json(name = "m_name") val municipalityName: String,
     @Json(name = "m_code") val municipalityCode: Int
 ) {
+
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
             override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {

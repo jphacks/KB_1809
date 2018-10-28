@@ -1,6 +1,5 @@
 package studio.aquatan.plannap.ui.plan.search
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

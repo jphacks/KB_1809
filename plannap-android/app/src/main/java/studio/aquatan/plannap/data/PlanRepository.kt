@@ -11,13 +11,17 @@ import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.Session
 import studio.aquatan.plannap.data.adapter.UriJsonAdapter
 import studio.aquatan.plannap.data.api.PlanService
-import studio.aquatan.plannap.data.model.*
+import studio.aquatan.plannap.data.model.EditablePlan
+import studio.aquatan.plannap.data.model.EditablePlanJsonAdapter
+import studio.aquatan.plannap.data.model.EditableSpot
+import studio.aquatan.plannap.data.model.Plan
+import studio.aquatan.plannap.data.model.PostPlan
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
+import java.util.UUID
 
-class PlanRepository(context: Context, session: Session): BaseRepository(session) {
-    
+class PlanRepository(context: Context, session: Session) : BaseRepository(session) {
+
     companion object {
         private const val TAG = "PlanRepository"
 

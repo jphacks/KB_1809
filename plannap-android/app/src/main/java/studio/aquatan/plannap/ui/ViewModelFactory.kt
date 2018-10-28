@@ -34,9 +34,15 @@ class ViewModelFactory(
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo, favoriteRepo)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
-                isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(planRepo, favoriteRepo, commentRepo)
+                isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(
+                    planRepo, favoriteRepo,
+                    commentRepo
+                )
                 isAssignableFrom(PlanSearchViewModel::class.java) -> PlanSearchViewModel()
-                isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(planRepo, favoriteRepo)
+                isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(
+                    planRepo,
+                    favoriteRepo
+                )
                 isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepo)
                 isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepo)
                 isAssignableFrom(CommentListViewModel::class.java) -> CommentListViewModel(commentRepo)

@@ -11,6 +11,7 @@ import studio.aquatan.plannap.ui.plan.searchresult.PlanSearchResultActivity
 
 @Module
 abstract class ActivityModule {
+
     @ContributesAndroidInjector
     abstract fun contributeMainActivity(): MainActivity
 

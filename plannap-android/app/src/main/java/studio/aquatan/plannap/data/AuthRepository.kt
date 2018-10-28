@@ -10,8 +10,8 @@ import studio.aquatan.plannap.data.model.PostUser
 
 class AuthRepository(
     private val session: Session
-): BaseRepository(session) {
-    
+) : BaseRepository(session) {
+
     companion object {
         private const val TAG = "AuthRepository"
     }

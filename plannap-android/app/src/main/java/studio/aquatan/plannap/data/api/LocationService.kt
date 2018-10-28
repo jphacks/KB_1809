@@ -9,5 +9,4 @@ interface LocationService {
 
     @GET("/api/v1/locations/{id}/")
     fun getLocation(@Path("id") locationId: Long): Call<Location>
-
 }

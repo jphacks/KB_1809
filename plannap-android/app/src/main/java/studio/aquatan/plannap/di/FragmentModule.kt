@@ -9,6 +9,7 @@ import studio.aquatan.plannap.ui.profile.ProfileFragment
 
 @Module
 abstract class FragmentModule {
+
     @ContributesAndroidInjector
     abstract fun contributeHomeFragment(): HomeFragment
 
@@ -20,5 +21,4 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeProfileFragment(): ProfileFragment
-
 }

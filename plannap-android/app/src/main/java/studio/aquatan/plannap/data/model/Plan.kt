@@ -21,6 +21,7 @@ data class Plan(
     @Json(name = "user") val user: User,
     @Json(name = "is_favorite") var isFavorite: Boolean
 ) {
+
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
             override fun areItemsTheSame(oldItem: Plan, newItem: Plan) = oldItem.id == newItem.id

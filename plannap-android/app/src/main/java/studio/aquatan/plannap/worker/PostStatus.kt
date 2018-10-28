@@ -6,6 +6,7 @@ import studio.aquatan.plannap.R
 enum class PostStatus(
     @StringRes val resId: Int
 ) {
+
     LOADING(R.string.status_loading),
     POSTING(R.string.status_posting),
     SUCCESS(R.string.status_success),

@@ -38,6 +38,6 @@ fun Bitmap.calcScaleWidthHeight(maxWidth: Double, maxHeight: Double): Pair<Int, 
     return finalWidth to finalHeight
 }
 
-fun <A, B>Iterable<A>.mapParallel(f: suspend (A) -> B): List<B> = runBlocking {
+fun <A, B> Iterable<A>.mapParallel(f: suspend (A) -> B): List<B> = runBlocking {
     map { GlobalScope.async { f(it) } }.map { it.await() }
 }

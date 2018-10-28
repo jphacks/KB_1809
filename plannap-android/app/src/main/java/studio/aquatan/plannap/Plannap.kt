@@ -49,7 +49,6 @@ class Plannap : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<Plannap> = component
 
-
     @Singleton
     @dagger.Component(
         modules = [
@@ -59,6 +58,7 @@ class Plannap : DaggerApplication() {
             (FragmentModule::class)]
     )
     interface Component : AndroidInjector<Plannap> {
+
         fun inject(planPostWorker: PostPlanWorker)
     }
 }

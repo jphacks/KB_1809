@@ -11,6 +11,7 @@ data class Comment(
     @Json(name = "plan_id") val planId: Int,
     @Json(name = "text") val text: String
 ) {
+
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Comment>() {
             override fun areItemsTheSame(oldItem: Comment, newItem: Comment) = oldItem.id == newItem.id

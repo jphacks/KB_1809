@@ -11,7 +11,7 @@ import studio.aquatan.plannap.data.api.CommentService
 import studio.aquatan.plannap.data.model.Comment
 import studio.aquatan.plannap.data.model.PostComment
 
-class CommentRepository(session: Session): BaseRepository(session) {
+class CommentRepository(session: Session) : BaseRepository(session) {
 
     private val service = buildRetrofit().create(CommentService::class.java)
 
@@ -31,14 +31,14 @@ class CommentRepository(session: Session): BaseRepository(session) {
     }
 
     fun postComment(planId: Long, text: String) =
-            GlobalScope.async {
-                try {
-                    val response = service.postComment(planId, PostComment(text)).execute()
-                    return@async Pair(response.code() == 201, response.message())
-                } catch (e: Exception) {
-                    Log.e(javaClass.simpleName, "Failed to post a Comment", e)
-                }
-
-                return@async Pair(false, "Unknown error")
+        GlobalScope.async {
+            try {
+                val response = service.postComment(planId, PostComment(text)).execute()
+                return@async Pair(response.code() == 201, response.message())
+            } catch (e: Exception) {
+                Log.e(javaClass.simpleName, "Failed to post a Comment", e)
             }
+
+            return@async Pair(false, "Unknown error")
+        }
 }

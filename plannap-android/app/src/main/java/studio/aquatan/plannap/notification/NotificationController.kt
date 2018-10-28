@@ -11,8 +11,7 @@ import androidx.core.content.ContextCompat
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.worker.PostStatus
 
-
-class NotificationController(context: Context): ContextWrapper(context) {
+class NotificationController(context: Context) : ContextWrapper(context) {
 
     companion object {
         private const val POST_CHANNEL_ID = "10"
@@ -22,7 +21,10 @@ class NotificationController(context: Context): ContextWrapper(context) {
     init {
         // Make a channel if necessary
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val postChannel = NotificationChannel(POST_CHANNEL_ID, POST_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
+            val postChannel = NotificationChannel(
+                POST_CHANNEL_ID, POST_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            )
             postChannel.description = "投稿状態を表示します"
 
             val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

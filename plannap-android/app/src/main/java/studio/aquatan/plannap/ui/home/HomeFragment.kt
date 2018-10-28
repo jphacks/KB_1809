@@ -51,7 +51,10 @@ class HomeFragment : Fragment() {
         viewModel = provider.get(HomeViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick, viewModel::onCommentClick)
+        val adapter = PlanAdapter(
+            layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick,
+            viewModel::onCommentClick
+        )
         binding.recyclerView.apply {
             setAdapter(adapter)
             setHasFixedSize(true)

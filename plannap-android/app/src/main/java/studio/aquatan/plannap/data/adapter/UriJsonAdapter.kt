@@ -5,7 +5,6 @@ import androidx.core.net.toUri
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 
-
 class UriJsonAdapter {
     @ToJson
     fun toJson(uri: Uri) = uri.toString()

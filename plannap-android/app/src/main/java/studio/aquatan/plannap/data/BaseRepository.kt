@@ -9,7 +9,6 @@ import studio.aquatan.plannap.Session
 import studio.aquatan.plannap.data.api.AuthService
 import studio.aquatan.plannap.data.model.PostUser
 
-
 abstract class BaseRepository(
     private val session: Session
 ) {
@@ -39,10 +38,10 @@ abstract class BaseRepository(
         return AuthorizationInterceptor(retrofit.create(AuthService::class.java))
     }
 
-
     private inner class AuthorizationInterceptor(
         private val authService: AuthService
-    ): Interceptor {
+    ) : Interceptor {
+
         override fun intercept(chain: Interceptor.Chain): Response {
             val request = chain.request()
             var response = chain.proceed(

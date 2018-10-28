@@ -63,7 +63,6 @@ class PlanDetailViewModel(
     }
 
     fun onReportPostClick() {
-
     }
 
     fun onCommentSubmitClick() {

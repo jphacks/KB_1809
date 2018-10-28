@@ -70,7 +70,10 @@ class PlanDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun PlanDetailViewModel.subscribe(spotAdapter: SpotAdapter, reportAdapter: ReportAdapter, commentAdapter: CommentAdapter) {
+    private fun PlanDetailViewModel.subscribe(
+        spotAdapter: SpotAdapter, reportAdapter: ReportAdapter,
+        commentAdapter: CommentAdapter
+    ) {
         val activity = this@PlanDetailActivity
 
         plan.observe(activity, Observer {

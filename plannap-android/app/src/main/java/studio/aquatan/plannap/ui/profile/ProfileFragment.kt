@@ -48,5 +48,4 @@ class ProfileFragment : Fragment() {
         provider.get(MainViewModel::class.java)
             .onAttachFragment(MainFragmentType.PROFILE)
     }
-
 }

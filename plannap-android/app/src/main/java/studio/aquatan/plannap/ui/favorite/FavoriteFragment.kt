@@ -48,5 +48,4 @@ class FavoriteFragment : Fragment() {
         provider.get(MainViewModel::class.java)
             .onAttachFragment(MainFragmentType.FAVORITE)
     }
-
 }

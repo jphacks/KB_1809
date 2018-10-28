@@ -22,10 +22,10 @@ class CommentListActivity : AppCompatActivity() {
         private const val EXTRA_NAME = "NAME"
 
         fun createIntent(context: Context, planId: Long, planName: String) =
-                Intent(context, CommentListActivity::class.java).apply {
-                    putExtra(EXTRA_ID, planId)
-                    putExtra(EXTRA_NAME, planName)
-                }
+            Intent(context, CommentListActivity::class.java).apply {
+                putExtra(EXTRA_ID, planId)
+                putExtra(EXTRA_NAME, planName)
+            }
     }
 
     @Inject

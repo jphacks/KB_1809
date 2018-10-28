@@ -10,7 +10,11 @@ import androidx.databinding.ObservableField
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.Data
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.PlanRepository
@@ -18,7 +22,6 @@ import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.ui.SingleLiveEvent
 import studio.aquatan.plannap.worker.PostPlanWorker
 import java.io.IOException
-
 
 class PlanPostViewModel(
     private val context: Application,
@@ -130,7 +133,10 @@ class PlanPostViewModel(
         }
     }
 
-    private fun validate(name: String, note: String, duration: Int, cost: Int, spotList: List<EditableSpot>): Boolean {
+    private fun validate(
+        name: String, note: String, duration: Int, cost: Int,
+        spotList: List<EditableSpot>
+    ): Boolean {
         var result = ValidationResult(
             isEmptyName = name.isBlank(),
             isEmptyNote = note.isBlank(),
@@ -171,7 +177,9 @@ class PlanPostViewModel(
 
     private fun ObservableField<String>.setErrorCancelCallback(error: SingleLiveEvent<Boolean>) {
         addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) { error.value = false }
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                error.value = false
+            }
         })
     }
 }

@@ -16,6 +16,7 @@ data class Spot(
     @Json(name = "image") val imageUrl: String,
     @Json(name = "created_at") val createdDate: String
 ) {
+
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Spot>() {
             override fun areItemsTheSame(oldItem: Spot, newItem: Spot) = oldItem.id == newItem.id

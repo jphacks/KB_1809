@@ -8,5 +8,6 @@ data class ValidationResult(
     val isShortSpot: Boolean = false,
     val isInvalidSpot: Boolean = false
 ) {
+
     val isError = isEmptyName || isEmptyNote || isShortDuration || isShortCost || isShortSpot || isInvalidSpot
 }

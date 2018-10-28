@@ -21,7 +21,7 @@ class CommentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemCommentBinding =
-                DataBindingUtil.inflate(layoutInflater, R.layout.item_comment, parent, false)
+            DataBindingUtil.inflate(layoutInflater, R.layout.item_comment, parent, false)
 
         return ViewHolder(binding)
     }
@@ -33,6 +33,7 @@ class CommentAdapter(
     inner class ViewHolder(
         private val binding: ItemCommentBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(comment: Comment) {
             binding.data = comment
         }

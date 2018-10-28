@@ -28,7 +28,7 @@ class EditableSpotAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemEditableSpotBinding =
-                DataBindingUtil.inflate(layoutInflater, R.layout.item_editable_spot, parent, false)
+            DataBindingUtil.inflate(layoutInflater, R.layout.item_editable_spot, parent, false)
 
         return ViewHolder(binding)
     }
@@ -57,6 +57,7 @@ class EditableSpotAdapter(
     inner class ViewHolder(
         private val binding: ItemEditableSpotBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(spot: EditableSpot) {
             binding.data = spot
 

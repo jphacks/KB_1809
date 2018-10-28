@@ -20,7 +20,6 @@ import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.util.hideSoftInput
 import javax.inject.Inject
 
-
 class PlanPostActivity : AppCompatActivity() {
 
     companion object {

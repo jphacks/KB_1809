@@ -24,6 +24,7 @@ class ReportAdapter(
     inner class ViewHolder(
         private val binding: ItemReportBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(report: Report) {
             binding.data = report
         }
