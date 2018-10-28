@@ -12,6 +12,7 @@ import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityLoginBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.main.MainActivity
+import studio.aquatan.plannap.util.hideSoftInput
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
@@ -50,6 +51,8 @@ class LoginActivity : AppCompatActivity() {
                 binding.passwordLayout.error = getString(R.string.error_require_field)
             }
         })
+
+        hideSoftInput.observe(activity, Observer { activity.hideSoftInput() })
 
         startMainActivity.observe(activity, Observer {
             startActivity(MainActivity.createIntent(activity))

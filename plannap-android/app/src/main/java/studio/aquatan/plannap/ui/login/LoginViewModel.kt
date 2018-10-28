@@ -24,6 +24,7 @@ class LoginViewModel(
     val isEnabledErrorPassword = SingleLiveEvent<Boolean>()
 
     val validation = SingleLiveEvent<ValidationResult>()
+    val hideSoftInput = SingleLiveEvent<Unit>()
     val startMainActivity = MutableLiveData<Unit>()
 
     init {
@@ -32,6 +33,8 @@ class LoginViewModel(
     }
 
     fun onLoginClick() {
+        hideSoftInput.value = Unit
+
         val username = username.get() ?: ""
         val password = password.get() ?: ""
 
