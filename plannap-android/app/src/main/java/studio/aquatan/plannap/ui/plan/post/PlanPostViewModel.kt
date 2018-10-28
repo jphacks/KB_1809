@@ -1,6 +1,7 @@
 package studio.aquatan.plannap.ui.plan.post
 
 import android.app.Application
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.databinding.Observable
@@ -24,11 +25,6 @@ class PlanPostViewModel(
     private val planRepository: PlanRepository
 ) : AndroidViewModel(context) {
 
-    companion object {
-        private const val MAX_IMAGE_WIDTH = 1920.0
-        private const val MAX_IMAGE_HEIGHT = 1920.0
-    }
-
     val name = ObservableField<String>()
     val note = ObservableField<String>()
     val duration = ObservableField<String>()
@@ -42,7 +38,7 @@ class PlanPostViewModel(
     private val _spotList = mutableListOf(EditableSpot(0), EditableSpot(1))
     val spotList = MutableLiveData<List<EditableSpot>>()
 
-    val openFileChooser = SingleLiveEvent<Unit>()
+    val openFileChooser = SingleLiveEvent<Intent>()
     val finishActivity = SingleLiveEvent<Unit>()
     val validation = SingleLiveEvent<ValidationResult>()
     val errorSelectedImage = SingleLiveEvent<Unit>()
@@ -63,7 +59,11 @@ class PlanPostViewModel(
     }
 
     fun onAddPictureClick(id: Int) {
-        openFileChooser.value = Unit
+        openFileChooser.value = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+        }
+
         selectedSpotId = id
     }
 
@@ -71,7 +71,6 @@ class PlanPostViewModel(
         val index = selectedSpotId ?: return
         selectedSpotId = null
 
-//        val bitmap = uri.toBitmap()
         val latLong = uri.toLatLong()
 
         if (latLong == null || latLong.size < 2) {

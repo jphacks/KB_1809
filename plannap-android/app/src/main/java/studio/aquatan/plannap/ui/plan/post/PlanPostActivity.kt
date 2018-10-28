@@ -81,16 +81,11 @@ class PlanPostActivity : AppCompatActivity() {
     private fun PlanPostViewModel.subscribe(adapter: EditableSpotAdapter) {
         val activity = this@PlanPostActivity
 
-        spotList.observe(activity, Observer {
-            adapter.submitList(it)
+        spotList.observe(activity, Observer { list ->
+            adapter.submitList(list)
         })
 
-        openFileChooser.observe(activity, Observer {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "image/*"
-            }
-
+        openFileChooser.observe(activity, Observer { intent ->
             startActivityForResult(intent, READ_REQUEST_CODE)
         })
 
