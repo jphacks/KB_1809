@@ -9,9 +9,16 @@ import org.jetbrains.anko.defaultSharedPreferences
 import studio.aquatan.plannap.di.ActivityModule
 import studio.aquatan.plannap.di.AppModule
 import studio.aquatan.plannap.di.FragmentModule
+import studio.aquatan.plannap.worker.PostPlanWorker
 import javax.inject.Singleton
 
 class Plannap : DaggerApplication() {
+
+    val component: Plannap.Component by lazy(LazyThreadSafetyMode.NONE) {
+        DaggerPlannap_Component.builder()
+            .appModule(AppModule(this))
+            .build()
+    }
 
     val session: Session by lazy {
         object : Session {
@@ -40,11 +47,7 @@ class Plannap : DaggerApplication() {
         Fresco.initialize(this)
     }
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerPlannap_Component.builder()
-            .appModule(AppModule(this))
-            .build()
-    }
+    override fun applicationInjector(): AndroidInjector<Plannap> = component
 
 
     @Singleton
@@ -55,5 +58,7 @@ class Plannap : DaggerApplication() {
             (ActivityModule::class),
             (FragmentModule::class)]
     )
-    interface Component : AndroidInjector<Plannap>
+    interface Component : AndroidInjector<Plannap> {
+        fun inject(planPostWorker: PostPlanWorker)
+    }
 }

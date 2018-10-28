@@ -11,13 +11,17 @@ import androidx.databinding.ObservableField
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.work.Data
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.ui.SingleLiveEvent
 import studio.aquatan.plannap.util.calcScaleWidthHeight
-import java.io.IOException
+import java.io.*
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import studio.aquatan.plannap.worker.PostPlanWorker
 
 
 class PlanPostViewModel(
@@ -28,6 +32,8 @@ class PlanPostViewModel(
     companion object {
         private const val MAX_IMAGE_WIDTH = 1920.0
         private const val MAX_IMAGE_HEIGHT = 1920.0
+
+        private const val OUTPUT_PATH = "post-plan-outputs"
     }
 
     val name = ObservableField<String>()
@@ -116,15 +122,17 @@ class PlanPostViewModel(
         }
 
         GlobalScope.launch {
-            isPosting.set(true)
+            val uuid = planRepository.savePlanToFile(name, note, duration, price, spotList).await()
 
-            val isSuccess = planRepository.postPlan(name, note, duration, price, spotList).await()
+            val data = Data.Builder().apply {
+                putString(PostPlanWorker.KEY_OUTPUT_UUID, uuid.toString())
+            }.build()
 
-            if (isSuccess) {
-                finishActivity.postValue(Unit)
-            } else {
-                isPosting.set(false)
-            }
+            val postRequest = OneTimeWorkRequest.Builder(PostPlanWorker::class.java)
+                .setInputData(data)
+                .build()
+
+            WorkManager.getInstance().enqueue(postRequest)
         }
     }
 
@@ -132,7 +140,11 @@ class PlanPostViewModel(
         try {
             val parcelFile = context.contentResolver.openFileDescriptor(this, "r") ?: return null
 
-            val image = BitmapFactory.decodeFileDescriptor(parcelFile.fileDescriptor)
+            val option = BitmapFactory.Options().apply {
+                inPreferredConfig = Bitmap.Config.RGB_565
+            }
+
+            val image = BitmapFactory.decodeFileDescriptor(parcelFile.fileDescriptor, null, option)
             parcelFile.close()
 
             val (width, height) = image.calcScaleWidthHeight(MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT)
@@ -158,8 +170,6 @@ class PlanPostViewModel(
 
         return null
     }
-
-
 
     private fun ObservableField<String>.setErrorCancelCallback(error: SingleLiveEvent<Boolean>) {
         addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
