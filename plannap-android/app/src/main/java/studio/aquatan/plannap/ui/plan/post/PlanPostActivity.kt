@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -71,15 +72,24 @@ class PlanPostActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun finish() {
-        super.finish()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val uri = resultData?.data ?: return
             viewModel.onImageSelected(uri)
         }
+    }
+
+    override fun finish() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.title_confirm)
+            .setMessage(R.string.text_discard_confirm)
+            .setPositiveButton(R.string.action_yes) { _, _ -> super.finish() }
+            .setNegativeButton(R.string.action_no, null)
+            .show()
+    }
+
+    private fun finishNoDialog() {
+        super.finish()
     }
 
     private fun PlanPostViewModel.subscribe(adapter: EditableSpotAdapter) {
@@ -93,7 +103,7 @@ class PlanPostActivity : AppCompatActivity() {
             startActivityForResult(intent, READ_REQUEST_CODE)
         })
 
-        finishActivity.observe(activity, Observer { activity.finish() })
+        finishActivity.observe(activity, Observer { activity.finishNoDialog() })
 
         validation.observe(activity, Observer { result ->
             if (result.isEmptyName) {
