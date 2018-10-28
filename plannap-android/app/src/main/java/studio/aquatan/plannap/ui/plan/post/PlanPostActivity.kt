@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -46,7 +47,7 @@ class PlanPostActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(PlanPostViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = EditableSpotAdapter(layoutInflater, viewModel)
+        val adapter = EditableSpotAdapter(layoutInflater, contentResolver, viewModel::onAddPictureClick)
         binding.recyclerView.apply {
             setAdapter(adapter)
             isNestedScrollingEnabled = false
@@ -78,24 +79,31 @@ class PlanPostActivity : AppCompatActivity() {
         }
     }
 
+    override fun finish() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.title_confirm)
+            .setMessage(R.string.text_discard_confirm)
+            .setPositiveButton(R.string.action_yes) { _, _ -> super.finish() }
+            .setNegativeButton(R.string.action_no, null)
+            .show()
+    }
+
+    private fun finishNoDialog() {
+        super.finish()
+    }
+
     private fun PlanPostViewModel.subscribe(adapter: EditableSpotAdapter) {
         val activity = this@PlanPostActivity
 
-        spotList.observe(activity, Observer { adapter.submitList(it.toList()) })
+        editableSpotList.observe(activity, Observer { list ->
+            adapter.submitList(list)
+        })
 
-        openFileChooser.observe(activity, Observer {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "image/*"
-            }
-
+        openFileChooser.observe(activity, Observer { intent ->
             startActivityForResult(intent, READ_REQUEST_CODE)
         })
 
-        finishActivity.observe(activity, Observer {
-            Toast.makeText(activity, R.string.text_post_success, Toast.LENGTH_LONG).show()
-            activity.finish()
-        })
+        finishActivity.observe(activity, Observer { activity.finishNoDialog() })
 
         validation.observe(activity, Observer { result ->
             if (result.isEmptyName) {
@@ -104,11 +112,14 @@ class PlanPostActivity : AppCompatActivity() {
             if (result.isEmptyNote) {
                 binding.noteLayout.error = getString(R.string.error_require_field)
             }
+            if (result.isShortDuration) {
+                binding.durationLayout.error = getString(R.string.error_short_duration)
+            }
+            if (result.isShortCost) {
+                binding.costLayout.error = getString(R.string.error_short_cost)
+            }
             if (result.isShortSpot) {
                 Snackbar.make(binding.root, R.string.error_short_spots, Snackbar.LENGTH_LONG).show()
-            }
-            if (result.isInvalidSpot) {
-                Snackbar.make(binding.root, R.string.error_invalid_spot, Snackbar.LENGTH_LONG).show()
             }
         })
 

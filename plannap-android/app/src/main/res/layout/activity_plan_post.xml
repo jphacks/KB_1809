@@ -19,14 +19,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+            <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="@android:style/Widget.Material.ProgressBar.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    app:isVisible="@{viewModel.isLoading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    app:errorEnabled="@{viewModel.isEnabledErrorName}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -42,12 +56,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/note_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
+                    app:errorEnabled="@{viewModel.isEnabledErrorNote}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/name_layout">
@@ -57,21 +72,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@={viewModel.note}"
-                        android:hint="@string/hint_note"/>
+                        android:hint="@string/hint_plan_note"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/duration_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:errorEnabled="@{viewModel.isEnabledErrorDuration}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintEnd_toStartOf="@+id/price_layout"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/note_layout"
-                    android:layout_marginEnd="8dp">
+                    app:layout_constraintEnd_toStartOf="@+id/cost_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/note_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/duration"
@@ -80,43 +96,54 @@
                         android:singleLine="true"
                         android:inputType="number"
                         android:text="@={viewModel.duration}"
-                        android:hint="@string/hint_time"/>
+                        android:hint="@string/hint_duration"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/price_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:id="@+id/cost_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:errorEnabled="@{viewModel.isEnabledErrorCost}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/duration_layout"
                     app:layout_constraintHorizontal_bias="0.5"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/note_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/price"
+                        android:id="@+id/cost"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:inputType="number"
-                        android:text="@={viewModel.price}"
-                        android:hint="@string/hint_money"/>
+                        android:text="@={viewModel.cost}"
+                        android:hint="@string/hint_cost"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/duration_layout"
+                    android:layout_marginTop="8dp"/>
 
             <TextView
                     android:id="@+id/spot_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/name_spot"
-                    app:layout_constraintTop_toBottomOf="@+id/duration_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/divider"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:drawableLeft="@drawable/ic_location_on_white_24dp"
+                    android:drawableStart="@drawable/ic_location_on_white_24dp"
                     android:drawableTint="@color/colorPrimaryDark"
                     />
 
@@ -129,7 +156,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/spot_header"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp"
+                    tools:listitem="@layout/item_editable_spot"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab"
@@ -144,25 +172,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recycler_view"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             <androidx.constraintlayout.widget.Group
                     android:id="@+id/layout_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:isVisible="@{!viewModel.isPosting}"
-                    app:constraint_referenced_ids="name_layout,price_layout,fab,recycler_view,note_layout,spot_header,duration_layout"/>
-
-            <ProgressBar
-                    android:id="@+id/progress_bar"
-                    style="@android:style/Widget.Material.ProgressBar.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:isVisible="@{viewModel.isPosting}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="16dp"/>
+                    app:isVisible="@{!viewModel.isLoading}"
+                    app:constraint_referenced_ids="note_layout,spot_header,divider,recycler_view,fab,name_layout,duration_layout,cost_layout"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

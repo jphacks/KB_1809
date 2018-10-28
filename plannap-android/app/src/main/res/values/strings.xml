@@ -25,6 +25,7 @@
     <string name="title_spots">スポット一覧</string>
     <string name="title_reports">レポート</string>
     <string name="title_comment">コメント</string>
+    <string name="title_confirm">確認</string>
 
     <!-- Menu -->
     <string name="menu_plans">プラン一覧</string>
@@ -37,6 +38,8 @@
     <string name="action_favorite">Favorite</string>
     <string name="action_profile">Profile</string>
     <string name="action_login">Login</string>
+    <string name="action_yes">はい</string>
+    <string name="action_no">いいえ</string>
 
     <!-- Name -->
     <string name="name_area">エリア</string>
@@ -52,10 +55,11 @@
     <string name="hint_location">場所</string>
     <string name="hint_start">出発地点</string>
     <string name="hint_goal">到着地点</string>
-    <string name="hint_time">所要時間(分)</string>
-    <string name="hint_money">費用(円)</string>
+    <string name="hint_duration">所要時間（分）</string>
+    <string name="hint_cost">コスト（円）</string>
     <string name="hint_title">タイトル</string>
-    <string name="hint_note">全体のレビュー</string>
+    <string name="hint_plan_note">まとめ</string>
+    <string name="hint_spot_name">名前</string>
     <string name="hint_comment">コメント</string>
     <string name="hint_username">ユーザー名</string>
     <string name="hint_password">パスワード</string>
@@ -64,6 +68,7 @@
     <string name="text_price">約%1$d円</string>
     <string name="text_duration">約%1$d分</string>
     <string name="text_post_success">投稿しました！</string>
+    <string name="text_discard_confirm">編集中の内容を破棄しますか？</string>
 
     <!-- Error -->
     <string name="error_require_field">未入力です</string>
@@ -72,6 +77,15 @@
     <string name="error_invalid_spot">スポットの属性が不足しています</string>
     <string name="error_not_support_img">サポートされていない画像形式です</string>
     <string name="error_login">ログインに失敗しました</string>
+    <string name="error_short_duration">1以上を入力してください</string>
+    <string name="error_short_cost">0以上を入力してください</string>
+    <string name="error_require_spot_field">画像,名前,コメントは必須です</string>
+
+    <!-- Status -->
+    <string name="status_loading">読み込み中&#8230;</string>
+    <string name="status_posting">送信しています&#8230;</string>
+    <string name="status_success">投稿が完了しました！</string>
+    <string name="status_failed">投稿に失敗しました.</string>
 
     <!-- 勝手に生成される系 -->
     <string name="large_text">
