@@ -21,6 +21,7 @@ import studio.aquatan.plannap.ui.plan.search.PlanSearchFragment
 import studio.aquatan.plannap.ui.profile.ProfileFragment
 import javax.inject.Inject
 
+
 class MainActivity : AppCompatActivity() {
 
     @Inject
@@ -102,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         attachFragment.observe(activity, Observer {
-            //            title = getString(it.titleResId)
+//            title = getString(it.titleResId)
             binding.appBar.bottomNavigation.menu.findItem(it.menuItemId).isChecked = true
         })
 

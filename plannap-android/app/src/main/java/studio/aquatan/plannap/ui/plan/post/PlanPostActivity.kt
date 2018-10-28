@@ -23,6 +23,7 @@ import studio.aquatan.plannap.ui.ViewModelFactory
 import java.io.IOException
 import javax.inject.Inject
 
+
 class PlanPostActivity : AppCompatActivity() {
 
     companion object {
@@ -69,8 +70,7 @@ class PlanPostActivity : AppCompatActivity() {
             if (uri != null) {
                 viewModel.onImageSelected(
                     getBitmapFromUri(uri),
-                    getLatLongFromUri(uri)
-                )
+                    getLatLongFromUri(uri))
             }
         }
     }

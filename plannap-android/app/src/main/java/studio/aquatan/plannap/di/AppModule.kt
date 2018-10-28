@@ -12,7 +12,6 @@ import javax.inject.Singleton
 class AppModule(
     private val app: Application
 ) {
-
     private val planRepository = PlanRepository()
 
     @Provides

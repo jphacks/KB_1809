@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.ui.SingleLiveEvent
 
+
 class PlanPostViewModel(
     private val planRepository: PlanRepository
 ) : ViewModel() {
@@ -100,9 +101,7 @@ class PlanPostViewModel(
 
     private fun ObservableField<String>.setErrorCancelCallback(error: SingleLiveEvent<Boolean>) {
         addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                error.value = false
-            }
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) { error.value = false }
         })
     }
 }

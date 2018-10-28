@@ -11,7 +11,6 @@ data class User(
     @Json(name = "icon") val iconUrl: String,
     @Json(name = "update_at") val updateDate: String = "unknown"
 ) {
-
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Plan>() {
             override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {
