@@ -13,13 +13,6 @@ fun setIsVisible(view: View, isVisible: Boolean) {
     view.isVisible = isVisible
 }
 
-@BindingAdapter("price")
-fun setMoney(view: TextView, price: Int) {
-    view.apply {
-        text = context.getString(R.string.text_price, price)
-    }
-}
-
 @BindingAdapter("duration")
 fun setDuration(view: TextView, duration: Int) {
     view.apply {

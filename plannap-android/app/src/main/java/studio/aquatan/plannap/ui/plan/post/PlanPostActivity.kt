@@ -71,6 +71,10 @@ class PlanPostActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun finish() {
+        super.finish()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val uri = resultData?.data ?: return
@@ -81,7 +85,7 @@ class PlanPostActivity : AppCompatActivity() {
     private fun PlanPostViewModel.subscribe(adapter: EditableSpotAdapter) {
         val activity = this@PlanPostActivity
 
-        spotList.observe(activity, Observer { list ->
+        editableSpotList.observe(activity, Observer { list ->
             adapter.submitList(list)
         })
 
@@ -98,11 +102,14 @@ class PlanPostActivity : AppCompatActivity() {
             if (result.isEmptyNote) {
                 binding.noteLayout.error = getString(R.string.error_require_field)
             }
+            if (result.isShortDuration) {
+                binding.durationLayout.error = getString(R.string.error_short_duration)
+            }
+            if (result.isShortCost) {
+                binding.costLayout.error = getString(R.string.error_short_cost)
+            }
             if (result.isShortSpot) {
                 Snackbar.make(binding.root, R.string.error_short_spots, Snackbar.LENGTH_LONG).show()
-            }
-            if (result.isInvalidSpot) {
-                Snackbar.make(binding.root, R.string.error_invalid_spot, Snackbar.LENGTH_LONG).show()
             }
         })
 

@@ -32,15 +32,15 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/image"
-                android:layout_marginStart="8dp">
+                app:layout_constraintStart_toEndOf="@+id/image">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -53,17 +53,17 @@
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/note_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name_layout"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp">
+                app:layout_constraintBottom_toTopOf="@+id/error">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/note"
@@ -74,6 +74,20 @@
                     android:maxLines="3"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+                android:id="@+id/error"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/error_require_spot_field"
+                android:textColor="?attr/colorError"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                app:isVisible="@{data.isError}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

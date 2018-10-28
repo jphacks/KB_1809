@@ -12,7 +12,8 @@ data class EditableSpot (
     @Json(name = "note") var note: String = "",
     @Json(name = "image_uri") val imageUri: Uri? = null,
     @Json(name = "lat") val lat: Double = 0.0,
-    @Json(name = "long") val long: Double = 0.0
+    @Json(name = "long") val long: Double = 0.0,
+    @Transient val isError: Boolean = false
 ) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<EditableSpot>() {

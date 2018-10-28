@@ -73,6 +73,9 @@
     <string name="error_invalid_spot">スポットの属性が不足しています</string>
     <string name="error_not_support_img">サポートされていない画像形式です</string>
     <string name="error_login">ログインに失敗しました</string>
+    <string name="error_short_duration">1以上を入力してください</string>
+    <string name="error_short_cost">0以上を入力してください</string>
+    <string name="error_require_spot_field">画像,名前,コメントは必須です</string>
 
     <!-- Status -->
     <string name="status_loading">読み込み中&#8230;</string>

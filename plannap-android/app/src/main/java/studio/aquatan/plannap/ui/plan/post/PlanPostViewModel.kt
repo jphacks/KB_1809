@@ -28,15 +28,16 @@ class PlanPostViewModel(
     val name = ObservableField<String>()
     val note = ObservableField<String>()
     val duration = ObservableField<String>()
-    val price = ObservableField<String>()
+    val cost = ObservableField<String>()
 
     val isLoading = ObservableBoolean()
 
     val isEnabledErrorName = SingleLiveEvent<Boolean>()
     val isEnabledErrorNote = SingleLiveEvent<Boolean>()
+    val isEnabledErrorDuration = SingleLiveEvent<Boolean>()
+    val isEnabledErrorCost = SingleLiveEvent<Boolean>()
 
-    private val _spotList = mutableListOf(EditableSpot(0), EditableSpot(1))
-    val spotList = MutableLiveData<List<EditableSpot>>()
+    val editableSpotList = MutableLiveData<List<EditableSpot>>()
 
     val openFileChooser = SingleLiveEvent<Intent>()
     val finishActivity = SingleLiveEvent<Unit>()
@@ -46,16 +47,12 @@ class PlanPostViewModel(
     private var selectedSpotId: Int? = null
 
     init {
-        spotList.value = _spotList
+        editableSpotList.value = mutableListOf(EditableSpot(0), EditableSpot(1))
 
         name.setErrorCancelCallback(isEnabledErrorName)
         note.setErrorCancelCallback(isEnabledErrorNote)
-    }
-
-    fun onAddSpotClick() {
-        val nextId = _spotList.size
-        _spotList.add(EditableSpot(nextId))
-        spotList.value = _spotList
+        duration.setErrorCancelCallback(isEnabledErrorDuration)
+        cost.setErrorCancelCallback(isEnabledErrorCost)
     }
 
     fun onAddPictureClick(id: Int) {
@@ -65,6 +62,14 @@ class PlanPostViewModel(
         }
 
         selectedSpotId = id
+    }
+
+    fun onAddSpotClick() {
+        val list = editableSpotList.value?.toMutableList() ?: return
+
+        val nextId = list.size
+        list.add(EditableSpot(nextId))
+        editableSpotList.value = list
     }
 
     fun onImageSelected(uri: Uri) {
@@ -78,8 +83,11 @@ class PlanPostViewModel(
             return
         }
 
-        _spotList[index] = _spotList[index].copy(imageUri = uri, lat = latLong[0], long = latLong[1])
-        spotList.value = _spotList
+        val list = editableSpotList.value?.toMutableList() ?: return
+
+        list[index] = list[index].copy(imageUri = uri, lat = latLong[0], long = latLong[1])
+
+        editableSpotList.value = list
     }
 
     fun onPostClick() {
@@ -89,34 +97,18 @@ class PlanPostViewModel(
 
         val name = name.get() ?: ""
         val note = note.get() ?: ""
-        val duration = duration.get()?.toIntOrNull() ?: 0
-        val price = price.get()?.toIntOrNull() ?: 0
-        val spotList = _spotList
+        val duration = duration.get()?.toIntOrNull() ?: -1
+        val cost = cost.get()?.toIntOrNull() ?: -1
+        val spotList = editableSpotList.value ?: emptyList()
 
-        var result = ValidationResult()
-
-        if (name.isBlank()) {
-            result = result.copy(isEmptyName = true)
-        }
-        if (note.isBlank()) {
-            result = result.copy(isEmptyNote = true)
-        }
-        if (spotList.size < 2) {
-            result = result.copy(isShortSpot = true)
-        }
-        if (spotList.any { it.name.isBlank() || it.note.isBlank() || it.imageUri == null }) {
-            result = result.copy(isInvalidSpot = true)
-        }
-
-        if (result.isError) {
-            validation.value = result
+        if (!validate(name, note, duration, cost, spotList)) {
             return
         }
 
         GlobalScope.launch {
             isLoading.set(true)
 
-            val uuid = planRepository.savePlanToFile(name, note, duration, price, spotList).await()
+            val uuid = planRepository.savePlanToFile(name, note, duration, cost, spotList).await()
 
             val data = Data.Builder().apply {
                 putString(PostPlanWorker.KEY_TITLE, name)
@@ -136,6 +128,31 @@ class PlanPostViewModel(
 
             finishActivity.postValue(Unit)
         }
+    }
+
+    private fun validate(name: String, note: String, duration: Int, cost: Int, spotList: List<EditableSpot>): Boolean {
+        var result = ValidationResult(
+            isEmptyName = name.isBlank(),
+            isEmptyNote = note.isBlank(),
+            isShortDuration = duration <= 0,
+            isShortCost = cost < 0,
+            isShortSpot = spotList.size < 2
+        )
+
+        val list = spotList.map {
+            return@map it.copy(isError = it.imageUri == null || it.name.isBlank() || it.note.isBlank())
+        }
+
+        if (list.any { it.isError }) {
+            editableSpotList.value = list
+            result = result.copy(isInvalidSpot = true)
+        }
+
+        if (result.isError) {
+            validation.value = result
+        }
+
+        return !result.isError
     }
 
     private fun Uri.toLatLong(): DoubleArray? {
