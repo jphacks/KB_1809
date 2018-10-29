@@ -1,7 +1,10 @@
 package studio.aquatan.plannap
 
+import android.graphics.Bitmap
+import android.os.Build
 import androidx.core.content.edit
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.imagepipeline.core.ImagePipelineConfig
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import dagger.android.support.DaggerApplication
@@ -44,7 +47,17 @@ class Plannap : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        Fresco.initialize(this)
+
+        val pipelineConfigBuilder = ImagePipelineConfig.newBuilder(this)
+            .setBitmapsConfig(Bitmap.Config.RGB_565)
+            .setResizeAndRotateEnabledForNetwork(true)
+            .setDownsampleEnabled(true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            pipelineConfigBuilder.setBitmapsConfig(Bitmap.Config.HARDWARE)
+        }
+
+        Fresco.initialize(this, pipelineConfigBuilder.build())
     }
 
     override fun applicationInjector(): AndroidInjector<Plannap> = component
