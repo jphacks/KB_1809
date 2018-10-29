@@ -64,6 +64,7 @@ class PostPlanWorker(
         val file = File(dir, "$uuid.json")
 
         var input: FileInputStream? = null
+        var isSuccess = false
         try {
             val bytes = ByteArray(file.length().toInt())
             input = FileInputStream(file)
@@ -73,18 +74,21 @@ class PostPlanWorker(
 
             notification.makePostPlanStatus(title, PostStatus.POSTING)
 
-            runBlocking { planRepository.postPlan(editablePlan.asPostPlan()) }
+            isSuccess = runBlocking { planRepository.postPlan(editablePlan.asPostPlan()).await() }
         } catch (e: Exception) {
-            notification.makePostPlanStatus(title, PostStatus.FAILED)
             Log.e(TAG, "Failed to work", e)
-            return Result.FAILURE
         } finally {
             input?.close()
         }
 
-        file.delete()
+        if (!isSuccess) {
+            notification.makePostPlanStatus(title, PostStatus.FAILED)
+            return Result.FAILURE
+        }
 
         notification.makePostPlanStatus(title, PostStatus.SUCCESS)
+        file.delete()
+
         return Result.SUCCESS
     }
 
