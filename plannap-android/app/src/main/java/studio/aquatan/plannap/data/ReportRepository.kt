@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import studio.aquatan.plannap.data.api.ReportService
+import studio.aquatan.plannap.data.model.PostReport
 import studio.aquatan.plannap.data.model.Report
 
 class ReportRepository {
@@ -34,10 +35,10 @@ class ReportRepository {
         return result
     }
 
-    fun registerReport(targetReport: Report) {
+    fun postReport(planId: Int, postReport: PostReport) {
         GlobalScope.launch {
             try {
-                service.postReport(targetReport).execute()
+                service.postReport(planId, postReport).execute()
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to fetch postReport", e)
             }
