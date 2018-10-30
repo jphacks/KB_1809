@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.toLiveData
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
@@ -16,6 +18,7 @@ import studio.aquatan.plannap.data.model.EditablePlanJsonAdapter
 import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.data.model.PostPlan
+import studio.aquatan.plannap.data.source.PlanDataSourceFactory
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
@@ -121,4 +124,16 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
             return@async uuid
         }
+
+    fun getListing(): Listing<Plan> {
+        val factory = PlanDataSourceFactory(service)
+
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
+    }
 }
