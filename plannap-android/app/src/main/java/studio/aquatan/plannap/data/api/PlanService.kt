@@ -7,6 +7,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import studio.aquatan.plannap.data.model.Page
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.data.model.PostPlan
 
@@ -16,7 +17,7 @@ interface PlanService {
     fun getPlans(): Call<List<Plan>>
 
     @GET("/api/v2/plans/?limit=5")
-    fun getPlans(@Query("offset") page: Int): Call<List<Plan>>
+    fun getPlans(@Query("cursor") key: String?): Call<Page<Plan>>
 
     @GET("/api/v1/plans/{id}/")
     fun getPlan(@Path("id") planId: Long): Call<Plan>
