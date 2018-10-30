@@ -33,7 +33,7 @@ class ViewModelFactory(
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepo)
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo, favoriteRepo)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
-                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
+                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(planRepo, favoriteRepo)
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(
                     planRepo, favoriteRepo,
                     commentRepo
