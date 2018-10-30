@@ -15,6 +15,9 @@ interface PlanService {
     @GET("/api/v1/plans/")
     fun getPlans(): Call<List<Plan>>
 
+    @GET("/api/v2/plans/?limit=5")
+    fun getPlans(@Query("offset") page: Int): Call<List<Plan>>
+
     @GET("/api/v1/plans/{id}/")
     fun getPlan(@Path("id") planId: Long): Call<Plan>
 
