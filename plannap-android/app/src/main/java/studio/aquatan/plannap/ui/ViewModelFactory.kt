@@ -31,9 +31,15 @@ class ViewModelFactory(
         with(modelClass) {
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepo)
+<<<<<<< refs/remotes/origin/award-develop
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel(planRepo)
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
+=======
+                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo, favoriteRepo)
+                isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
+                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(planRepo, favoriteRepo)
+>>>>>>> プロフィールの画面作成とFragment, ViewModelの作成
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(
                     planRepo, favoriteRepo,
                     commentRepo

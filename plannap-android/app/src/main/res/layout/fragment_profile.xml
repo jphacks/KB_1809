@@ -5,114 +5,131 @@
     tools:context=".ui.profile.ProfileFragment">
 
     <data>
-
         <variable
-            name="data"
-            type="studio.aquatan.plannap.ui.comment.list.CommentListViewModel" />
+            name="viewModel"
+            type="studio.aquatan.plannap.ui.profile.ProfileViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{() -> viewModel.onRefresh()}"
+        app:refreshing="@{true}">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/usericon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:singleLine="true"
-            android:text="aaa"
-            app:layout_constraintBottom_toBottomOf="@+id/usericon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/usericon"
-            app:layout_constraintTop_toTopOf="@+id/usericon"
-            tools:text="Username" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/mailicon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_email_white_24dp"
-            android:tint="@color/grey_600"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_person" />
+                    <ImageView
+                        android:id="@+id/usericon"
+                        android:layout_width="@dimen/user_icon_width"
+                        android:layout_height="@dimen/user_icon_height"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:src="@drawable/ic_person_add_black_24dp"
+                        android:tint="@color/grey_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/usermail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
-            android:singleLine="true"
-            android:text="aaa"
-            app:layout_constraintBottom_toBottomOf="@+id/mailicon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mailicon"
-            app:layout_constraintTop_toTopOf="@+id/mailicon"
-            tools:text="Mail address" />
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:singleLine="true"
+                        android:text="aaa"
+                        app:layout_constraintEnd_toEndOf="@+id/usericon"
+                        app:layout_constraintStart_toStartOf="@+id/usericon"
+                        app:layout_constraintTop_toBottomOf="@+id/usericon"
+                        tools:text="Username" />
 
-        <ImageView
-            android:id="@+id/add_person"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_person_add_black_24dp"
-            android:tint="@color/grey_600"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/usericon" />
+                    <ImageView
+                        android:id="@+id/mailicon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_email_white_24dp"
+                        android:tint="@color/grey_600"
+                        app:layout_constraintEnd_toStartOf="@+id/usermail"
+                        app:layout_constraintStart_toStartOf="@+id/add_person"
+                        app:layout_constraintTop_toBottomOf="@+id/add_person" />
 
-        <TextView
-            android:id="@+id/registration_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
-            android:singleLine="true"
-            android:text="aaa"
-            app:layout_constraintBottom_toBottomOf="@+id/add_person"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/add_person"
-            app:layout_constraintTop_toTopOf="@+id/add_person"
-            tools:text="Registration date" />
+                    <TextView
+                        android:id="@+id/usermail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:singleLine="true"
+                        android:text="aaa"
+                        app:layout_constraintBottom_toBottomOf="@+id/mailicon"
+                        app:layout_constraintEnd_toEndOf="@+id/registration_date"
+                        app:layout_constraintStart_toEndOf="@+id/mailicon"
+                        app:layout_constraintTop_toTopOf="@+id/mailicon"
+                        tools:text="Mail address" />
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/top_shadow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/usermail" />
+                    <ImageView
+                        android:id="@+id/add_person"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_person_add_black_24dp"
+                        android:tint="@color/grey_600"
+                        app:layout_constraintEnd_toStartOf="@+id/registration_date"
+                        app:layout_constraintStart_toStartOf="@+id/username"
+                        app:layout_constraintTop_toBottomOf="@+id/username" />
 
+                    <TextView
+                        android:id="@+id/registration_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:singleLine="true"
+                        android:text="aaa"
+                        app:layout_constraintBottom_toBottomOf="@+id/add_person"
+                        app:layout_constraintEnd_toEndOf="@+id/username"
+                        app:layout_constraintStart_toEndOf="@+id/add_person"
+                        app:layout_constraintTop_toTopOf="@+id/add_person"
+                        tools:text="Registration date" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collapsingToolbarLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </layout>
+
+    <!---->
+
+    <!--<View--><!--android:id="@+id/divider"--><!--android:layout_width="0dp"--><!--android:layout_height="4dp"--><!--android:layout_marginTop="16dp"--><!--android:background="@drawable/top_shadow"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintStart_toStartOf="parent"/>-->
