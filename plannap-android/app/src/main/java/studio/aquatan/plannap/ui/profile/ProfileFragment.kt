@@ -10,7 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar_main.toolbar
+import kotlinx.android.synthetic.main.item_plan.user_icon
 import studio.aquatan.plannap.R
+import studio.aquatan.plannap.data.model.User
 import studio.aquatan.plannap.databinding.FragmentProfileBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.comment.list.CommentListActivity
@@ -50,6 +52,7 @@ class ProfileFragment : Fragment() {
 
         viewModel = provider.get(ProfileViewModel::class.java)
         binding.viewModel = viewModel
+
 
         val adapter = PlanAdapter(
             layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick,
