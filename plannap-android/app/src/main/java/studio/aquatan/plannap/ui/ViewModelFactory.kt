@@ -7,6 +7,7 @@ import studio.aquatan.plannap.data.AuthRepository
 import studio.aquatan.plannap.data.CommentRepository
 import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.data.UserRepository
 import studio.aquatan.plannap.ui.comment.list.CommentListViewModel
 import studio.aquatan.plannap.ui.favorite.FavoriteViewModel
 import studio.aquatan.plannap.ui.home.HomeViewModel
@@ -23,7 +24,8 @@ class ViewModelFactory(
     private val planRepo: PlanRepository,
     private val favoriteRepo: FavoriteRepository,
     private val commentRepo: CommentRepository,
-    private val authRepo: AuthRepository
+    private val authRepo: AuthRepository,
+    private val userRepo: UserRepository
 ) : ViewModelProvider.AndroidViewModelFactory(context) {
 
     @Suppress("UNCHECKED_CAST")
@@ -31,15 +33,9 @@ class ViewModelFactory(
         with(modelClass) {
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepo)
-<<<<<<< refs/remotes/origin/award-develop
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo)
-                isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel(planRepo)
-                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
-=======
-                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo, favoriteRepo)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(planRepo, favoriteRepo)
->>>>>>> プロフィールの画面作成とFragment, ViewModelの作成
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(
                     planRepo, favoriteRepo,
                     commentRepo

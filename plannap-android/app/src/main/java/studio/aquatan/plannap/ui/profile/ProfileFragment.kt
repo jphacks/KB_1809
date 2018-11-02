@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.app_bar_main.toolbar
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.FragmentProfileBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
@@ -59,12 +60,10 @@ class ProfileFragment : Fragment() {
             setHasFixedSize(true)
         }
 
-        binding.swipeRefreshLayout.isRefreshing = true
-
         viewModel.subscribe(adapter)
 
         provider.get(MainViewModel::class.java)
-            .onAttachFragment(MainFragmentType.PROFILE)
+            .onAttachFragment(MainFragmentType.HOME)
     }
 
     override fun onResume() {
@@ -76,8 +75,6 @@ class ProfileFragment : Fragment() {
         val fragment = this@ProfileFragment
 
         planList.observe(fragment, Observer { list ->
-            binding.swipeRefreshLayout.isRefreshing = false
-
             adapter.submitList(list)
         })
         startPlanDetailActivity.observe(fragment, Observer { id ->

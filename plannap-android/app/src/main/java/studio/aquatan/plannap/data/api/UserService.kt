@@ -9,8 +9,9 @@ import retrofit2.http.Path
 import studio.aquatan.plannap.data.model.User
 
 interface UserService {
-    @GET("/users/{id}/")
-    fun getUser(@Path("id") userId: Long): Call<User>
+
+    @GET("/api/v1/me/")
+    fun getUser(): Call<User>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
     @POST("/users/")
