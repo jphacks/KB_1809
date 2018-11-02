@@ -17,13 +17,13 @@ interface PlanService {
     fun getPlans(): Call<List<Plan>>
 
     @GET("/api/v2/plans/?limit=5")
-    fun getPlans(@Query("cursor") key: String?): Call<Page<Plan>>
+    fun getPlans(
+        @Query("cursor") key: String?,
+        @Query("location") location: String? = null
+    ): Call<Page<Plan>>
 
     @GET("/api/v1/plans/{id}/")
     fun getPlan(@Path("id") planId: Long): Call<Plan>
-
-    @GET("/api/v1/plans/")
-    fun getPlan(@Query("location") location: String): Call<List<Plan>>
 
     @Headers(
         "Accept: application/json",

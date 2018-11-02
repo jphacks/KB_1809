@@ -11,7 +11,8 @@ import studio.aquatan.plannap.data.model.Page
 import studio.aquatan.plannap.data.model.Plan
 
 class PlanDataSource(
-    private val service: PlanService
+    private val service: PlanService,
+    private val keyword: String? = null
 ) : PageKeyedDataSource<String, Plan>() {
 
     companion object {
@@ -36,7 +37,7 @@ class PlanDataSource(
         networkState.postValue(NetworkState.LOADING)
 
         try {
-            val response = service.getPlans(null).execute()
+            val response = service.getPlans(null, keyword).execute()
             val page = response.body() ?: Page()
 
             retry = null
@@ -59,7 +60,7 @@ class PlanDataSource(
         networkState.postValue(NetworkState.LOADING)
 
         try {
-            val response = service.getPlans(params.key).execute()
+            val response = service.getPlans(params.key, keyword).execute()
             val page = response.body() ?: Page()
 
             retry = null
