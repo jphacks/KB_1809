@@ -40,6 +40,7 @@
     <string name="action_login">Login</string>
     <string name="action_yes">はい</string>
     <string name="action_no">いいえ</string>
+    <string name="action_retry">再試行</string>
 
     <!-- Name -->
     <string name="name_area">エリア</string>
