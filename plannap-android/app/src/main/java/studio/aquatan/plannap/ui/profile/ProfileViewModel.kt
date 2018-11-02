@@ -7,10 +7,13 @@ import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.data.UserRepository
 import studio.aquatan.plannap.data.model.Plan
+import studio.aquatan.plannap.data.model.User
 import studio.aquatan.plannap.ui.SingleLiveEvent
 
 class ProfileViewModel(
+    private val userRepository: UserRepository,
     private val planRepository: PlanRepository,
     private val favoriteRepository: FavoriteRepository
 ) : ViewModel() {
@@ -21,6 +24,9 @@ class ProfileViewModel(
     }
     val startPlanDetailActivity = SingleLiveEvent<Long>()
     val startCommentListActivity = SingleLiveEvent<Pair<Long, String>>()
+    val userInfo: LiveData<User> = Transformations.switchMap(refreshRequest) {
+        userRepository.getUser()
+    }
 
     init {
         refreshRequest.value = Unit
@@ -50,9 +56,5 @@ class ProfileViewModel(
 
     fun onCommentClick(id: Long, name: String) {
         startCommentListActivity.value = id to name
-    }
-
-    fun onRefresh() {
-        refreshRequest.value = Unit
     }
 }
