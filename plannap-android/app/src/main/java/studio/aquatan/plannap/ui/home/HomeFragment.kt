@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
 import studio.aquatan.plannap.R
+import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.databinding.FragmentHomeBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
-import studio.aquatan.plannap.ui.comment.list.CommentListActivity
 import studio.aquatan.plannap.ui.main.MainFragmentType
 import studio.aquatan.plannap.ui.main.MainViewModel
 import studio.aquatan.plannap.ui.plan.PlanAdapter
@@ -51,10 +51,7 @@ class HomeFragment : Fragment() {
         viewModel = provider.get(HomeViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = PlanAdapter(
-            layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick,
-            viewModel::onCommentClick
-        )
+        val adapter = PlanAdapter(layoutInflater, viewModel::onPlanClick, viewModel::onRetryClick)
         binding.recyclerView.apply {
             setAdapter(adapter)
             setHasFixedSize(true)
@@ -68,24 +65,19 @@ class HomeFragment : Fragment() {
             .onAttachFragment(MainFragmentType.HOME)
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.onActivityResumed()
-    }
-
     private fun HomeViewModel.subscribe(adapter: PlanAdapter) {
         val fragment = this@HomeFragment
 
         planList.observe(fragment, Observer { list ->
-            binding.swipeRefreshLayout.isRefreshing = false
-
             adapter.submitList(list)
         })
+        initialLoad.observe(fragment, Observer { state ->
+            binding.swipeRefreshLayout.isRefreshing = state == NetworkState.LOADING
+        })
+        networkState.observe(fragment, Observer { adapter.setNetworkState(it) })
+
         startPlanDetailActivity.observe(fragment, Observer { id ->
             startActivity(PlanDetailActivity.createIntent(requireContext(), id))
-        })
-        startCommentListActivity.observe(fragment, Observer { (id, name) ->
-            startActivity(CommentListActivity.createIntent(requireContext(), id, name))
         })
     }
 }

@@ -34,7 +34,6 @@ class PlanDataSource(
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, Plan>) {
         initialLoad.postValue(NetworkState.LOADING)
-        networkState.postValue(NetworkState.LOADING)
 
         try {
             val response = service.getPlans(null, keyword).execute()

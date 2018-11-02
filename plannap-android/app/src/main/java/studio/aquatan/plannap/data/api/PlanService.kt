@@ -13,9 +13,6 @@ import studio.aquatan.plannap.data.model.PostPlan
 
 interface PlanService {
 
-    @GET("/api/v1/plans/")
-    fun getPlans(): Call<List<Plan>>
-
     @GET("/api/v2/plans/?limit=5")
     fun getPlans(
         @Query("cursor") key: String?,

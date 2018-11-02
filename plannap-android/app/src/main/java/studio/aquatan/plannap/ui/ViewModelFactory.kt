@@ -31,7 +31,7 @@ class ViewModelFactory(
         with(modelClass) {
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepo)
-                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo, favoriteRepo)
+                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel()
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(
@@ -40,8 +40,7 @@ class ViewModelFactory(
                 )
                 isAssignableFrom(PlanSearchViewModel::class.java) -> PlanSearchViewModel()
                 isAssignableFrom(PlanSearchResultViewModel::class.java) -> PlanSearchResultViewModel(
-                    planRepo,
-                    favoriteRepo
+                    planRepo
                 )
                 isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepo)
                 isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepo)

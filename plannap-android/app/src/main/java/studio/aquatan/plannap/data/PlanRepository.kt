@@ -44,21 +44,6 @@ class PlanRepository(
         return@lazy EditablePlanJsonAdapter(moshi)
     }
 
-    fun getPlanList(): LiveData<List<Plan>> {
-        val result = MutableLiveData<List<Plan>>()
-
-        GlobalScope.launch {
-            try {
-                val response = service.getPlans().execute()
-                result.postValue(response.body() ?: emptyList())
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to fetch plans", e)
-            }
-        }
-
-        return result
-    }
-
     fun getPlanById(id: Long): LiveData<Plan> {
         val result = MutableLiveData<Plan>()
 
@@ -66,21 +51,6 @@ class PlanRepository(
             try {
                 val response = service.getPlan(id).execute()
                 result.postValue(response.body())
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to fetch getPlan", e)
-            }
-        }
-
-        return result
-    }
-
-    fun getPlanListByKeyword(keyword: String): LiveData<List<Plan>> {
-        val result = MutableLiveData<List<Plan>>()
-
-        GlobalScope.launch {
-            try {
-                val response = service.getPlan(keyword).execute()
-                result.postValue(response.body() ?: emptyList())
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to fetch getPlan", e)
             }
@@ -128,8 +98,21 @@ class PlanRepository(
             return@async uuid
         }
 
-    fun getListing(): Listing<Plan> {
+    fun getPlanListing(): Listing<Plan> {
         val factory = PlanDataSourceFactory(service)
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
+    }
+
+    fun searchPlanListing(keyword: String): Listing<Plan> {
+        val factory = PlanDataSourceFactory(service, keyword)
         val livePagedList = factory.toLiveData(pageSize = 5)
 
         return Listing(
