@@ -202,8 +202,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@{data.date}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                    app:date="@{data.date}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/plan_image"
                     tools:text="2018/01/01" />
