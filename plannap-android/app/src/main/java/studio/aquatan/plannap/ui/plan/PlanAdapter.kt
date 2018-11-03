@@ -2,42 +2,76 @@ package studio.aquatan.plannap.ui.plan
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import studio.aquatan.plannap.R
+import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.data.model.Plan
+import studio.aquatan.plannap.databinding.ItemNetworkStateBinding
 import studio.aquatan.plannap.databinding.ItemPlanBinding
 
 class PlanAdapter(
     private val layoutInflater: LayoutInflater,
     private val onClick: (Long) -> Unit,
-    private val onFavoriteClick: (Long, Boolean) -> Unit,
-    private val onCommentClick: (Long, String) -> Unit
-) : ListAdapter<Plan, PlanAdapter.ViewHolder>(Plan.DIFF_CALLBACK) {
+    private val onRetryClick: () -> Unit
+) : PagedListAdapter<Plan, RecyclerView.ViewHolder>(Plan.DIFF_CALLBACK) {
 
-    init {
-        setHasStableIds(true)
+    companion object {
+        private const val PLAN_VIEW = 0
+        private const val NETWORK_STATE_VIEW = 1
     }
 
-    override fun getItemId(position: Int) = getItem(position).id
+    private var networkState: NetworkState? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemPlanBinding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.item_plan, parent, false)
-
-        return ViewHolder(binding)
+    override fun getItemViewType(position: Int): Int {
+        return if (hasExtraRow() && position >= itemCount - 1) NETWORK_STATE_VIEW else PLAN_VIEW
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+    override fun getItemCount(): Int {
+        return super.getItemCount() + if (hasExtraRow()) 1 else 0
     }
 
-    inner class ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            PLAN_VIEW -> PlanViewHolder(
+                ItemPlanBinding.inflate(layoutInflater, parent, false)
+            )
+            NETWORK_STATE_VIEW -> NetworkStateViewHolder(
+                ItemNetworkStateBinding.inflate(layoutInflater, parent, false)
+            )
+            else -> throw IllegalArgumentException("unknown view type $viewType")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is PlanViewHolder -> holder.bind(getItem(position) ?: return)
+            is NetworkStateViewHolder -> holder.bind(networkState)
+        }
+    }
+
+    private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
+
+    fun setNetworkState(newNetworkState: NetworkState?) {
+        val previousState = networkState
+        val hadExtraRow = hasExtraRow()
+        networkState = newNetworkState
+        val hasExtraRow = hasExtraRow()
+        if (hadExtraRow != hasExtraRow) {
+            if (hadExtraRow) {
+                notifyItemRemoved(super.getItemCount())
+            } else {
+                notifyItemInserted(super.getItemCount())
+            }
+        } else if (hasExtraRow && previousState != newNetworkState) {
+            notifyItemChanged(itemCount - 1)
+        }
+    }
+
+    inner class PlanViewHolder(
         private val binding: ItemPlanBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(plan: Plan, position: Int) {
+        fun bind(plan: Plan) {
             binding.apply {
                 data = plan
                 root.setOnClickListener { onClick(plan.id) }
@@ -46,20 +80,17 @@ class PlanAdapter(
 
                 startSpotName.text = plan.spotList.first().name
                 goalSpotName.text = plan.spotList.last().name
-
-                favoriteButton.setOnFavoriteChangedListener { favorite, count ->
-                    getItem(position).apply {
-                        isFavorite = favorite
-                        favoriteCount = count
-                    }
-                    onFavoriteClick(plan.id, favorite)
-                }
-
-                commentButton.apply {
-                    text = plan.commentCount.toString()
-                    setOnClickListener { onCommentClick(plan.id, plan.name) }
-                }
             }
+        }
+    }
+
+    inner class NetworkStateViewHolder(
+        private val binding: ItemNetworkStateBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(state: NetworkState?) {
+            binding.data = state
+            binding.retryButton.setOnClickListener { onRetryClick() }
         }
     }
 }

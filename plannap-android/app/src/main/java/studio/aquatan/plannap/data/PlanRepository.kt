@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.toLiveData
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
@@ -16,6 +18,7 @@ import studio.aquatan.plannap.data.model.EditablePlanJsonAdapter
 import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.data.model.PostPlan
+import studio.aquatan.plannap.data.source.PlanDataSourceFactory
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
@@ -38,21 +41,6 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
         return@lazy EditablePlanJsonAdapter(moshi)
     }
 
-    fun getPlanList(): LiveData<List<Plan>> {
-        val result = MutableLiveData<List<Plan>>()
-
-        GlobalScope.launch {
-            try {
-                val response = service.getPlans().execute()
-                result.postValue(response.body() ?: emptyList())
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to fetch plans", e)
-            }
-        }
-
-        return result
-    }
-
     fun getPlanById(id: Long): LiveData<Plan> {
         val result = MutableLiveData<Plan>()
 
@@ -60,21 +48,6 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
             try {
                 val response = service.getPlan(id).execute()
                 result.postValue(response.body())
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to fetch getPlan", e)
-            }
-        }
-
-        return result
-    }
-
-    fun getPlanListByKeyword(keyword: String): LiveData<List<Plan>> {
-        val result = MutableLiveData<List<Plan>>()
-
-        GlobalScope.launch {
-            try {
-                val response = service.getPlan(keyword).execute()
-                result.postValue(response.body() ?: emptyList())
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to fetch getPlan", e)
             }
@@ -121,4 +94,30 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
             return@async uuid
         }
+
+    fun getPlanListing(): Listing<Plan> {
+        val factory = PlanDataSourceFactory(service)
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
+    }
+
+    fun searchPlanListing(keyword: String): Listing<Plan> {
+        val factory = PlanDataSourceFactory(service, keyword)
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
+    }
 }
