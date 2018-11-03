@@ -19,8 +19,8 @@ interface PlanService {
         @Query("location") location: String? = null
     ): Call<Page<Plan>>
 
-    @GET("/api/v1/me/favs/")
-    fun getMyFavPlans(): Call<List<Plan>>
+    @GET("/api/v2/me/favs/?limit=5")
+    fun getMyFavPlans(@Query("cursor") key: String?): Call<Page<Plan>>
 
     @GET("/api/v2/plans/{id}/")
     fun getPlan(@Path("id") planId: Long): Call<Plan>
