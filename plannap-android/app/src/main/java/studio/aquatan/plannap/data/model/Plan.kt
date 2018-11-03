@@ -3,6 +3,7 @@ package studio.aquatan.plannap.data.model
 import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.util.Date
 
 @JsonClass(generateAdapter = true)
 data class Plan(
@@ -11,7 +12,7 @@ data class Plan(
     @Json(name = "note") val note: String,
     @Json(name = "price") val price: Int,
     @Json(name = "duration") val duration: Int,
-    @Json(name = "created_at") val date: String,
+    @Json(name = "created_at") val date: Date,
     @Json(name = "location") val location: Location?,
     @Json(name = "favorite_count") var favoriteCount: Int,
     @Json(name = "comment_count") val commentCount: Int,

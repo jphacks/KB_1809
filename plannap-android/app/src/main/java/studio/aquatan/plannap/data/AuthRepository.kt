@@ -16,14 +16,15 @@ class AuthRepository(
         private const val TAG = "AuthRepository"
     }
 
-    private val service = retrofitBuilder.build().create(AuthService::class.java)
+    private val service = buildRetrofit().create(AuthService::class.java)
+    private val loginService = retrofitBuilder.build().create(AuthService::class.java)
 
     fun login(username: String, password: String) =
         GlobalScope.async {
             try {
                 val user = PostUser(username, password)
 
-                val response = service.login(user).execute()
+                val response = loginService.login(user).execute()
                 val auth = response.body()
 
                 if (response.isSuccessful && auth != null) {

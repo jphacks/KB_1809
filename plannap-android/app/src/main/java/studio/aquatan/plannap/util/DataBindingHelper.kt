@@ -1,5 +1,6 @@
 package studio.aquatan.plannap.util
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -7,6 +8,10 @@ import androidx.databinding.BindingAdapter
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.textfield.TextInputLayout
 import studio.aquatan.plannap.R
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import kotlin.LazyThreadSafetyMode.NONE
 
 @BindingAdapter("isVisible")
 fun setIsVisible(view: View, isVisible: Boolean) {
@@ -24,6 +29,23 @@ fun setDuration(view: TextView, duration: Int) {
 fun setCost(view: TextView, cost: Int) {
     view.apply {
         text = context.getString(R.string.text_price, cost)
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("count")
+fun setCount(view: TextView, count: Int) {
+    view.text = "${count - (count % 2)}+"
+}
+
+private val DATE_FORMAT by lazy(NONE) { SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.JAPAN) }
+
+@BindingAdapter("date")
+fun setDate(view: TextView, date: Date?) {
+    view.text = if (date != null) {
+        DATE_FORMAT.format(date)
+    } else {
+        null
     }
 }
 
