@@ -20,7 +20,7 @@ class ProfileViewModel(
     private val refreshRequest = SingleLiveEvent<Unit>()
 
     var planList: LiveData<List<Plan>> = Transformations.switchMap(refreshRequest) {
-        planRepository.getPlanList()
+        planRepository.getMyPlanList()
     }
     val startPlanDetailActivity = SingleLiveEvent<Long>()
     val startCommentListActivity = SingleLiveEvent<Pair<Long, String>>()
