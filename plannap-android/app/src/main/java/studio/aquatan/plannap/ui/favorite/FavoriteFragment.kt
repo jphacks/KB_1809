@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -65,7 +66,10 @@ class FavoriteFragment : Fragment() {
     private fun FavoriteViewModel.subscribe(adapter: PlanAdapter) {
         val fragment = this@FavoriteFragment
 
-        favoritePlanList.observe(fragment, Observer { adapter.submitList(it) })
+        favoritePlanList.observe(fragment, Observer {
+            visibleEmptyMessage(it.isEmpty())
+            adapter.submitList(it)
+        })
 
         initialLoad.observe(fragment, Observer { state ->
             binding.swipeRefreshLayout.isRefreshing = state == NetworkState.LOADING
@@ -76,5 +80,11 @@ class FavoriteFragment : Fragment() {
         startPlanDetailActivity.observe(fragment, Observer { id ->
             startActivity(PlanDetailActivity.createIntent(requireContext(), id))
         })
+    }
+
+    private fun visibleEmptyMessage(isVisible: Boolean) {
+        binding.emptyText.isVisible = isVisible
+        binding.emptyIcon.isVisible = isVisible
+        binding.recyclerView.isVisible = !isVisible
     }
 }
