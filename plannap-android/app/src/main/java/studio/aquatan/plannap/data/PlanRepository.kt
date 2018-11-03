@@ -53,6 +53,21 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
         return result
     }
 
+    fun getMyFavPlanList(): LiveData<List<Plan>> {
+        val result = MutableLiveData<List<Plan>>()
+
+        GlobalScope.launch {
+            try {
+                val response = service.getMyFavPlans().execute()
+                result.postValue(response.body() ?: emptyList())
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to fetch plans", e)
+            }
+        }
+
+        return result
+    }
+
     fun getPlanById(id: Long): LiveData<Plan> {
         val result = MutableLiveData<Plan>()
 
