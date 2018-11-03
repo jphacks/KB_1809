@@ -59,7 +59,7 @@ class FavoriteFragment : Fragment() {
         viewModel.subscribe(adapter)
 
         provider.get(MainViewModel::class.java)
-            .onAttachFragment(MainFragmentType.HOME)
+            .onAttachFragment(MainFragmentType.FAVORITE)
     }
 
     private fun FavoriteViewModel.subscribe(adapter: PlanAdapter) {
