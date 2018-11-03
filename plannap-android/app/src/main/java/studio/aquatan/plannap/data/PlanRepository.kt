@@ -23,10 +23,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
 
-class PlanRepository(
-    context: Context,
-    session: Session
-) : BaseRepository(session) {
+class PlanRepository(context: Context, session: Session) : BaseRepository(session) {
 
     companion object {
         private const val TAG = "PlanRepository"
