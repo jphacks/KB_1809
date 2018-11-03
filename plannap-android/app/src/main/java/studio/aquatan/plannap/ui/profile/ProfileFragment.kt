@@ -9,16 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.app_bar_main.toolbar
-import kotlinx.android.synthetic.main.item_plan.user_icon
 import studio.aquatan.plannap.R
-import studio.aquatan.plannap.data.model.User
 import studio.aquatan.plannap.databinding.FragmentProfileBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.comment.list.CommentListActivity
 import studio.aquatan.plannap.ui.main.MainFragmentType
 import studio.aquatan.plannap.ui.main.MainViewModel
-import studio.aquatan.plannap.ui.plan.PlanAdapter
+import studio.aquatan.plannap.ui.plan.PlanSmallAdapter
 import studio.aquatan.plannap.ui.plan.detail.PlanDetailActivity
 import javax.inject.Inject
 
@@ -54,7 +51,7 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
 
-        val adapter = PlanAdapter(
+        val adapter = PlanSmallAdapter(
             layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick,
             viewModel::onCommentClick
         )
@@ -74,7 +71,7 @@ class ProfileFragment : Fragment() {
         viewModel.onActivityResumed()
     }
 
-    private fun ProfileViewModel.subscribe(adapter: PlanAdapter) {
+    private fun ProfileViewModel.subscribe(adapter: PlanSmallAdapter) {
         val fragment = this@ProfileFragment
 
         planList.observe(fragment, Observer { list ->
