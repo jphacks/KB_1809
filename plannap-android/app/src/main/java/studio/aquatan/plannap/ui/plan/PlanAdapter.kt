@@ -22,12 +22,6 @@ class PlanAdapter(
 
     private var networkState: NetworkState? = null
 
-    init {
-        setHasStableIds(true)
-    }
-
-    override fun getItemId(position: Int) = if (super.getItemCount() > 0) getItem(position)!!.id else -1
-
     override fun getItemViewType(position: Int): Int {
         return if (hasExtraRow() && position >= itemCount - 1) NETWORK_STATE_VIEW else PLAN_VIEW
     }

@@ -1,5 +1,6 @@
 package studio.aquatan.plannap.util
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -29,6 +30,12 @@ fun setCost(view: TextView, cost: Int) {
     view.apply {
         text = context.getString(R.string.text_price, cost)
     }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("count")
+fun setCount(view: TextView, count: Int) {
+    view.text = "${count - (count % 2)}+"
 }
 
 private val DATE_FORMAT by lazy(NONE) { SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.JAPAN) }

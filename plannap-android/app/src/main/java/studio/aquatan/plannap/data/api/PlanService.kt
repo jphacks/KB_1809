@@ -19,13 +19,13 @@ interface PlanService {
         @Query("location") location: String? = null
     ): Call<Page<Plan>>
 
-    @GET("/api/v1/plans/{id}/")
+    @GET("/api/v2/plans/{id}/")
     fun getPlan(@Path("id") planId: Long): Call<Plan>
 
     @Headers(
         "Accept: application/json",
         "Content-Type: application/json"
     )
-    @POST("/api/v1/plans/")
+    @POST("/api/v2/plans/")
     fun postPlan(@Body body: PostPlan): Call<Plan>
 }
