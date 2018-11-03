@@ -1,59 +1,33 @@
 package studio.aquatan.plannap.ui.home
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.launch
-import studio.aquatan.plannap.data.FavoriteRepository
+import androidx.paging.PagedList
+import studio.aquatan.plannap.data.Listing
+import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.ui.SingleLiveEvent
 
-class HomeViewModel(
-    private val planRepository: PlanRepository,
-    private val favoriteRepository: FavoriteRepository
-) : ViewModel() {
+class HomeViewModel(planRepository: PlanRepository) : ViewModel() {
 
-    private val refreshRequest = SingleLiveEvent<Unit>()
+    private val planListing: Listing<Plan> = planRepository.getPlanListing()
 
-    var planList: LiveData<List<Plan>> = Transformations.switchMap(refreshRequest) {
-        planRepository.getPlanList()
-    }
+    val planList: LiveData<PagedList<Plan>> = planListing.pagedList
+    val initialLoad: LiveData<NetworkState> = planListing.initialLoad
+    val networkState: LiveData<NetworkState> = planListing.networkState
+
     val startPlanDetailActivity = SingleLiveEvent<Long>()
-    val startCommentListActivity = SingleLiveEvent<Pair<Long, String>>()
-
-    init {
-        refreshRequest.value = Unit
-    }
-
-    fun onActivityResumed() {
-        refreshRequest.value = Unit
-    }
 
     fun onPlanClick(id: Long) {
         startPlanDetailActivity.value = id
     }
 
-    fun onFavoriteClick(id: Long, isFavorite: Boolean) {
-        GlobalScope.launch {
-            val isSuccess = if (isFavorite) {
-                favoriteRepository.postFavorite(id)
-            } else {
-                favoriteRepository.deleteFavorite(id)
-            }.await()
-
-            if (!isSuccess) {
-                refreshRequest.postValue(Unit)
-            }
-        }
-    }
-
-    fun onCommentClick(id: Long, name: String) {
-        startCommentListActivity.value = id to name
-    }
-
     fun onRefresh() {
-        refreshRequest.value = Unit
+        planListing.refresh.invoke()
+    }
+
+    fun onRetryClick() {
+        planListing.retry.invoke()
     }
 }

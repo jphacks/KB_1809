@@ -1,11 +1,13 @@
 package studio.aquatan.plannap.data
 
+import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import studio.aquatan.plannap.Session
+import studio.aquatan.plannap.data.adapter.DateJsonAdapter
 import studio.aquatan.plannap.data.api.AuthService
 import studio.aquatan.plannap.data.model.PostUser
 
@@ -20,7 +22,13 @@ abstract class BaseRepository(
     protected val retrofitBuilder: Retrofit.Builder =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(
+                MoshiConverterFactory.create(
+                    Moshi.Builder()
+                        .add(DateJsonAdapter())
+                        .build()
+                )
+            )
 
     protected fun buildRetrofit(): Retrofit = retrofitBuilder.client(buildClient()).build()
 

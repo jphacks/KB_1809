@@ -3,7 +3,9 @@ package studio.aquatan.plannap.util
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
@@ -17,8 +19,15 @@ fun Activity.hideSoftInput() {
             return
         }
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
+    }
+}
+
+fun View.indefiniteSnackbar(text: String, actionText: String, action: () -> Unit) {
+    Snackbar.make(this, text, Snackbar.LENGTH_INDEFINITE).run {
+        setAction(actionText) { action() }
+        show()
     }
 }
 
