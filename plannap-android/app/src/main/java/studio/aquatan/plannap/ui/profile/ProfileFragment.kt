@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
 import studio.aquatan.plannap.R
+import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.databinding.FragmentProfileBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
-import studio.aquatan.plannap.ui.comment.list.CommentListActivity
 import studio.aquatan.plannap.ui.main.MainFragmentType
 import studio.aquatan.plannap.ui.main.MainViewModel
 import studio.aquatan.plannap.ui.plan.PlanSmallAdapter
@@ -50,25 +50,17 @@ class ProfileFragment : Fragment() {
         viewModel = provider.get(ProfileViewModel::class.java)
         binding.viewModel = viewModel
 
-
-        val adapter = PlanSmallAdapter(
-            layoutInflater, viewModel::onPlanClick, viewModel::onFavoriteClick,
-            viewModel::onCommentClick
-        )
+        val adapter = PlanSmallAdapter(layoutInflater, viewModel::onPlanClick, viewModel::onRetryClick)
         binding.recyclerView.apply {
             setAdapter(adapter)
             setHasFixedSize(true)
         }
 
+
         viewModel.subscribe(adapter)
 
         provider.get(MainViewModel::class.java)
             .onAttachFragment(MainFragmentType.HOME)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onActivityResumed()
     }
 
     private fun ProfileViewModel.subscribe(adapter: PlanSmallAdapter) {
@@ -77,11 +69,10 @@ class ProfileFragment : Fragment() {
         planList.observe(fragment, Observer { list ->
             adapter.submitList(list)
         })
+        networkState.observe(fragment, Observer { adapter.setNetworkState(it) })
+
         startPlanDetailActivity.observe(fragment, Observer { id ->
             startActivity(PlanDetailActivity.createIntent(requireContext(), id))
-        })
-        startCommentListActivity.observe(fragment, Observer { (id, name) ->
-            startActivity(CommentListActivity.createIntent(requireContext(), id, name))
         })
     }
 }

@@ -20,6 +20,7 @@ import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.data.model.PostPlan
 import studio.aquatan.plannap.data.source.FavoritePlanDataSourceFactory
 import studio.aquatan.plannap.data.source.PlanDataSourceFactory
+import studio.aquatan.plannap.data.source.PlanMyDataSourceFactory
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
@@ -40,36 +41,6 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
             .build()
 
         return@lazy EditablePlanJsonAdapter(moshi)
-    }
-
-    fun getPlanList(): LiveData<List<Plan>> {
-        val result = MutableLiveData<List<Plan>>()
-
-        GlobalScope.launch {
-            try {
-                val response = service.getPlans().execute()
-                result.postValue(response.body() ?: emptyList())
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to fetch plans", e)
-            }
-        }
-
-        return result
-    }
-
-    fun getMyPlanList(): LiveData<List<Plan>> {
-        val result = MutableLiveData<List<Plan>>()
-
-        GlobalScope.launch {
-            try {
-                val response = service.getMyPlans().execute()
-                result.postValue(response.body() ?: emptyList())
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to fetch plans", e)
-            }
-        }
-
-        return result
     }
 
     fun getPlanById(id: Long): LiveData<Plan> {
@@ -128,6 +99,19 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
     fun getPlanListing(): Listing<Plan> {
         val factory = PlanDataSourceFactory(service)
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
+    }
+
+    fun getMyPlanListing(): Listing<Plan> {
+        val factory = PlanMyDataSourceFactory(service)
         val livePagedList = factory.toLiveData(pageSize = 5)
 
         return Listing(
