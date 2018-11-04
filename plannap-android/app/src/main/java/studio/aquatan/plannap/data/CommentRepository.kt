@@ -14,7 +14,7 @@ import studio.aquatan.plannap.data.source.CommentDataSourceFactory
 class CommentRepository(session: Session) : BaseRepository(session) {
 
     companion object {
-        const val PAGE_SIZE = 5
+        const val PAGE_SIZE = 10
     }
 
     private val service = buildRetrofit().create(CommentService::class.java)
