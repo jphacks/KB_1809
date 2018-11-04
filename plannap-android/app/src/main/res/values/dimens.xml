@@ -27,5 +27,8 @@
     <dimen name="plan_item_img_height">194dp</dimen>
     <dimen name="plan_item_img_width">344dp</dimen>
 
+    <dimen name="empty_state_icon_height">64dp</dimen>
+    <dimen name="empty_state_icon_width">64dp</dimen>
+
     <dimen name="report_item_width">168dp</dimen>
 </resources>

@@ -70,6 +70,7 @@
     <string name="text_duration">約%1$d分</string>
     <string name="text_post_success">投稿しました！</string>
     <string name="text_discard_confirm">編集中の内容を破棄しますか？</string>
+    <string name="text_not_favorite_plan">まだ、お気に入りのプランがありません.\nホームから気になるプランを探してみよう！</string>
 
     <!-- Error -->
     <string name="error_require_field">未入力です</string>
