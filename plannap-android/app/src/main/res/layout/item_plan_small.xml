@@ -18,7 +18,7 @@
             android:id="@+id/card"
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="88dp"
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -63,12 +63,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginTop="16dp"
                     android:src="@drawable/ic_mode_comment_white_24dp"
                     android:tint="@color/grey_400"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/comment_count"
-                    app:layout_constraintTop_toBottomOf="@+id/created_date"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -86,13 +84,8 @@
                     android:id="@+id/plan_image"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="h,172:97"
-                    app:layout_constraintEnd_toStartOf="@+id/created_date"
+                    app:layout_constraintDimensionRatio="h,97:172"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     fresco:actualImageScaleType="centerCrop"
@@ -103,28 +96,16 @@
                     android:id="@+id/plan_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
+                    android:singleLine="true"
                     android:text="@{data.name}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/plan_image"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="デートコース" />
-
-                <TextView
-                    android:id="@+id/created_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginTop="8dp"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    app:date="@{data.date}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/plan_name"
-                    tools:text="2018/01/01 11:11:11" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

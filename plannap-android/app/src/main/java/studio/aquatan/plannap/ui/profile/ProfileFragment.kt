@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.appbar.AppBarLayout
 import dagger.android.support.AndroidSupportInjection
 import studio.aquatan.plannap.R
+import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.databinding.FragmentProfileBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.main.MainFragmentType
@@ -36,6 +38,10 @@ class ProfileFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         binding.setLifecycleOwner(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
+        binding.appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, offset ->
+            binding.swipeRefreshLayout.isEnabled = offset >= 0
+        })
 
         return binding.root
     }
@@ -55,7 +61,6 @@ class ProfileFragment : Fragment() {
             setHasFixedSize(true)
         }
 
-
         viewModel.subscribe(adapter)
 
         provider.get(MainViewModel::class.java)
@@ -67,6 +72,9 @@ class ProfileFragment : Fragment() {
 
         planList.observe(fragment, Observer { list ->
             adapter.submitList(list)
+        })
+        initialLoad.observe(fragment, Observer { state ->
+            binding.swipeRefreshLayout.isRefreshing = state == NetworkState.LOADING
         })
         networkState.observe(fragment, Observer { adapter.setNetworkState(it) })
 
