@@ -21,7 +21,7 @@ class AppModule(
     private val favoriteRepository = FavoriteRepository(app.session)
     private val commentRepository = CommentRepository(app.session)
     private val authRepository = AuthRepository(app.session)
-    private val userRepository = UserRepository(app, app.session)
+    private val userRepository = UserRepository(app.session)
 
     @Provides
     @Singleton
