@@ -38,12 +38,23 @@ fun setCount(view: TextView, count: Int) {
     view.text = "${count - (count % 2)}+"
 }
 
-private val DATE_FORMAT by lazy(NONE) { SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.JAPAN) }
+private val DATE_FORMAT by lazy(NONE) { SimpleDateFormat("yyyy/MM/dd", Locale.JAPAN) }
 
 @BindingAdapter("date")
 fun setDate(view: TextView, date: Date?) {
     view.text = if (date != null) {
         DATE_FORMAT.format(date)
+    } else {
+        null
+    }
+}
+
+private val DATE_FULL_FORMAT by lazy(NONE) { SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.JAPAN) }
+
+@BindingAdapter("dateFull")
+fun setDateFull(view: TextView, date: Date?) {
+    view.text = if (date != null) {
+        DATE_FULL_FORMAT.format(date)
     } else {
         null
     }
