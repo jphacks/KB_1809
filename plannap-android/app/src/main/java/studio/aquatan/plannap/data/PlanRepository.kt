@@ -19,6 +19,7 @@ import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.data.model.PostPlan
 import studio.aquatan.plannap.data.source.FavoritePlanDataSourceFactory
+import studio.aquatan.plannap.data.source.MyPlanDataSourceFactory
 import studio.aquatan.plannap.data.source.PlanDataSourceFactory
 import java.io.File
 import java.io.FileOutputStream
@@ -40,6 +41,58 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
             .build()
 
         return@lazy EditablePlanJsonAdapter(moshi)
+    }
+
+    fun getPlanListing(): Listing<Plan> {
+        val factory = PlanDataSourceFactory(service)
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
+    }
+
+    fun getMyPlanListing(): Listing<Plan> {
+        val factory = MyPlanDataSourceFactory(service)
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
+    }
+
+    fun getFavoritePlanListing(): Listing<Plan> {
+        val factory = FavoritePlanDataSourceFactory(service)
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
+    }
+
+    fun searchPlanListing(keyword: String): Listing<Plan> {
+        val factory = PlanDataSourceFactory(service, keyword)
+        val livePagedList = factory.toLiveData(pageSize = 5)
+
+        return Listing(
+            pagedList = livePagedList,
+            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
+            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
+            retry = { factory.sourceLiveData.value?.retryAllFailed() },
+            refresh = { factory.sourceLiveData.value?.invalidate() }
+        )
     }
 
     fun getPlanById(id: Long): LiveData<Plan> {
@@ -95,43 +148,4 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
             return@async uuid
         }
-
-    fun getPlanListing(): Listing<Plan> {
-        val factory = PlanDataSourceFactory(service)
-        val livePagedList = factory.toLiveData(pageSize = 5)
-
-        return Listing(
-            pagedList = livePagedList,
-            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
-            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
-            retry = { factory.sourceLiveData.value?.retryAllFailed() },
-            refresh = { factory.sourceLiveData.value?.invalidate() }
-        )
-    }
-
-    fun getFavoritePlanListing(): Listing<Plan> {
-        val factory = FavoritePlanDataSourceFactory(service)
-        val livePagedList = factory.toLiveData(pageSize = 5)
-
-        return Listing(
-            pagedList = livePagedList,
-            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
-            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
-            retry = { factory.sourceLiveData.value?.retryAllFailed() },
-            refresh = { factory.sourceLiveData.value?.invalidate() }
-        )
-    }
-
-    fun searchPlanListing(keyword: String): Listing<Plan> {
-        val factory = PlanDataSourceFactory(service, keyword)
-        val livePagedList = factory.toLiveData(pageSize = 5)
-
-        return Listing(
-            pagedList = livePagedList,
-            initialLoad = Transformations.switchMap(factory.sourceLiveData) { it.initialLoad },
-            networkState = Transformations.switchMap(factory.sourceLiveData) { it.networkState },
-            retry = { factory.sourceLiveData.value?.retryAllFailed() },
-            refresh = { factory.sourceLiveData.value?.invalidate() }
-        )
-    }
 }

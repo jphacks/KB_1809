@@ -12,6 +12,9 @@
     <dimen name="detail_item_height">280dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <dimen name="user_icon_height_large">144dp</dimen>
+    <dimen name="user_icon_width_large">144dp</dimen>
+
     <dimen name="user_icon_height">40dp</dimen>
     <dimen name="user_icon_width">40dp</dimen>
 

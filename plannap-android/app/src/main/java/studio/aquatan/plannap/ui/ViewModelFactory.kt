@@ -7,6 +7,7 @@ import studio.aquatan.plannap.data.AuthRepository
 import studio.aquatan.plannap.data.CommentRepository
 import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.data.UserRepository
 import studio.aquatan.plannap.ui.comment.list.CommentListViewModel
 import studio.aquatan.plannap.ui.favorite.FavoriteViewModel
 import studio.aquatan.plannap.ui.home.HomeViewModel
@@ -23,7 +24,8 @@ class ViewModelFactory(
     private val planRepo: PlanRepository,
     private val favoriteRepo: FavoriteRepository,
     private val commentRepo: CommentRepository,
-    private val authRepo: AuthRepository
+    private val authRepo: AuthRepository,
+    private val userRepo: UserRepository
 ) : ViewModelProvider.AndroidViewModelFactory(context) {
 
     @Suppress("UNCHECKED_CAST")
@@ -33,7 +35,7 @@ class ViewModelFactory(
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(authRepo)
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(planRepo)
                 isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel(planRepo)
-                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel()
+                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(planRepo, userRepo)
                 isAssignableFrom(PlanDetailViewModel::class.java) -> PlanDetailViewModel(
                     planRepo, favoriteRepo,
                     commentRepo
