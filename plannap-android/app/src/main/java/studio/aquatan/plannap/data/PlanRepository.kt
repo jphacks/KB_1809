@@ -29,6 +29,7 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
     companion object {
         private const val TAG = "PlanRepository"
+        const val PAGE_SIZE = 5
 
         const val OUTPUT_PATH = "editable-plan-outputs"
     }
@@ -45,7 +46,7 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
     fun getPlanListing(): Listing<Plan> {
         val factory = PlanDataSourceFactory(service)
-        val livePagedList = factory.toLiveData(pageSize = 5)
+        val livePagedList = factory.toLiveData(pageSize = PAGE_SIZE)
 
         return Listing(
             pagedList = livePagedList,
@@ -58,7 +59,7 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
     fun getMyPlanListing(): Listing<Plan> {
         val factory = MyPlanDataSourceFactory(service)
-        val livePagedList = factory.toLiveData(pageSize = 5)
+        val livePagedList = factory.toLiveData(pageSize = PAGE_SIZE)
 
         return Listing(
             pagedList = livePagedList,
@@ -71,7 +72,7 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
     fun getFavoritePlanListing(): Listing<Plan> {
         val factory = FavoritePlanDataSourceFactory(service)
-        val livePagedList = factory.toLiveData(pageSize = 5)
+        val livePagedList = factory.toLiveData(pageSize = PAGE_SIZE)
 
         return Listing(
             pagedList = livePagedList,
@@ -84,7 +85,7 @@ class PlanRepository(context: Context, session: Session) : BaseRepository(sessio
 
     fun searchPlanListing(keyword: String): Listing<Plan> {
         val factory = PlanDataSourceFactory(service, keyword)
-        val livePagedList = factory.toLiveData(pageSize = 5)
+        val livePagedList = factory.toLiveData(pageSize = PAGE_SIZE)
 
         return Listing(
             pagedList = livePagedList,
