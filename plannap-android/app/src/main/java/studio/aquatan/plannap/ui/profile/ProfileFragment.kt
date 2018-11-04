@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
 import studio.aquatan.plannap.R
-import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.databinding.FragmentProfileBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.main.MainFragmentType
@@ -60,7 +59,7 @@ class ProfileFragment : Fragment() {
         viewModel.subscribe(adapter)
 
         provider.get(MainViewModel::class.java)
-            .onAttachFragment(MainFragmentType.HOME)
+            .onAttachFragment(MainFragmentType.PROFILE)
     }
 
     private fun ProfileViewModel.subscribe(adapter: PlanSmallAdapter) {
