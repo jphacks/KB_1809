@@ -7,6 +7,7 @@ import studio.aquatan.plannap.data.AuthRepository
 import studio.aquatan.plannap.data.CommentRepository
 import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.data.ReportRepository
 import studio.aquatan.plannap.data.UserRepository
 import studio.aquatan.plannap.ui.comment.list.CommentListViewModel
 import studio.aquatan.plannap.ui.favorite.FavoriteViewModel
@@ -18,6 +19,7 @@ import studio.aquatan.plannap.ui.plan.post.PlanPostViewModel
 import studio.aquatan.plannap.ui.plan.search.PlanSearchViewModel
 import studio.aquatan.plannap.ui.plan.searchresult.PlanSearchResultViewModel
 import studio.aquatan.plannap.ui.profile.ProfileViewModel
+import studio.aquatan.plannap.ui.report.post.ReportPostViewModel
 
 class ViewModelFactory(
     private val context: Application,
@@ -25,6 +27,7 @@ class ViewModelFactory(
     private val favoriteRepo: FavoriteRepository,
     private val commentRepo: CommentRepository,
     private val authRepo: AuthRepository,
+    private val reportRepo: ReportRepository,
     private val userRepo: UserRepository
 ) : ViewModelProvider.AndroidViewModelFactory(context) {
 
@@ -47,6 +50,7 @@ class ViewModelFactory(
                 isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepo)
                 isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepo)
                 isAssignableFrom(CommentListViewModel::class.java) -> CommentListViewModel(commentRepo)
+                isAssignableFrom(CommentListViewModel::class.java) -> ReportPostViewModel(reportRepo)
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
