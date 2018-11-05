@@ -80,8 +80,9 @@ class PlanDetailActivity : AppCompatActivity() {
 
             spotAdapter.submitList(it.spotList)
             reportAdapter.submitList(it.reportList)
-            commentAdapter.submitList(it.commentList.takeLast(5))
         })
+
+        commentList.observe(activity, Observer { commentAdapter.submitList(it) })
 
         startCommentListActivity.observe(activity, Observer { (id, name) ->
             startActivity(CommentListActivity.createIntent(activity, id, name))

@@ -1,10 +1,13 @@
 package studio.aquatan.plannap.data
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.Session
 import studio.aquatan.plannap.data.api.CommentService
 import studio.aquatan.plannap.data.model.Comment
@@ -30,6 +33,21 @@ class CommentRepository(session: Session) : BaseRepository(session) {
             retry = { factory.sourceLiveData.value?.retryAllFailed() },
             refresh = { factory.sourceLiveData.value?.invalidate() }
         )
+    }
+
+    fun getNewestCommentList(planId: Long, limit: Int): LiveData<List<Comment>> {
+        val result = MutableLiveData<List<Comment>>()
+
+        GlobalScope.launch {
+            try {
+                val response = service.getComments(planId, null, limit).execute()
+                result.postValue(response.body()?.resultList ?: emptyList())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        return result
     }
 
     fun postComment(planId: Long, text: String) =

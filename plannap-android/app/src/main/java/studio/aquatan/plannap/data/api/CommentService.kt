@@ -14,10 +14,11 @@ import studio.aquatan.plannap.data.model.PostComment
 
 interface CommentService {
 
-    @GET("/api/v2/plans/{id}/comments/?limit=$PAGE_SIZE")
+    @GET("/api/v2/plans/{id}/comments/")
     fun getComments(
         @Path("id") planId: Long,
-        @Query("cursor") key: String?
+        @Query("cursor") key: String?,
+        @Query("limit") limit: Int? = PAGE_SIZE
     ): Call<Page<Comment>>
 
     @Headers("Accept: application/json", "Content-Type: application/json")

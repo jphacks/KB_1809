@@ -24,7 +24,7 @@
     <string name="title_date">投稿日時</string>
     <string name="title_spots">スポット一覧</string>
     <string name="title_reports">レポート</string>
-    <string name="title_comment">コメント</string>
+    <string name="title_comment">コメント（最新5件）</string>
     <string name="title_confirm">確認</string>
 
     <!-- Menu -->
