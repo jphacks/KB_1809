@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
+import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.databinding.ActivityCommentListBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
 import studio.aquatan.plannap.ui.comment.CommentAdapter
@@ -46,8 +48,11 @@ class CommentListActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this, viewModelFactory).get(CommentListViewModel::class.java)
         binding.viewModel = viewModel
 
-        val adapter = CommentAdapter(layoutInflater)
-        binding.recyclerView.adapter = adapter
+        val adapter = CommentAdapter(layoutInflater, viewModel::onRetryClick)
+        binding.recyclerView.apply {
+            setAdapter(adapter)
+            addItemDecoration(DividerItemDecoration(this@CommentListActivity, DividerItemDecoration.VERTICAL))
+        }
 
         viewModel.subscribe(adapter)
         viewModel.onActivityCreated(intent.getLongExtra(EXTRA_ID, 0))
@@ -62,5 +67,11 @@ class CommentListActivity : AppCompatActivity() {
         val activity = this@CommentListActivity
 
         commentList.observe(activity, Observer { adapter.submitList(it) })
+
+        initialLoad.observe(activity, Observer { state ->
+            binding.swipeRefreshLayout.isRefreshing = state == NetworkState.LOADING
+        })
+
+        networkState.observe(activity, Observer { adapter.setNetworkState(it) })
     }
 }

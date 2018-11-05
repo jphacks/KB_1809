@@ -12,7 +12,6 @@ import dagger.android.AndroidInjection
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.databinding.ActivityPlanDetailBinding
 import studio.aquatan.plannap.ui.ViewModelFactory
-import studio.aquatan.plannap.ui.comment.CommentAdapter
 import studio.aquatan.plannap.ui.comment.list.CommentListActivity
 import javax.inject.Inject
 
@@ -81,8 +80,10 @@ class PlanDetailActivity : AppCompatActivity() {
 
             spotAdapter.submitList(it.spotList)
             reportAdapter.submitList(it.reportList)
-            commentAdapter.submitList(it.commentList)
         })
+
+        commentList.observe(activity, Observer { commentAdapter.submitList(it) })
+
         startCommentListActivity.observe(activity, Observer { (id, name) ->
             startActivity(CommentListActivity.createIntent(activity, id, name))
         })

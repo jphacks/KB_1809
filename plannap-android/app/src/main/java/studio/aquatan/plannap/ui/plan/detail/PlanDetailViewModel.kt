@@ -12,6 +12,7 @@ import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.CommentRepository
 import studio.aquatan.plannap.data.FavoriteRepository
 import studio.aquatan.plannap.data.PlanRepository
+import studio.aquatan.plannap.data.model.Comment
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.ui.SingleLiveEvent
 
@@ -25,6 +26,10 @@ class PlanDetailViewModel(
 
     val plan: LiveData<Plan> = Transformations.switchMap(planId) { id ->
         planRepository.getPlanById(id)
+    }
+
+    val commentList: LiveData<List<Comment>> = Transformations.switchMap(planId) { id ->
+        commentRepository.getNewestCommentList(id, 5)
     }
 
     val isSubmitting = ObservableBoolean()

@@ -18,7 +18,6 @@ data class Plan(
     @Json(name = "comment_count") val commentCount: Int,
     @Json(name = "spots") val spotList: List<Spot> = emptyList(),
     @Json(name = "reports") val reportList: List<Report> = emptyList(),
-    @Json(name = "comments") val commentList: List<Comment> = emptyList(),
     @Json(name = "user") val user: User,
     @Json(name = "is_favorite") var isFavorite: Boolean
 ) {

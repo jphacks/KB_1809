@@ -7,9 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import studio.aquatan.plannap.data.CommentRepository
+import studio.aquatan.plannap.data.Listing
+import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.data.model.Comment
 
 class CommentListViewModel(
@@ -18,9 +21,12 @@ class CommentListViewModel(
 
     private val planId = MutableLiveData<Long>()
 
-    val commentList: LiveData<List<Comment>> = Transformations.switchMap(planId) { id ->
-        commentRepository.getCommentList(id)
+    private val commentListing: LiveData<Listing<Comment>> = Transformations.map(planId) {
+        commentRepository.getCommentListing(it)
     }
+    val commentList: LiveData<PagedList<Comment>> = Transformations.switchMap(commentListing) { it.pagedList }
+    val initialLoad: LiveData<NetworkState> = Transformations.switchMap(commentListing) { it.initialLoad }
+    val networkState: LiveData<NetworkState> = Transformations.switchMap(commentListing) { it.networkState }
 
     val isSubmitting = ObservableBoolean()
     val isEnabledSubmit = ObservableBoolean()
@@ -61,5 +67,13 @@ class CommentListViewModel(
 
             isSubmitting.set(false)
         }
+    }
+
+    fun onRefresh() {
+        commentListing.value?.refresh?.invoke()
+    }
+
+    fun onRetryClick() {
+        commentListing.value?.retry?.invoke()
     }
 }
