@@ -50,6 +50,7 @@
     <string name="name_comment">コメント</string>
     <string name="name_post_report">レポートを送る</string>
     <string name="name_all_show">すべて表示</string>
+    <string name="name_check_route">ルートを確認</string>
 
     <!-- Hint -->
     <string name="hint_area">エリア</string>

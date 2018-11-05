@@ -89,6 +89,8 @@ class PlanDetailActivity : AppCompatActivity() {
 
         commentList.observe(activity, Observer { commentAdapter.submitList(it) })
 
+        startActivity.observe(activity, Observer { startActivity(it) })
+
         startCommentListActivity.observe(activity, Observer { (id, name) ->
             startActivity(CommentListActivity.createIntent(activity, id, name))
         })
