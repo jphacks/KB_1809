@@ -1,5 +1,7 @@
 package studio.aquatan.plannap.ui.plan.detail
 
+import android.content.Intent
+import androidx.core.net.toUri
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -37,6 +39,7 @@ class PlanDetailViewModel(
     val comment = ObservableField<String>()
     val errorComment = ObservableField<String>()
 
+    val startActivity = SingleLiveEvent<Intent>()
     val startCommentListActivity = SingleLiveEvent<Pair<Long, String>>()
 
     init {
@@ -70,6 +73,12 @@ class PlanDetailViewModel(
                 planId.postValue(id)
             }
         }
+    }
+
+    fun onCheckRouteClick() {
+        val mapUrl = plan.value?.mapUrl ?: return
+
+        startActivity.value = Intent(Intent.ACTION_VIEW, mapUrl.toUri())
     }
 
     fun onReportPostClick() {
