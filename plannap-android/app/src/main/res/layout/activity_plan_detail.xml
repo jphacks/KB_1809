@@ -184,7 +184,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                        app:date="@{viewModel.plan.date}"
+                        app:date="@{viewModel.plan.createdDate}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/duration_icon"
                         tools:text="2018/01/01" />

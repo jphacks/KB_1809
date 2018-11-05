@@ -12,14 +12,15 @@ data class Plan(
     @Json(name = "note") val note: String,
     @Json(name = "price") val price: Int,
     @Json(name = "duration") val duration: Int,
-    @Json(name = "created_at") val date: Date,
     @Json(name = "location") val location: Location?,
     @Json(name = "favorite_count") var favoriteCount: Int,
     @Json(name = "comment_count") val commentCount: Int,
     @Json(name = "spots") val spotList: List<Spot> = emptyList(),
     @Json(name = "reports") val reportList: List<Report> = emptyList(),
     @Json(name = "user") val user: User,
-    @Json(name = "is_favorite") var isFavorite: Boolean
+    @Json(name = "is_favorite") var isFavorite: Boolean,
+    @Json(name = "map_url") val mapUrl: String,
+    @Json(name = "created_at") val createdDate: Date
 ) {
 
     companion object {
