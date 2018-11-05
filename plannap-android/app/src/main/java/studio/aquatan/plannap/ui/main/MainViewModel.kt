@@ -3,8 +3,8 @@ package studio.aquatan.plannap.ui.main
 import android.view.MenuItem
 import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.data.AuthRepository
 import studio.aquatan.plannap.ui.SingleLiveEvent

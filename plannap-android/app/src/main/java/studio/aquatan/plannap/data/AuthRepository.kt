@@ -1,8 +1,8 @@
 package studio.aquatan.plannap.data
 
 import android.util.Log
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import studio.aquatan.plannap.Session
 import studio.aquatan.plannap.data.api.AuthService
 import studio.aquatan.plannap.data.model.Authorization

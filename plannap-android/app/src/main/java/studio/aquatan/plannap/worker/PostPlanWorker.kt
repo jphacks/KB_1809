@@ -9,7 +9,7 @@ import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.squareup.moshi.Moshi
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import studio.aquatan.plannap.Plannap
 import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.adapter.UriJsonAdapter

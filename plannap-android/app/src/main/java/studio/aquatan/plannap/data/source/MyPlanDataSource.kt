@@ -3,8 +3,8 @@ package studio.aquatan.plannap.data.source
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.data.api.PlanService
 import studio.aquatan.plannap.data.model.Page
