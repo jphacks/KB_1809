@@ -51,6 +51,11 @@ class PlanDetailViewModel(
         planId.value = id
     }
 
+    fun onActivityResumed() {
+        val id = planId.value ?: return
+        planId.value = id
+    }
+
     fun onFavoriteChanged(isFavorite: Boolean, count: Int) {
         val id = planId.value ?: return
 

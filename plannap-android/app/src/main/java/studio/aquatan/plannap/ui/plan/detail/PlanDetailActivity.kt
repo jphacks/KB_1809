@@ -64,6 +64,11 @@ class PlanDetailActivity : AppCompatActivity() {
         viewModel.onActivityCreated(intent.getLongExtra(EXTRA_ID, -1))
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onActivityResumed()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         finish()
         return super.onOptionsItemSelected(item)
