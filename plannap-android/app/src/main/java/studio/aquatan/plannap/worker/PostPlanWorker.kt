@@ -20,6 +20,7 @@ import studio.aquatan.plannap.data.model.PostSpot
 import studio.aquatan.plannap.notification.NotificationController
 import studio.aquatan.plannap.util.calcScaleWidthHeight
 import studio.aquatan.plannap.util.mapParallel
+import studio.aquatan.plannap.util.rotateImageIfRequired
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -125,8 +126,10 @@ class PostPlanWorker(
             parcelFile.close()
 
             val (width, height) = image.calcScaleWidthHeight(MAX_IMAGE_SIZE, MAX_IMAGE_SIZE)
+            val scaledImage = Bitmap.createScaledBitmap(image, width, height, true)
+            image.recycle()
 
-            return Bitmap.createScaledBitmap(image, width, height, true)
+            return scaledImage.rotateImageIfRequired(this, applicationContext.contentResolver)
         } catch (e: IOException) {
             Log.e(javaClass.simpleName, "Failed to get Bitmap", e)
         }
