@@ -10,10 +10,10 @@ import studio.aquatan.plannap.data.model.PostReport
 import studio.aquatan.plannap.data.model.Report
 
 interface ReportService {
-    @GET("/api/v1/plans/{id}/reports/")
+    @GET("/api/v2/plans/{id}/reports/")
     fun getReports(@Query("id") planId: Int): Call<List<Report>>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
-    @POST("/api/v1/plans/{id}/reports/")
-    fun postReport(@Query("id") planId: Int,@Body report: PostReport): Call<Report>
+    @POST("/api/v2/plans/{id}/reports/")
+    fun postReport(@Query("id") planId: Long,@Body report: PostReport): Call<Report>
 }
