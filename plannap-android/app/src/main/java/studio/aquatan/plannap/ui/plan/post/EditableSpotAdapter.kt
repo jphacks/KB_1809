@@ -15,6 +15,7 @@ import studio.aquatan.plannap.R
 import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.databinding.ItemEditableSpotBinding
 import studio.aquatan.plannap.util.calcScaleWidthHeight
+import studio.aquatan.plannap.util.rotateImageIfRequired
 
 class EditableSpotAdapter(
     private val layoutInflater: LayoutInflater,
@@ -45,11 +46,14 @@ class EditableSpotAdapter(
             parcelFile.close()
 
             val (width, height) = image.calcScaleWidthHeight(THUMBNAIL_SIZE, THUMBNAIL_SIZE)
+            val scaledImage = Bitmap.createScaledBitmap(image, width, height, true)
+            image.recycle()
 
-            return Bitmap.createScaledBitmap(image, width, height, true)
+            return scaledImage.rotateImageIfRequired(this, contentResolver)
         } catch (e: Exception) {
             Log.e(javaClass.simpleName, "Failed to create Thumbnail", e)
         }
+
 
         return null
     }
