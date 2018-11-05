@@ -57,10 +57,10 @@ class PostPlanWorker(
         (applicationContext as Plannap).component.inject(this)
 
         val title = inputData.getString(KEY_TITLE) ?: "unknown"
+        val uuid = inputData.getString(KEY_OUTPUT_UUID) ?: return Result.FAILURE
 
-        notification.makePostPlanStatus(title, PostStatus.LOADING)
+        notification.makePostPlanStatus(uuid, title, PostStatus.LOADING)
 
-        val uuid = inputData.getString(KEY_OUTPUT_UUID)
         val dir = File(applicationContext.filesDir, PlanRepository.OUTPUT_PATH)
         val file = File(dir, "$uuid.json")
 
@@ -73,7 +73,7 @@ class PostPlanWorker(
 
             val editablePlan = editablePlanJsonAdapter.fromJson(String(bytes)) ?: throw IllegalArgumentException()
 
-            notification.makePostPlanStatus(title, PostStatus.POSTING)
+            notification.makePostPlanStatus(uuid, title, PostStatus.POSTING)
 
             isSuccess = runBlocking { planRepository.postPlan(editablePlan.asPostPlan()).await() }
         } catch (e: Exception) {
@@ -83,11 +83,11 @@ class PostPlanWorker(
         }
 
         if (!isSuccess) {
-            notification.makePostPlanStatus(title, PostStatus.FAILED)
+            notification.makePostPlanStatus(uuid, title, PostStatus.FAILED)
             return Result.FAILURE
         }
 
-        notification.makePostPlanStatus(title, PostStatus.SUCCESS)
+        notification.makePostPlanStatus(uuid, title, PostStatus.SUCCESS)
         file.delete()
 
         return Result.SUCCESS
