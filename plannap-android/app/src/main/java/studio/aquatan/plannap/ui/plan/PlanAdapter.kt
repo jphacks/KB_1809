@@ -8,22 +8,29 @@ import studio.aquatan.plannap.data.NetworkState
 import studio.aquatan.plannap.data.model.Plan
 import studio.aquatan.plannap.databinding.ItemNetworkStateBinding
 import studio.aquatan.plannap.databinding.ItemPlanBinding
+import studio.aquatan.plannap.databinding.ItemPlanSmallBinding
 
 class PlanAdapter(
     private val layoutInflater: LayoutInflater,
     private val onClick: (Long) -> Unit,
-    private val onRetryClick: () -> Unit
+    private val onRetryClick: () -> Unit,
+    private val isSmallLayout: Boolean = false
 ) : PagedListAdapter<Plan, RecyclerView.ViewHolder>(Plan.DIFF_CALLBACK) {
 
     companion object {
         private const val PLAN_VIEW = 0
-        private const val NETWORK_STATE_VIEW = 1
+        private const val PLAN_SMALL_VIEW = 1
+        private const val NETWORK_STATE_VIEW = 2
     }
 
     private var networkState: NetworkState? = null
 
     override fun getItemViewType(position: Int): Int {
-        return if (hasExtraRow() && position >= itemCount - 1) NETWORK_STATE_VIEW else PLAN_VIEW
+        return when {
+            hasExtraRow() && position >= itemCount - 1 -> NETWORK_STATE_VIEW
+            isSmallLayout -> PLAN_SMALL_VIEW
+            else -> PLAN_VIEW
+        }
     }
 
     override fun getItemCount(): Int {
@@ -35,6 +42,9 @@ class PlanAdapter(
             PLAN_VIEW -> PlanViewHolder(
                 ItemPlanBinding.inflate(layoutInflater, parent, false)
             )
+            PLAN_SMALL_VIEW -> PlanSmallViewHolder(
+                ItemPlanSmallBinding.inflate(layoutInflater, parent, false)
+            )
             NETWORK_STATE_VIEW -> NetworkStateViewHolder(
                 ItemNetworkStateBinding.inflate(layoutInflater, parent, false)
             )
@@ -45,6 +55,7 @@ class PlanAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is PlanViewHolder -> holder.bind(getItem(position) ?: return)
+            is PlanSmallViewHolder -> holder.bind(getItem(position) ?: return)
             is NetworkStateViewHolder -> holder.bind(networkState)
         }
     }
@@ -80,6 +91,20 @@ class PlanAdapter(
 
                 startSpotName.text = plan.spotList.first().name
                 goalSpotName.text = plan.spotList.last().name
+            }
+        }
+    }
+
+    inner class PlanSmallViewHolder(
+        private val binding: ItemPlanSmallBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(plan: Plan) {
+            binding.apply {
+                data = plan
+                root.setOnClickListener { onClick(plan.id) }
+
+                planImage.setImageURI(plan.spotList.first().imageUrl)
             }
         }
     }
