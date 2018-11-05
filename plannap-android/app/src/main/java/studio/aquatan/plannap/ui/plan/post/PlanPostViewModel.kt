@@ -21,7 +21,7 @@ import studio.aquatan.plannap.data.PlanRepository
 import studio.aquatan.plannap.data.model.EditableSpot
 import studio.aquatan.plannap.ui.SingleLiveEvent
 import studio.aquatan.plannap.worker.PostPlanWorker
-import java.io.IOException
+import java.io.InputStream
 
 class PlanPostViewModel(
     private val context: Application,
@@ -162,14 +162,16 @@ class PlanPostViewModel(
     }
 
     private fun Uri.toLatLong(): DoubleArray? {
-        val stream = context.contentResolver.openInputStream(this) ?: return null
+        var stream: InputStream? = null
         try {
+            stream = context.contentResolver.openInputStream(this)
+
             val exifInterface = ExifInterface(stream)
             return exifInterface.latLong
-        } catch (e: IOException) {
-            Log.e(javaClass.simpleName, "Failed to get LatLong", e)
+        } catch (e: Exception) {
+            Log.e("PlanPostViewModel", "Failed to get LatLong", e)
         } finally {
-            stream.close()
+            stream?.close()
         }
 
         return null
