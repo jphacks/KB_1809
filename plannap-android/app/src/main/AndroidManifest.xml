@@ -39,7 +39,7 @@
         <activity android:name=".ui.comment.list.CommentListActivity"/>
 
         <service
-            android:name=".worker.RetryPostPlanService" />
+            android:name=".notification.RetryPostPlanService" />
     </application>
 
 </manifest>

@@ -10,8 +10,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import studio.aquatan.plannap.R
 import studio.aquatan.plannap.worker.PostStatus
-import studio.aquatan.plannap.worker.PostStatus.FAILED
-import studio.aquatan.plannap.worker.RetryPostPlanService
 
 class NotificationController(context: Context) : ContextWrapper(context) {
 
@@ -47,7 +45,7 @@ class NotificationController(context: Context) : ContextWrapper(context) {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setVibrate(LongArray(0))
 
-        if (status == FAILED) {
+        if (status == PostStatus.FAILED) {
             val retryService = RetryPostPlanService.createPendingIntent(this, title, uuid)
             val retryAction = NotificationCompat.Action.Builder(R.drawable.ic_refresh_black_24dp, getString(R.string.action_retry), retryService).build()
 

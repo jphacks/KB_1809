@@ -1,4 +1,4 @@
-package studio.aquatan.plannap.worker
+package studio.aquatan.plannap.notification
 
 import android.app.PendingIntent
 import android.app.Service
@@ -8,7 +8,7 @@ import android.os.IBinder
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import studio.aquatan.plannap.notification.NotificationController
+import studio.aquatan.plannap.worker.PostPlanWorker
 
 class RetryPostPlanService : Service() {
 
@@ -33,7 +33,10 @@ class RetryPostPlanService : Service() {
 
         val data = Data.Builder().apply {
             putString(PostPlanWorker.KEY_TITLE, intent.getStringExtra(EXTRA_TITLE) ?: "unknown")
-            putString(PostPlanWorker.KEY_OUTPUT_UUID,  intent.getStringExtra(EXTRA_UUID))
+            putString(
+                PostPlanWorker.KEY_OUTPUT_UUID,  intent.getStringExtra(
+                    EXTRA_UUID
+                ))
         }.build()
 
         val postRequest = OneTimeWorkRequest.Builder(PostPlanWorker::class.java)
