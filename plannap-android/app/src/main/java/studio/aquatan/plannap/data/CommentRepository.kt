@@ -41,7 +41,9 @@ class CommentRepository(session: Session) : BaseRepository(session) {
         GlobalScope.launch {
             try {
                 val response = service.getComments(planId, null, limit).execute()
-                result.postValue(response.body()?.resultList ?: emptyList())
+                val list = response.body()?.resultList ?: emptyList()
+
+                result.postValue(list.sortedBy { it.createdDate.time })
             } catch (e: Exception) {
                 e.printStackTrace()
             }

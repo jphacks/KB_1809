@@ -22,7 +22,7 @@ interface CommentService {
     ): Call<Page<Comment>>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
-    @POST("/api/v1/plans/{id}/comments/")
+    @POST("/api/v2/plans/{id}/comments/")
     fun postComment(
         @Path("id") planId: Long,
         @Body comment: PostComment
