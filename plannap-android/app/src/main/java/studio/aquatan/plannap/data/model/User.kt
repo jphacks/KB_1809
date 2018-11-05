@@ -8,14 +8,10 @@ import java.util.Date
 @JsonClass(generateAdapter = true)
 data class User(
     @Json(name = "username") val username: String,
-    @Json(name = "icon") val iconUrl: String,
     @Json(name = "email") val email: String = "unknown@example.com",
-    @Json(name = "created_at") val createdDate: String,
-    @Json(name = "post_plan_names") val postPlanNameList: List<String> = mutableListOf("unknown"),
-    @Json(name = "post_plan_images") val postPlanImageList: List<String> = mutableListOf("unknown"),
-    @Json(name = "post_plan_created_at") val postPlanCreatedDateList: List<String> = mutableListOf("unknown"),
-    @Json(name = "post_plan_favorite_count") val postPlanFavoriteCountList: List<Int> = mutableListOf(0),
-    @Json(name = "post_plan_comment_count") val postPlanCommentCountList: List<Int> = mutableListOf(0)
+    @Json(name = "icon") val iconUrl: String,
+    @Json(name = "created_at") val createdDate: Date = Date(),
+    @Json(name = "update_at") val updateDate: Date = Date()
 ) {
 
     companion object {
