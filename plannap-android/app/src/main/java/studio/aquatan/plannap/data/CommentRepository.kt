@@ -59,8 +59,7 @@ class CommentRepository(session: Session) : BaseRepository(session) {
                 return@async Pair(response.code() == 201, response.message())
             } catch (e: Exception) {
                 Log.e(javaClass.simpleName, "Failed to post a Comment", e)
+                return@async Pair(false, e.message ?: "unknown error")
             }
-
-            return@async Pair(false, "Unknown error")
         }
 }
