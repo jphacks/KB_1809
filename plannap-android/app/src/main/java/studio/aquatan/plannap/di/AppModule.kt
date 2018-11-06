@@ -37,6 +37,6 @@ class AppModule(
     @Singleton
     fun provideViewModelFactory() = ViewModelFactory(
         app, planRepository, favoriteRepository, commentRepository,
-        authRepository,reportRepository,userRepository
+        authRepository, reportRepository, userRepository
     )
 }

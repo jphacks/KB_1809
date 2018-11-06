@@ -16,7 +16,7 @@ class ReportPostViewModel(
     private val reportRepository: ReportRepository
 ) : ViewModel() {
 
-    private val planId = MutableLiveData<Long>()
+    private var planId: Long = 0
     private val imageUri = MutableLiveData<Uri>()
 
     val isSubmitting = ObservableBoolean()
@@ -29,7 +29,7 @@ class ReportPostViewModel(
     val validation = SingleLiveEvent<ValidationResult>()
 
     fun onActivityCreated(id: Long) {
-        planId.value = id
+        planId = id
     }
 
     fun onAddPictureClick() {
@@ -44,7 +44,7 @@ class ReportPostViewModel(
     }
 
     fun onSubmitClick() {
-        val id = planId.value ?: 0
+        val id = planId
         val text = note.get() ?: ""
 
         if (text.isBlank()) {
@@ -57,7 +57,6 @@ class ReportPostViewModel(
 
             val (isSuccess, errorMessage) = reportRepository.postReport(id, text, imageUri.value!!).await()
             if (isSuccess) {
-                planId.postValue(id)
                 note.set("")
             } else {
                 errorComment.set(errorMessage)

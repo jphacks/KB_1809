@@ -18,10 +18,15 @@ import studio.aquatan.plannap.data.api.ReportService
 import studio.aquatan.plannap.data.model.PostReport
 import studio.aquatan.plannap.data.model.Report
 import studio.aquatan.plannap.util.calcScaleWidthHeight
+import studio.aquatan.plannap.util.rotateImageIfRequired
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 class ReportRepository(context: Context, session: Session) : BaseRepository(session) {
+
+    companion object {
+        private val MAX_IMAGE_SIZE = 1920.0
+    }
 
     private val appContext = context.applicationContext
 
@@ -68,7 +73,6 @@ class ReportRepository(context: Context, session: Session) : BaseRepository(sess
         }
 
     private fun Uri.toBitmap(): Bitmap? {
-        val MAX_IMAGE_SIZE = 1920.0
         try {
             val parcelFile = appContext.contentResolver.openFileDescriptor(this, "r") ?: return null
 
@@ -80,8 +84,10 @@ class ReportRepository(context: Context, session: Session) : BaseRepository(sess
             parcelFile.close()
 
             val (width, height) = image.calcScaleWidthHeight(MAX_IMAGE_SIZE, MAX_IMAGE_SIZE)
+            val scaledImage = Bitmap.createScaledBitmap(image, width, height, true)
+            image.recycle()
 
-            return Bitmap.createScaledBitmap(image, width, height, true)
+            return scaledImage.rotateImageIfRequired(this, appContext.contentResolver)
         } catch (e: IOException) {
             Log.e(javaClass.simpleName, "Failed to get Bitmap", e)
         }

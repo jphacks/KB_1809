@@ -63,7 +63,7 @@
     <string name="hint_plan_note">まとめ</string>
     <string name="hint_spot_name">名前</string>
     <string name="hint_comment">コメント</string>
-    <string name="hint_report">レポートを入力</string>
+    <string name="hint_report">レポート</string>
     <string name="hint_username">ユーザー名</string>
     <string name="hint_password">パスワード</string>
 
