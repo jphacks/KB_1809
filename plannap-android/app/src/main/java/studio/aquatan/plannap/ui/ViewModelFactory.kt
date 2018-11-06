@@ -50,7 +50,7 @@ class ViewModelFactory(
                 isAssignableFrom(PlanPostViewModel::class.java) -> PlanPostViewModel(context, planRepo)
                 isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authRepo)
                 isAssignableFrom(CommentListViewModel::class.java) -> CommentListViewModel(commentRepo)
-                isAssignableFrom(CommentListViewModel::class.java) -> ReportPostViewModel(reportRepo)
+                isAssignableFrom(ReportPostViewModel::class.java) -> ReportPostViewModel(reportRepo)
 
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
